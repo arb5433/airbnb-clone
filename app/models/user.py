@@ -8,7 +8,12 @@ class User(db.Model, UserMixin):
   id = db.Column(db.Integer, primary_key = True)
   username = db.Column(db.String(40), nullable = False, unique = True)
   email = db.Column(db.String(255), nullable = False, unique = True)
+  profilePic = db.Column(db.String(255))
   hashed_password = db.Column(db.String(255), nullable = False)
+  bookings = db.relationship('Booking', backref='users', cascade='all, delete')
+  postings = db.relationship('Posting', backref='users', cascade='all, delete')
+  reviews = db.relationship('UserReview', backref='users', cascade='all, delete')
+
 
 
   @property
@@ -29,5 +34,9 @@ class User(db.Model, UserMixin):
     return {
       "id": self.id,
       "username": self.username,
-      "email": self.email
+      "email": self.email,
+      'profilePic' : self.profilePic,
+      'bookings' : [booking.to_dict() for booking in self.bookings],
+      'postings' : [posting.to_dict() for posting in self.postings],
+      'reviews' : [review.to_dict() for review in self.reviews]
     }
