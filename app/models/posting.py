@@ -15,7 +15,7 @@ class Posting(db.Model):
   userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
   city = db.Column(db.String(100), nullable=False)
   address = db.Column(db.String(250), nullable=False)
-  buildingType = db.Column(db.Integer, db.ForeignKey(
+  buildingTypeId = db.Column(db.Integer, db.ForeignKey(
     'buildingTypes.id'), nullable=False)
   numGuests = db.Column(db.Integer, nullable=False)
   numBeds = db.Column(db.Integer, nullable=False)
@@ -42,7 +42,7 @@ class Posting(db.Model):
       'userId' : self.userId,
       'city': self.city,
       'address': self.address,
-      'buildingType': self.buildingType.to_dict(),
+      'buildingType': self.buildingTypeId,
       'numGuests' : self.numGuests,
       'numBeds' : self.numBeds,
       'numBathrooms' : self.numBathrooms,

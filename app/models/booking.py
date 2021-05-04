@@ -9,10 +9,11 @@ class Booking(db.Model):
     'users.id'), nullable=False)
   postingId = db.Column(db.Integer, db.ForeignKey(
     'postings.id'), nullable=False)
+  date = db.Column(db.Date, nullable=False)
 
   def to_dict(self):
     return {
       'userId' : self.userId,
-      'dateId' : self.dateId,
-      'postingId' : self.postingId
+      'postingId' : self.postingId,
+      'date' : self.date,
     }
