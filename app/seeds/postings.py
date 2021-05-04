@@ -3,6 +3,7 @@ from app.models import buildingType, db, Posting
 
 def seed_postings():
   post = Posting(
+    userId=1,
     city='State College',
     address = '814 Whitehall Road, State College, PA, 16801',
     buildingTypeId = 2,

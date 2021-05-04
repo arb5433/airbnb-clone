@@ -12,7 +12,7 @@ class User(db.Model, UserMixin):
   hashed_password = db.Column(db.String(255), nullable = False)
   bookings = db.relationship('Booking', backref='users', cascade='all, delete')
   postings = db.relationship('Posting', backref='users', cascade='all, delete')
-  reviews = db.relationship('UserReview', backref='users', cascade='all, delete')
+  # reviews = db.relationship('UserReview', backref='users', cascade='all, delete')
 
 
 

@@ -1,7 +1,7 @@
 from app.models import db, BuildingType
 
 
-def seed_building_type():
+def seed_building_types():
   types = ['Apartment', 'House', 'Secondary unit', 'Unique space', 'Bed and breakfast', 'Boutique hotel']
 
   results = []
@@ -14,6 +14,6 @@ def seed_building_type():
     db.session.commit()
 
 
-def undo_buildingTypes():
+def undo_building_types():
     db.session.execute('TRUNCATE buildingTypes RESTART IDENTITY CASCADE;')
     db.session.commit()
