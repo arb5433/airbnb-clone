@@ -3,6 +3,9 @@ const LOAD_POSTINGS = 'postings/LOAD'
 const ADD_POSTING = 'postings/ADD'
 const REMOVE_POSTING = 'posting/REMOVE'
 
+const popularCities = ['New York, New York', 'Maui, Hawaii', 'Las Vegas, Nevada', 'New Orleans, Louisiana', 'Key West, Florida', 'San Diego, California', 'Savannah, Georgia', 'Charleston, South Carolina']
+const tags = ['Secluded', 'Pets allowed', 'Full House', 'Unique']
+
 // action creators
 
 const loadPostings = (postings) => ({

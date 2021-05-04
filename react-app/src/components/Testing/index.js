@@ -6,8 +6,7 @@ const Testing = () => {
   const dispatch = useDispatch()
   
   useEffect(() => {
-    console.log('*********************in the use effect*********************')
-    dispatch(getPostings)
+    dispatch(getPostings())
   }, [dispatch])
 
   return (
