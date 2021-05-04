@@ -1,11 +1,5 @@
+from sqlalchemy.orm import backref
 from .db import db
-
-
-tags = db.Table(
-  'tags',
-  db.Column('postingId', db.Integer, db.ForeignKey('postings.id')),
-  db.Column('tagId', db.Integer, db.ForeignKey('tagTypes.id')),
-)
 
 
 class Posting(db.Model):
@@ -27,14 +21,8 @@ class Posting(db.Model):
   bookings = db.relationship('Booking', backref='postings')
   images = db.relationship('Image', backref='postings')
   reviews = db.relationship('PostingReview', backref='postings')
-  tags = db.relationship(
-    'TagType',
-    secondary=tags,
-    primaryjoin=id == tags.c.postingId,
-    secondaryjoin=id == tags.c.tagId,
-    backref=db.backref('postings', lazy='joined'),
-    lazy='joined',
-  )
+  tags = db.relationship('Tag', backref='postings')
+
 
   def to_dict(self):
     return {
@@ -53,5 +41,5 @@ class Posting(db.Model):
       'bookings' : [booking.to_dict() for booking in self.bookings],
       'images' : [image.to_dict() for image in self.images],
       'reviews' : [review.to_dict() for review in self.reviews],
-      'tags' : [tag.to_dict() for tag in self.tags]
+      'tags' : self.tags
     }

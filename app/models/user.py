@@ -38,5 +38,5 @@ class User(db.Model, UserMixin):
       'profilePic' : self.profilePic,
       'bookings' : [booking.to_dict() for booking in self.bookings],
       'postings' : [posting.to_dict() for posting in self.postings],
-      'reviews' : [review.to_dict() for review in self.reviews]
+      # 'reviews' : [review.to_dict() for review in self.reviews]
     }

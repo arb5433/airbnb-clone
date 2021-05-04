@@ -6,5 +6,5 @@ from .postingReview import PostingReview
 from .image import Image
 from .booking import Booking
 from .tagType import TagType
-# from .userReview import UserReview
+from .tags import Tag
 
