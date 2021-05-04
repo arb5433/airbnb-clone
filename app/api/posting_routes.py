@@ -10,14 +10,14 @@ posting_routes = Blueprint('postings', __name__)
 @posting_routes.route('')
 def all_postings():
   postings = Posting.query.all()
-  return [posting.to_dict() for posting in postings]
+  return {'postings' : [posting.to_dict() for posting in postings]}
   
 
 # GET all reviews for a posting
 @posting_routes.route('/<int:pid>')
 def all_post_reviews(pid):
   reviews = PostingReview.query.filter(PostingReview.postingId == pid)
-  return [review.to_dict() for review in reviews]
+  return {'reviews': [review.to_dict() for review in reviews]}
 
 # POST a new posting 
 @posting_routes.route('', methods=['POST'])
