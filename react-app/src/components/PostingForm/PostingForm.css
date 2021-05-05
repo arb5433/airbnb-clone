@@ -1,0 +1,72 @@
+.posting-form-wrapper{
+  height: 100%;
+  width: 100%;
+  margin-top: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-wrapper{
+  width: 90%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.right-form{
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+.left-form{
+  width: 100%;
+  /* border: 1px dashed black; */
+}
+
+.form-title{
+  padding: .5em;
+  font-size: 2em;
+}
+
+.form-step{
+  padding: 1em;
+  font-size: 1em;
+  color: darkgray;
+}
+
+.form-question{
+  padding: 1em;
+  font-size: 1.25em;
+}
+
+.location-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 1.25em;
+}
+
+.location-input{
+  width: 75%;
+  height: 3em;
+  border-radius: .5em;
+  margin-bottom: 1em;
+}
+
+.continue-btn{
+  height: 3em;
+  border-radius: .5em;
+  color: white;
+  background-color: blue;
+}
+
+.location-form-image{
+  height: 100%;
+  width: 100%;
+  margin-bottom:3em;
+  background-image: url('https://user-images.githubusercontent.com/74081636/117222129-bff55680-add8-11eb-8451-1bb40f263779.jpeg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}

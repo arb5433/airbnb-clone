@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useDispatch} from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
 import UsersList from "./components/UsersList";
 import User from "./components/User";
 import Testing from './components/Testing';
 import HomePage from './components/HomePage';
+import PostingForm from './components/PostingForm';
 import { authenticate } from "./store/session";
 
 function App() {
@@ -43,6 +43,9 @@ function App() {
             </Route>
             <Route path="/" exact={true}>
               <HomePage/>
+            </Route>
+            <Route path='/postings/form'>
+              <PostingForm/>
             </Route>
           </Switch>
         </div>

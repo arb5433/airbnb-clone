@@ -1,8 +1,17 @@
 import React from 'react';
-import './HomePage.css'
+import {useHistory} from 'react-router-dom';
+
+import './HomePage.css';
 
 
 const HomePage = () => {
+
+  const history = useHistory()
+
+  const onClick = () => {
+    history.push('/postings/form')
+  }
+
   return (
     <div className='home-wrapper'>
       <div className='home-banner'/>
@@ -72,7 +81,7 @@ const HomePage = () => {
             <div className='hosting-txt-body'>Earn passive income by opening your home to others.</div>
           </div>
           <div className='host-btn-div'>
-            <button className='hosting-btn'>Start Hosting Now</button>
+            <button className='hosting-btn' onClick={onClick}>Start Hosting Now</button>
           </div>
         </div>
       </div>
