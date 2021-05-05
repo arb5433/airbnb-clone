@@ -1,0 +1,123 @@
+.home-wrapper{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.home-banner{
+  width: 100%;
+  height: 600px;
+  background-image: url('https://user-images.githubusercontent.com/74081636/117179089-c667dc00-ada0-11eb-8730-32b4595a36e1.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.popular-cities-wrapper{
+  width: 90%;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 2em;
+}
+
+.city-image{
+  border-radius: 1em;
+  border: 1px solid black;
+  width: 4em;
+  height: 4em;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.city-wrapper{
+  display: flex;
+}
+
+.city-name{
+  margin-left:.5em;
+  font-weight: bold;
+  padding-top: .5em;
+}
+
+.title{
+  width: 90%;
+  margin-top: 3em;
+}
+
+.home-tags-wrapper{
+  width: 90%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: .75em;
+}
+
+.home-tags-item{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.home-tags-picture{
+  border-radius: .5em;
+  width: 100%;
+  height: 250px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.home-tag-name{
+  font-weight: bold;
+  margin-top: .5em;
+}
+
+.new-york{
+  background-image: url('https://user-images.githubusercontent.com/74081636/117181219-fe701e80-ada2-11eb-9be4-f7939c1bbbcc.jpeg');
+}
+
+.maui{
+  background-image: url('https://user-images.githubusercontent.com/74081636/117181267-092ab380-ada3-11eb-8913-2aed835f1929.jpeg');
+}
+
+.las-vegas{
+  background-image: url('https://user-images.githubusercontent.com/74081636/117181196-fa440100-ada2-11eb-9926-fca396df4d27.jpeg');
+}
+
+.new-orleans{
+  background-image: url('https://user-images.githubusercontent.com/74081636/117181202-fc0dc480-ada2-11eb-9f37-831c605be6c1.jpeg');
+}
+
+.key-west{
+  background-image: url('https://user-images.githubusercontent.com/74081636/117181248-0465ff80-ada3-11eb-8608-16ac70773291.jpeg');
+}
+
+.san-diego{
+  background-image: url('https://user-images.githubusercontent.com/74081636/117181236-029c3c00-ada3-11eb-9bbe-f91c4b01a8b5.jpeg');
+}
+
+.savannah{
+  background-image: url('https://user-images.githubusercontent.com/74081636/117181253-062fc300-ada3-11eb-91cb-cf01fc12c0c3.jpeg');
+}
+
+.charleston{
+  background-image: url('https://user-images.githubusercontent.com/74081636/117183854-0c736e80-ada6-11eb-89f9-6f68280785cb.jpeg');
+}
+
+.secluded{
+  background-image: url('https://user-images.githubusercontent.com/74081636/117189035-b7d2f200-adab-11eb-95d2-95ef058b3e8c.jpeg');
+}
+
+.pets{
+  background-image: url('https://user-images.githubusercontent.com/74081636/117189057-befa0000-adab-11eb-9336-566e1499f44f.jpeg');
+}
+
+.full-house{
+  background-image: url('https://user-images.githubusercontent.com/74081636/117189077-c6210e00-adab-11eb-9ba4-8c0e03a83956.jpeg');
+}
+
+.unique{
+  background-image: url('https://user-images.githubusercontent.com/74081636/117189049-bbff0f80-adab-11eb-9125-a2f9ce33999c.jpeg');
+}
