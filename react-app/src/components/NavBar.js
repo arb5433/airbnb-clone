@@ -25,10 +25,11 @@ const NavBar = () => {
   }
 
   return (
-    <nav>
-      <div>
-        <NavLink to="/" exact={true} activeClassName="active">
-          Home
+    <nav className='navbar'>
+      <div className='logo-wrapper'>
+        <NavLink className='logo-wrapper' to="/" exact={true} activeClassName="active">
+          <div className='logo'/>
+          <div className='site-name'/>
         </NavLink>
       </div>
       <div>
@@ -37,8 +38,6 @@ const NavBar = () => {
       <div>
         {sessionLinks}
       </div>
-
-
     </nav>
   );
 }

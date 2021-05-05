@@ -46,11 +46,6 @@ function App() {
             </Route>
           </Switch>
         </div>
-        {/* <div className='footer'>
-          <a className='dev-name' href='https://github.com/arb5433/airbnb-clone/wiki'>My Wiki</a>
-          <div className='dev-name'>Created By: Adam Bailey</div>
-          <a className='dev-name' href='https://github.com/arb5433'>Github Profile</a>
-        </div> */}
       </div>
     </BrowserRouter>
   );

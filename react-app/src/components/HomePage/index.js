@@ -47,7 +47,6 @@ const HomePage = () => {
         <h1>Special Requests</h1>
       </div>
       <div className='home-tags-wrapper'>
-      {/* ['Secluded', 'Pets allowed', 'Full House', 'Unique'] */}
         <div className='home-tags-item'>
           <div className='home-tags-picture secluded'/>
           <p className='home-tag-name'>Secluded</p>
@@ -66,7 +65,21 @@ const HomePage = () => {
         </div>
       </div>
       <div className='hosting-link-wrapper'>
-        Hosting Link
+        <div className='hosting-image'/>
+        <div className='hosting-txt-btn-wrapper'>
+          <div>
+            <div className='hosting-txt-title'>Host a Property</div>
+            <div className='hosting-txt-body'>Earn passive income by opening your home to others.</div>
+          </div>
+          <div className='host-btn-div'>
+            <button className='hosting-btn'>Start Hosting Now</button>
+          </div>
+        </div>
+      </div>
+      <div className='footer'>
+        <a className='dev-name' href='https://github.com/arb5433/airbnb-clone/wiki'>My Wiki</a>
+        <div className='dev-name'>Created By: Adam Bailey</div>
+        <a className='dev-name' href='https://github.com/arb5433'>Github Profile</a>
       </div>
     </div>
   )
