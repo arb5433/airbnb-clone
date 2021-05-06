@@ -1,14 +1,14 @@
 from app.models import db, Booking
-from faker import Faker
-
-
-fake = Faker()
+from random import randint
 
 
 def seed_bookings():
-  booking = Booking(userId=1, postingId=1, date=(5,15,2021))
-  db.session.add(booking)
-  db.session.commit()
+  count = 100
+  while count > 0:
+    booking = Booking(userId=randint(1,199), postingId=randint(1,37), date='5/'+str(randint(1,30))+'/2021')
+    db.session.add(booking)
+    db.session.commit()
+    count -= 1
 
 
 def undo_bookings():
