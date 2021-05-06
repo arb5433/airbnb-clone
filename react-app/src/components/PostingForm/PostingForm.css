@@ -112,6 +112,45 @@
   font-size: 1.5em;
 }
 
+.form-data-wrapper{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top:2em;
+}
+
+.form-data-label{
+  font-weight: bold;
+  font-size: 1.25em;
+}
+
+.form-edit-btn{
+  background-color: white;
+  border: transparent;
+  text-decoration: none;
+}
+
+.form-edit-btn:hover{
+  color: blue;
+}
+
+.form-edit-wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.confirm-btn{
+  background-color: green;
+  color: white;
+  height: 3em;
+  border-radius: .5em;
+  width: 7em;
+  margin-left: 1.5em
+}
+
+
 .location-form-image{
   background-image: url('https://user-images.githubusercontent.com/74081636/117222129-bff55680-add8-11eb-8451-1bb40f263779.jpeg');
 }

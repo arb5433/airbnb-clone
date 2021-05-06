@@ -15,6 +15,7 @@ const PostingForm = () => {
   const [city, setCity] = useState('')
   const [state, setState] = useState(0)
   const [buildingType, setBuildingType] = useState(0)
+  const [type, setType] = useState('')
   const [beds, setBeds] = useState(0)
   const [guests, setGuests] = useState(0)
   const [bathrooms, setBathrooms] = useState(0)
@@ -22,10 +23,18 @@ const PostingForm = () => {
   const [description, setDescription] = useState('')
   const [image, setImage] = useState('')
   const [ppu, setPpu] = useState()
+  const [edit, setEdit] = useState(false)
 
   useEffect(() => {
     dispatch(getBuildingTypes())
   }, [dispatch])
+
+  useEffect(() => {
+    const thisBuilding = buildingTypes.filter(bt => Number(bt.id) === Number(buildingType))
+    if (thisBuilding[0]){
+      setType(thisBuilding[0].type)
+    }
+  },[buildingType])
 
   const user = useSelector(state => {
     return state.session.user;
@@ -48,7 +57,6 @@ const PostingForm = () => {
     setImage(file);
   }
 
-
   return (
     <div className='posting-form-wrapper'>
       {page===0 && (
@@ -68,7 +76,8 @@ const PostingForm = () => {
               </select>
             
             </form>
-              <button className='continue-btn first-continue' onClick={formContinue}>Continue</button>
+              {!edit && <button className='continue-btn first-continue' onClick={formContinue}>Continue</button>}
+              {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
           </div>
           <div className='right-form'>
             <div className='location-form-image form-image'/>
@@ -93,8 +102,9 @@ const PostingForm = () => {
               </select>
             </form>
             <div className='form-btn-wrapper'>
-              <button className='continue-btn' onClick={formBack}>Back</button>
-              <button className='continue-btn' onClick={formContinue}>Continue</button>
+              {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
+              {!edit && <button className='continue-btn' onClick={formContinue}>Continue</button>}
+              {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
             </div>
           </div>
         </div>
@@ -120,8 +130,9 @@ const PostingForm = () => {
               </div>
             </form>
             <div className='form-btn-wrapper'>
-              <button className='continue-btn' onClick={formBack}>Back</button>
-              <button className='continue-btn' onClick={formContinue}>Continue</button>
+              {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
+              {!edit && <button className='continue-btn' onClick={formContinue}>Continue</button>}
+              {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
             </div>
           </div>
           <div className='right-form'>
@@ -143,8 +154,9 @@ const PostingForm = () => {
               <textarea className='form-text' value={description} onChange={(e) => setDescription(e.target.value)} placeholder='Property Description'/>
             </form>
             <div className='form-btn-wrapper'>
-              <button className='continue-btn' onClick={formBack}>Back</button>
-              <button className='continue-btn' onClick={formContinue}>Continue</button>
+              {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
+              {!edit && <button className='continue-btn' onClick={formContinue}>Continue</button>}
+              {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
             </div>
           </div>
         </div>
@@ -156,11 +168,12 @@ const PostingForm = () => {
             <div className='form-step'>Step 5</div>
             <div className='form-question'>This will be the main image for your posting, you can add additional images after you create the posting.</div>
             <form>
-              <input className='upload-form-btn' type="file" accept="image/*" onChange={updateImage}/>
+              <input className='upload-form-btn' type="file" accept="image/*" onChange={updateImage} value={image}/>
             </form>
             <div className='form-btn-wrapper'>
-              <button className='continue-btn' onClick={formBack}>Back</button>
-              <button className='continue-btn' onClick={formContinue}>Continue</button>
+              {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
+              {!edit && <button className='continue-btn' onClick={formContinue}>Continue</button>}
+              {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
             </div>
           </div>
           <div className='right-form'>
@@ -181,9 +194,106 @@ const PostingForm = () => {
               <input type='number' className='form-input title-input' placeholder='Price Per Night' value={ppu} onChange={(e) => setPpu(e.target.value)}/>
             </form>
             <div className='form-btn-wrapper'>
-              <button className='continue-btn' onClick={formBack}>Back</button>
-              <button className='continue-btn' onClick={formContinue}>Continue</button>
+              {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
+              {!edit && <button className='continue-btn' onClick={formContinue}>Continue</button>}
+              {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
             </div>
+          </div>
+        </div>
+      )}
+      {page===6 &&(
+        <div className='form-wrapper edit-form-start'>
+          <div className='left-form'>
+            <div className='form-title'>Confirm your information</div>
+            <div className='form-step'>Step 7</div>
+            <div className='form-question'>Please take a minute to double check all of the information that you have entered.</div>
+            <div>
+              <button className='confirm-btn' onClick={() => null}>Confirm</button>
+            </div>
+          </div>
+          <div className='right-form'>
+            <div className='form-data-wrapper'>
+              <div className='form-data-label'>Address : </div>
+              <div className='form-edit-wrapper'>
+                <div className='form-data-info'>{`${address}, ${city}, ${state}`}</div>
+                <button className='form-edit-btn' onClick={() => {
+                  setEdit(true)
+                  setPage(0)
+                }}>Edit</button>
+              </div>
+            </div>
+            <div className='form-data-wrapper'>
+              <div className='form-data-label'>Building Type : </div>
+              <div className='form-edit-wrapper'>
+                <div className='form-data-info'>{type}</div>
+                <button className='form-edit-btn' onClick={() => {
+                  setEdit(true)
+                  setPage(1)
+                }}>Edit</button>
+              </div>
+            </div>
+            <div className='form-data-wrapper'>
+              <div className='form-data-label'>Number of Beds : </div>
+              <div className='form-edit-wrapper'>
+                <div className='form-data-info'>{beds}</div>
+                <button className='form-edit-btn' onClick={() => {
+                  setEdit(true)
+                  setPage(2)
+                }}>Edit</button>
+              </div>
+            </div>
+            <div className='form-data-wrapper'>
+              <div className='form-data-label'>Number of Guests : </div>
+              <div className='form-edit-wrapper'>
+                <div className='form-data-info'>{guests}</div>
+                <button className='form-edit-btn' onClick={() => {
+                  setEdit(true)
+                  setPage(2)
+                }}>Edit</button>
+              </div>
+            </div>
+            <div className='form-data-wrapper'>
+              <div className='form-data-label'>Number of Bathrooms : </div>
+              <div className='form-edit-wrapper'>
+                <div className='form-data-info'>{bathrooms}</div>
+                <button className='form-edit-btn' onClick={() => {
+                  setEdit(true)
+                  setPage(2)
+                }}>Edit</button>
+              </div>
+            </div>
+            <div className='form-data-wrapper'>
+              <div className='form-data-label'>Posting Title : </div>
+              <div className='form-edit-wrapper'>
+                <div className='form-data-info'>{title}</div>
+                <button className='form-edit-btn' onClick={() => {
+                  setEdit(true)
+                  setPage(3)
+                }}>Edit</button>
+              </div>
+            </div>
+            <div className='form-data-wrapper'>
+              <div className='form-data-label'>Posting Description : </div>
+              <div className='form-edit-wrapper'>
+                <div className='form-data-info'>{description}</div>
+                <button className='form-edit-btn' onClick={() => {
+                  setEdit(true)
+                  setPage(3)
+                }}>Edit</button>
+              </div>
+            </div>
+            <div className='form-data-wrapper'>
+              <div className='form-data-label'>Price Per Night : </div>
+              <div className='form-edit-wrapper'>
+                <div className='form-data-info'>{`$${ppu}`}</div>
+                <button className='form-edit-btn' onClick={() => {
+                  setEdit(true)
+                  setPage(5)
+                }}>Edit</button>
+              </div>
+            </div>
+
+
           </div>
         </div>
       )}
