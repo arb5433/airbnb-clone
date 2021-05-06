@@ -48,25 +48,37 @@
   padding: 1.25em;
 }
 
-.location-input{
+.form-input{
   width: 75%;
   height: 3em;
   border-radius: .5em;
   margin-bottom: 1em;
 }
 
-.continue-btn{
+.building-type-input{
+  margin-left:2em;
+}
+
+.first-continue-btn{
   height: 3em;
   border-radius: .5em;
   color: white;
   background-color: blue;
+  margin-left: 1.75em;
 }
 
-.location-form-image{
+.form-image{
   height: 100%;
   width: 100%;
   margin-bottom:3em;
-  background-image: url('https://user-images.githubusercontent.com/74081636/117222129-bff55680-add8-11eb-8451-1bb40f263779.jpeg');
   background-repeat: no-repeat;
   background-size: contain;
+}
+
+.location-form-image{
+  background-image: url('https://user-images.githubusercontent.com/74081636/117222129-bff55680-add8-11eb-8451-1bb40f263779.jpeg');
+}
+
+.building-form-image{
+  background-image: url('https://user-images.githubusercontent.com/74081636/117224821-ddc5ba00-adde-11eb-8989-0c4d9c1f12e6.jpeg');
 }

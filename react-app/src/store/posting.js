@@ -2,9 +2,7 @@
 const LOAD_POSTINGS = 'postings/LOAD'
 const ADD_POSTING = 'postings/ADD'
 const REMOVE_POSTING = 'posting/REMOVE'
-
-const popularCities = ['New York, New York', 'Maui, Hawaii', 'Las Vegas, Nevada', 'New Orleans, Louisiana', 'Key West, Florida', 'San Diego, California', 'Savannah, Georgia', 'Charleston, South Carolina']
-const tags = ['Secluded', 'Pets allowed', 'Full House', 'Unique']
+const LOAD_BUILDING_TYPES = 'postings/LOAD_BUILD'
 
 // action creators
 
@@ -23,6 +21,11 @@ const removePosting = id => ({
   id
 });
 
+const loadBuildingTypes = types => ({
+  type: LOAD_BUILDING_TYPES,
+  types
+})
+
 // thunks
 
 export const getPostings = () => async dispatch => {
@@ -34,6 +37,15 @@ export const getPostings = () => async dispatch => {
   }
 };
 
+export const getBuildingTypes = () => async dispatch => {
+  const response = await fetch('/api/postings/buildings');
+  if(response.ok){
+    const data = await response.json()
+    const buildings = data.buildings
+    dispatch(loadBuildingTypes(buildings))
+  }
+}
+
 // helper function
 
 const sortList = (list) => {
@@ -44,7 +56,7 @@ const sortList = (list) => {
 
 // reducer
 
-const initialState = {postingsList : []}
+const initialState = {postingsList : [], buildingTypes : []}
 
 const postingReducer = (state = initialState, action) => {
   switch(action.type){
@@ -58,6 +70,12 @@ const postingReducer = (state = initialState, action) => {
         ...postings,
         postingsList: sortList(action.postings),
       };
+    }
+    case LOAD_BUILDING_TYPES:{
+      return {
+        ...state,
+        buildingTypes: action.types
+      }
     }
     default : {
       return state

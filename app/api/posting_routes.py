@@ -1,7 +1,7 @@
 from app.models.postingReview import PostingReview
 from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import db, User, Posting, Booking
+from app.models import db, User, Posting, Booking, BuildingType
 
 
 posting_routes = Blueprint('postings', __name__)
@@ -11,6 +11,12 @@ posting_routes = Blueprint('postings', __name__)
 def all_postings():
   postings = Posting.query.all()
   return {'postings' : [posting.to_dict() for posting in postings]}
+
+# GET all building types
+@posting_routes.route('/buildings')
+def all_building_types():
+  types = BuildingType.query.all()
+  return {'buildings' : [building.to_dict() for building in types]}
   
 
 # GET all reviews for a posting

@@ -10,5 +10,7 @@ class BuildingType(db.Model):
 
   def to_dict(self):
     return {
-      'type': self.type
+      'id'  : self.id,
+      'type': self.type,
+      'postings' : self.postings
     }
