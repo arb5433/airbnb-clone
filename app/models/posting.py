@@ -18,10 +18,12 @@ class Posting(db.Model):
   description = db.Column(db.String(500), nullable=False)
   title = db.Column(db.String(250), nullable=False)
   price = db.Column(db.Integer, nullable=False)
-  bookings = db.relationship('Booking', backref='postings')
-  images = db.relationship('Image', backref='postings')
-  reviews = db.relationship('PostingReview', backref='postings')
-  tags = db.relationship('Tag', backref='postings')
+  latitude = db.Column(db.Float, nullable=False)
+  longitude = db.Column(db.Float, nullable=False)
+  bookings = db.relationship('Booking', backref='postings',cascade="all, delete", passive_deletes=True)
+  images = db.relationship('Image', backref='postings',cascade="all, delete", passive_deletes=True)
+  reviews = db.relationship('PostingReview', backref='postings',cascade="all, delete", passive_deletes=True)
+  tags = db.relationship('Tag', backref='postings',cascade="all, delete", passive_deletes=True)
 
 
   def to_dict(self):

@@ -1,10 +1,12 @@
-/* TODO Add site wide styles */
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP:400,500,700&subset=japanese');
+
 /* ADD A NON-GRID FALLBACK DESIGN */
 @media (grid:0){
   /* ADD A MOBILE DESIGN HERE */
   @media (min-width: 600px){
     body{
       margin: 0;
+      font-family: "Noto Sans JP", monospace;
     }
 
     .app-container{
@@ -22,6 +24,41 @@
       border-bottom: 1px solid lightgray;
       box-shadow: 0px, -5px;
     }
+
+    .navbar{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 50px;
+      padding-left: 2em;
+      padding-right: 2em;
+    }
+
+    .logo-wrapper{
+      height: 100%;
+      width: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo{
+      height: 80%;
+      width: 50px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-image: url('https://user-images.githubusercontent.com/74081636/117207131-9a108780-adc1-11eb-967f-5cf0f7968f10.jpeg');
+      margin-bottom: 15px;
+      box-sizing: border-box;
+    }
+
+    .site-name{
+      height: 80%;
+      width: 100px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-image: url('https://user-images.githubusercontent.com/74081636/117206424-db546780-adc0-11eb-8e3c-40bbc4ee7cc9.png');
+    }
     
     .main-content{
       grid-row: 2;
@@ -30,17 +67,17 @@
       justify-content: center;
       align-items: center;
       width: 100%;
-      padding: 10px;
       box-sizing: border-box;
     }
     
     .footer{
-      grid-row: 3;
-      background-color: #086623;
-      border-top: 5px solid black ;
+      width: 90%;
+      background-color: white;
+      border-top: 1px solid lightgray ;
       display: flex;
       align-items: center;
       justify-content: space-evenly;
+      padding: 2em;
     }
   }
 }
