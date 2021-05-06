@@ -15,5 +15,5 @@ def seed_building_types():
 
 
 def undo_building_types():
-    db.session.execute('TRUNCATE buildingTypes RESTART IDENTITY CASCADE;')
+    db.session.execute('TRUNCATE "buildingTypes" RESTART IDENTITY CASCADE;')
     db.session.commit()

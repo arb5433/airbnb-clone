@@ -1,12 +1,22 @@
+from app.models.posting import Posting
 from app.models import db, PostingReview
+from faker import Faker
+from random import randint
+
+fake = Faker()
+
 
 
 def seed_posting_reviews():
-  postingReview = PostingReview(postingId=1, userId=2, rating=4, review='This is a test review for frontend and css')
-  db.session.add(postingReview)
-  db.session.commit()
+  count = 200
+
+  while count > 0:
+    review = PostingReview(postingId=randint(1, 37), userId=randint(1,199), rating=randint(2,5), review=fake.text(max_nb_chars=400) )
+    db.session.add(review)
+    db.session.commit()
+    count -= 1
 
   
 def undo_posting_reviews():
-    db.session.execute('TRUNCATE postingReviews RESTART IDENTITY CASCADE;')
+    db.session.execute('TRUNCATE "postingReviews" RESTART IDENTITY CASCADE;')
     db.session.commit()

@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 import {getBuildingTypes} from '../../store/posting';
 
 import './PostingForm.css'
 
 const PostingForm = () => {
 
-  const states=['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
+  const states=['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
 
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const [page, setPage] = useState(0);
   const [address, setAddress] = useState('')
@@ -22,8 +24,9 @@ const PostingForm = () => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [image, setImage] = useState('')
-  const [ppu, setPpu] = useState()
+  const [ppu, setPpu] = useState('')
   const [edit, setEdit] = useState(false)
+  const [imageLoading, setImageLoading] = useState(false)
 
   useEffect(() => {
     dispatch(getBuildingTypes())
@@ -57,6 +60,58 @@ const PostingForm = () => {
     setImage(file);
   }
 
+  const formateAddress = (address, city, state) => {
+    const newAddress = address.split(' ').join('+')
+    const newCity = city.split(' ').join('+')
+    return `${newAddress},+${newCity},+${state}`
+  }
+  
+  const {REACT_APP_GOOGLE_API_KEY} = process.env;
+
+  const submitForm = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append('image', image)
+    formData.append('city', city)
+    formData.append('address', `${address}, ${city}, ${state}`)
+    formData.append('buildingTypeId', buildingType)
+    formData.append('numGuests', guests)
+    formData.append('numBeds', beds)
+    formData.append('numBathrooms', bathrooms)
+    formData.append('description', description)
+    formData.append('title', title)
+    formData.append('price', ppu)
+    
+    const formattedAddress = formateAddress(address, city, state) 
+    
+    const locationResponse = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formattedAddress}&key=${REACT_APP_GOOGLE_API_KEY}`)
+    
+    const locationData = await locationResponse.json()
+    
+    const {lat, lng} = locationData.results[0].geometry.location
+    // console.log(lat)
+    // console.log(lng)
+    formData.append('lng', lng)
+    formData.append('lat', lat)
+
+    setImageLoading(true)
+
+    const res = await fetch('/api/postings',{
+      method : 'POST',
+      body : formData,
+    });
+
+    if (res.ok) { 
+      setImageLoading(false)
+      history.push('/')
+    } else {
+      setImageLoading(false)
+      console.log('Oh no! Error loading.')
+    }
+  }
+
   return (
     <div className='posting-form-wrapper'>
       {page===0 && (
@@ -68,7 +123,7 @@ const PostingForm = () => {
             <form className='location-form'>
               <input className='location-input form-input' value={address} onChange={(e) => setAddress(e.target.value)} placeholder='Street Address'/>
               <input className='location-input form-input' value={city} onChange={(e) => setCity(e.target.value)} placeholder='City'/>
-              <select className='form-input location-input'value={state} onChange={(e) => setState(e.target.value)}>
+              <select className='form-input location-input' value={state} onChange={(e) => setState(e.target.value)}>
                 <option value={0} disabled>Select State</option>
                 {states.map(state => (
                   <option value={state} key={state}>{state}</option>
@@ -76,7 +131,7 @@ const PostingForm = () => {
               </select>
             
             </form>
-              {!edit && <button className='continue-btn first-continue' onClick={formContinue}>Continue</button>}
+              {!edit && <button className='continue-btn first-continue' disabled={!city} onClick={formContinue}>Continue</button>}
               {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
           </div>
           <div className='right-form'>
@@ -103,7 +158,7 @@ const PostingForm = () => {
             </form>
             <div className='form-btn-wrapper'>
               {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
-              {!edit && <button className='continue-btn' onClick={formContinue}>Continue</button>}
+              {!edit && <button className='continue-btn' disabled={!buildingType} onClick={formContinue}>Continue</button>}
               {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
             </div>
           </div>
@@ -131,7 +186,7 @@ const PostingForm = () => {
             </form>
             <div className='form-btn-wrapper'>
               {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
-              {!edit && <button className='continue-btn' onClick={formContinue}>Continue</button>}
+              {!edit && <button className='continue-btn' disabled={!guests} onClick={formContinue}>Continue</button>}
               {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
             </div>
           </div>
@@ -155,7 +210,7 @@ const PostingForm = () => {
             </form>
             <div className='form-btn-wrapper'>
               {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
-              {!edit && <button className='continue-btn' onClick={formContinue}>Continue</button>}
+              {!edit && <button className='continue-btn' disabled={!title} onClick={formContinue}>Continue</button>}
               {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
             </div>
           </div>
@@ -168,11 +223,11 @@ const PostingForm = () => {
             <div className='form-step'>Step 5</div>
             <div className='form-question'>This will be the main image for your posting, you can add additional images after you create the posting.</div>
             <form>
-              <input className='upload-form-btn' type="file" accept="image/*" onChange={updateImage} value={image}/>
+              <input className='upload-form-btn' type="file" accept="image/*" onChange={updateImage}/>
             </form>
             <div className='form-btn-wrapper'>
               {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
-              {!edit && <button className='continue-btn' onClick={formContinue}>Continue</button>}
+              {!edit && <button className='continue-btn' disabled={!image} onClick={formContinue}>Continue</button>}
               {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
             </div>
           </div>
@@ -195,7 +250,7 @@ const PostingForm = () => {
             </form>
             <div className='form-btn-wrapper'>
               {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
-              {!edit && <button className='continue-btn' onClick={formContinue}>Continue</button>}
+              {!edit && <button className='continue-btn' disabled={!ppu} onClick={formContinue}>Continue</button>}
               {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
             </div>
           </div>
@@ -208,7 +263,8 @@ const PostingForm = () => {
             <div className='form-step'>Step 7</div>
             <div className='form-question'>Please take a minute to double check all of the information that you have entered.</div>
             <div>
-              <button className='confirm-btn' onClick={() => null}>Confirm</button>
+              <button className='confirm-btn' onClick={submitForm}>Confirm</button>
+              {imageLoading && <div>Please wait while we make your posting.</div>}
             </div>
           </div>
           <div className='right-form'>

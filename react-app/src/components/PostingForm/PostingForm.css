@@ -67,6 +67,10 @@
   width: 7em;
 }
 
+.continue-btn:disabled{
+  background-color: lightblue;
+}
+
 .first-continue{
   margin-left: 1.75em;
 }

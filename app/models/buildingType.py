@@ -12,5 +12,5 @@ class BuildingType(db.Model):
     return {
       'id'  : self.id,
       'type': self.type,
-      'postings' : self.postings
+      'postings' : [posting.to_dict() for posting in self.postings]
     }
