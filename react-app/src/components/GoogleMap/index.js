@@ -3,9 +3,8 @@ import {GoogleMap, Marker, useLoadScript} from '@react-google-maps/api';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPostings} from '../../store/posting';
 
-const options = {
-  libraries : ['places']
-}
+const options = ['places']
+
 
 const otherOptions = {
   disableDefaultUI : true,
@@ -14,7 +13,7 @@ const otherOptions = {
 
 const mapContainerStyle={height:'100vh', width:'100vw'}
 
-const Map = ({lat, lng}) => {
+const Map = () => {
 
   const dispatch = useDispatch()
   
@@ -39,21 +38,26 @@ const Map = ({lat, lng}) => {
 
   const {isLoaded, loadError} = useLoadScript({
     googleMapsApiKey : REACT_APP_GOOGLE_API_KEY,
-    ...options
+    libraries : options
   })
 
   console.log(isLoaded, loadError)
-  // const mapRef = React.useRef();
-	// const onLoad = React.useCallback((map) => {
-	// 	mapRef.current = map;
-	// }, []);
+  const mapRef = React.useRef();
+	const onLoad = React.useCallback((map) => {
+		mapRef.current = map;
+	}, []);
 
   if (loadError) return <h1>Error Loading Google Maps</h1>
 
 
   return (
     <div className='map-wrapper'>
-      {isLoaded && <GoogleMap mapContainerStyle={mapContainerStyle} zoom={7} center={center} options={otherOptions} >
+      {isLoaded && <GoogleMap 
+        mapContainerStyle={mapContainerStyle} 
+        zoom={7} 
+        center={center} 
+        options={otherOptions} 
+        onLoad={onLoad} >
         {positions.map((marker) => (
             <Marker
               key={marker.id}

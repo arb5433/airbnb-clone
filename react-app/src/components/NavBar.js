@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux';
 import LogoutButton from './auth/LogoutButton';
 import LoginFormModal from "./LoginFormModal";
 import SignupFormModal from "./SignupFormModal";
+import SearchBar from './SearchBar';
 
 const NavBar = () => {
   const sessionUser = useSelector((state) => state.session.user);
@@ -33,7 +34,7 @@ const NavBar = () => {
         </NavLink>
       </div>
       <div>
-        SEARCH BAR PLACEHOLDER
+        <SearchBar/>
       </div>
       <div>
         {sessionLinks}
