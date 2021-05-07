@@ -65,4 +65,7 @@ const Map = ({lat, lng}) => {
   )
 }
 
+// deploying things
+
+
 export default Map;
