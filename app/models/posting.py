@@ -30,6 +30,8 @@ class Posting(db.Model):
     return {
       'id': self.id,
       'userId' : self.userId,
+      'lat' : self.latitude,
+      'lng' : self.longitude,
       'city': self.city,
       'address': self.address,
       'buildingType': self.buildingTypeId,

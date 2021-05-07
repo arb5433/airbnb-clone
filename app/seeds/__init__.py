@@ -3,6 +3,7 @@ from app.seeds.postingReview import seed_posting_reviews, undo_posting_reviews
 from app.seeds.postings import seed_postings, undo_postings
 from app.seeds.buildingType import seed_building_types, undo_building_types
 from app.seeds.booking import seed_bookings, undo_bookings
+from app.seeds.tags import seed_tags, undo_tags
 from flask.cli import AppGroup
 from .users import seed_users, undo_users
 
@@ -19,6 +20,7 @@ def seed():
     seed_posting_reviews()
     seed_tag_types()
     seed_bookings()
+    seed_tags()
     # Add other seed functions here
 
 # Creates the `flask seed undo` command
@@ -30,4 +32,5 @@ def undo():
     undo_posting_reviews()
     undo_tag_types()
     undo_bookings()
+    undo_tags()
     # Add other undo functions here
