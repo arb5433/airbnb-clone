@@ -1,0 +1,9 @@
+.posting-card-wrapper{
+  border: 1px solid black;
+  margin: 1em;
+}
+
+.posting-card-image{
+  width: 10em;
+  height: 10em;
+}

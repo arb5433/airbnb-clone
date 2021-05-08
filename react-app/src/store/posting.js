@@ -12,7 +12,7 @@ const loadPostings = (postings) => ({
   postings
 })
 
-const addPosting = posting => ({
+export const addPosting = posting => ({
   type: ADD_POSTING,
   posting
 });
@@ -85,6 +85,18 @@ const postingReducer = (state = initialState, action) => {
       return {
         ...state,
         shownPostings : action.postings
+      }
+    }
+    case ADD_POSTING:{
+      if (!state[action.posting.id]) {
+        const newState = {
+          ...state,
+          [action.posting.id]: action.posting
+        };
+        const postingsList = newState.postingsList.map(id => newState[id]);
+        postingsList.push(action.posting);
+        newState.postingsList = mapList(postingsList)
+        return newState;
       }
     }
     default : {

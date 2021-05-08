@@ -2,6 +2,7 @@ import React from 'react';
 import {useParams} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import Map from '../GoogleMap';
+import PostingCard from '../PostingCard';
 
 import './SearchPage.css'
 
@@ -17,8 +18,11 @@ const SearchPage = () => {
   return (
     <div className='search-page-wrapper'>
       <div className='search-page-postings-wrapper'>
+        <div>
+          <div>Potential postings in shown location</div>
+        </div>
         {postings && postings.map(postings => (
-          <div>{postings.id}</div>
+          <PostingCard posting={postings}/>
         ))}
       </div>
       <div className ='search-page-map'>

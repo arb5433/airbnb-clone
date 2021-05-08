@@ -11,10 +11,10 @@ const otherOptions = {
   zoomControl : true
 }
 
-const center = {lat: 40.7127753, lng: -74.0059728}
+// const center = {lat: 40.7127753, lng: -74.0059728}
 const mapContainerStyle={height:'calc(100vh - 50px)', width:'50vw'}
 
-const Map = () => {
+const Map = ({lat, lng}) => {
 
   const dispatch = useDispatch()
   const [count, setCount] = useState(0)
@@ -64,7 +64,7 @@ const Map = () => {
   
 
   
-  // const center = { lat: Number(lat), lng: Number(lng)}
+  const center = { lat: Number(lat), lng: Number(lng)}
   const {REACT_APP_GOOGLE_API_KEY} = process.env;
 
   const {isLoaded, loadError} = useLoadScript({

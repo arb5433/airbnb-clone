@@ -1,4 +1,5 @@
-import React, {useEffect} from 'react'
+import React, {useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 import usePlacesAutocomplete, {getGeocode, getLatLng} from 'use-places-autocomplete';
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption} from '@reach/combobox';
 import './SearchBar.css'
@@ -8,18 +9,19 @@ import './SearchBar.css'
 
 const SearchBar = () => {
   const {ready, value, suggestions : {status, data}, setValue, clearSuggestions} = usePlacesAutocomplete()
-  // console.log(ready, value, status, data, '************** USEPLACES')
+  const history = useHistory()
 
   const onSelect = async (address) => {
-    console.log(address)
+    // console.log(address)
     const city = address.split(',')[0]
-    console.log(city)
+    // console.log(city)
     const results = await getGeocode({address});
-    // console.log(results)
     const {lat, lng} = await getLatLng(results[0]);
-    console.log(lat, lng)
+    // console.log(lat, lng)
     setValue('')
     clearSuggestions()
+    history.push(`/postings/search/${lat}/${lng}`)
+
   }
   return(
     <div>
