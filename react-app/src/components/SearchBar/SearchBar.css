@@ -1,0 +1,6 @@
+.popover{
+  background-color: white;
+  border: 1px solid black;
+  padding: .75em;
+  box-sizing: border-box;
+}

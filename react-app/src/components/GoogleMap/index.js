@@ -1,21 +1,23 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {GoogleMap, Marker, useLoadScript} from '@react-google-maps/api';
 import {useDispatch, useSelector} from 'react-redux';
-import {getPostings} from '../../store/posting';
+import {getPostings, relativePostings} from '../../store/posting';
+import {setBounds} from '../../store/map'
 
-const options = ['places']
-
+const libraries = ['places']
 
 const otherOptions = {
   disableDefaultUI : true,
   zoomControl : true
 }
 
-const mapContainerStyle={height:'100vh', width:'100vw'}
+const center = {lat: 40.7127753, lng: -74.0059728}
+const mapContainerStyle={height:'calc(100vh - 50px)', width:'50vw'}
 
 const Map = () => {
 
   const dispatch = useDispatch()
+  const [count, setCount] = useState(0)
   
   useEffect(() => {
     dispatch(getPostings())
@@ -27,25 +29,56 @@ const Map = () => {
       return {id:posting.id, lat:posting.lat, lng: posting.lng}
     })
   });
-  console.log(positions)
+
+  const postings = useSelector(state => {
+    return state.postings
+  })
+
+  const mapBounds = useSelector(state => {
+    return state.map.bounds
+  })
+  // console.log('*******POSTINGS ********', postings)
+  // console.log('********MAP**********', mapBounds)
+
+  const postingArray = Object.values(postings)
+  
+  useEffect(() => {
+    if (mapBounds && postingArray){
+      const relativePosting = postingArray.filter(posting => {
+        return (mapBounds.lats[0] < posting.lat && posting.lat < mapBounds.lats[1] && mapBounds.lngs[0] < posting.lng && posting.lng < mapBounds.lngs[1])
+      })
+      // console.log('**********RELATIVE*************', relativePostings)
+      const showPostings = relativePosting.map(posting => posting.id)
+      // console.log(showPostings)
+      dispatch(relativePostings(showPostings))
+      
+    }
+  },[count])
+  
+
   
   // const center = { lat: Number(lat), lng: Number(lng)}
-  const center = {lat: 40.7127753, lng: -74.0059728}
   const {REACT_APP_GOOGLE_API_KEY} = process.env;
-  // try to dynamically pass lat and lng down as props
-  // const lat=-3.745;
-  // const lng = -38.523
 
   const {isLoaded, loadError} = useLoadScript({
     googleMapsApiKey : REACT_APP_GOOGLE_API_KEY,
-    libraries : options
+    libraries : libraries
   })
 
-  console.log(isLoaded, loadError)
-  const mapRef = React.useRef();
-	const onLoad = React.useCallback((map) => {
+  const mapRef = useRef();
+	const onLoad = useCallback((map) => {
 		mapRef.current = map;
 	}, []);
+
+  const onBoundsChanged =(map) =>{
+    const northEast = mapRef.current.getBounds().getNorthEast()
+    const southWest = mapRef.current.getBounds().getSouthWest()
+    const bounds = {lats : [southWest.lat(), northEast.lat()], lngs : [southWest.lng(), northEast.lng()]}
+    dispatch(setBounds(bounds))
+    setCount(count+1)
+  }
+
+
 
   if (loadError) return <h1>Error Loading Google Maps</h1>
 
@@ -57,19 +90,18 @@ const Map = () => {
         zoom={7} 
         center={center} 
         options={otherOptions} 
-        onLoad={onLoad} >
+        onLoad={onLoad}
+        onBoundsChanged={onBoundsChanged}>
         {positions.map((marker) => (
             <Marker
               key={marker.id}
               position={{ lat: marker.lat, lng: marker.lng }}
+              // onClick go to the property page
             />
           ))}  
       </GoogleMap>}
     </div>
   )
 }
-
-// deploying things
-
 
 export default Map;
