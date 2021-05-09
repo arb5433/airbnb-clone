@@ -19,9 +19,9 @@ const Map = ({lat, lng}) => {
   const dispatch = useDispatch()
   const [count, setCount] = useState(0)
   
-  useEffect(() => {
-    dispatch(getPostings())
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(getPostings())
+  // }, [dispatch])
 
   const positions = useSelector(state => {
     const postings = state.postings.postingsList.map(postingId => state.postings[postingId]);
@@ -31,12 +31,12 @@ const Map = ({lat, lng}) => {
   });
 
   const postings = useSelector(state => {
-    console.log(state.postings)
+    // console.log(state.postings)
     return state.postings
   })
 
   const mapBounds = useSelector(state => {
-    console.log(state.map.bounds)
+    // console.log(state.map.bounds)
     return state.map.bounds
   })
   // console.log('*******POSTINGS ********', postings)
@@ -82,7 +82,7 @@ const Map = ({lat, lng}) => {
     const southWest = mapRef.current.getBounds().getSouthWest()
     const bounds = {lats : [southWest.lat(), northEast.lat()], lngs : [southWest.lng(), northEast.lng()]}
     dispatch(setBounds(bounds))
-    console.log('dispatched bounds')
+    // console.log('dispatched bounds')
     setCount(count+1)
   }
 

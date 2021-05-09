@@ -8,6 +8,7 @@ import SearchPage from './components/SearhPage';
 import HomePage from './components/HomePage';
 import Map from './components/GoogleMap';
 import PostingForm from './components/PostingForm';
+import PostingPage from './components/PostingPage';
 import { authenticate } from "./store/session";
 
 function App() {
@@ -47,8 +48,11 @@ function App() {
             <Route path="/" exact={true}>
               <HomePage/>
             </Route>
-            <Route path='/postings/form'>
+            <Route path='/postings/form' exact={true}>
               <PostingForm/>
+            </Route>
+            <Route path='/postings/:id' exact={true}>
+              <PostingPage/>
             </Route>
             <Route path='/postings/search/:lat/:lng'>
               <SearchPage/>

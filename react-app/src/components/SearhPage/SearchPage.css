@@ -14,3 +14,15 @@
   height: 100%;
 }
 
+.search-page-postings-title-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spp-title{
+  font-weight: bold;
+  font-size: 2em;
+  border-bottom: 1px solid lightgray;
+  margin: .5em;
+}

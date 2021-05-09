@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {getPostings} from '../../store/posting';
 
 import './HomePage.css';
 
@@ -7,10 +9,15 @@ import './HomePage.css';
 const HomePage = () => {
 
   const history = useHistory()
+  const dispatch = useDispatch()
 
   const onClick = () => {
     history.push('/postings/form')
   }
+
+  useEffect(() => {
+    dispatch(getPostings())
+  }, [dispatch])
 
   return (
     <div className='home-wrapper'>

@@ -1,9 +1,46 @@
 .posting-card-wrapper{
   border: 1px solid black;
   margin: 1em;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  text-decoration: none;
+  color: black;
+}
+
+.posting-card-image-wrapper{
+  width: 200px;
+  height: 200px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: inline-block;
+  grid: 1;
 }
 
 .posting-card-image{
-  width: 10em;
-  height: 10em;
+  width: 100%;
+}
+
+.posting-info-wrapper{
+  overflow-y: scroll;
+  grid: 2;
+  box-sizing: border-box;
+  margin: 1em;
+}
+
+.posting-card-title{
+  border-bottom: 1px solid lightgray;
+  margin-bottom: .5em;
+}
+
+.posting-card-basic-info{
+  text-align: center;
+  font-size: smaller;
+  color: gray;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: .5em;
+}
+
+.posting-card-price{
+  text-align: end;
+  font-weight: bold;
 }

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useSelector} from 'react-redux';
+import {NavLink} from 'react-router-dom';
 
 import './PostingCard.css'
 
@@ -14,8 +15,10 @@ const PostingCard = ({posting}) => {
 
 
   return (
-    <div className='posting-card-wrapper'>
-      <img className='posting-card-image' src={posting.mainImageUrl}/>
+    <NavLink className='posting-card-wrapper' to={`/postings/${posting.id}`}>
+      <div className='posting-card-image-wrapper' style={{backgroundImage:`url(${posting.mainImageUrl})`}}/>
+        {/* <img className='posting-card-image' src={posting.mainImageUrl}/> */}
+      {/* </div> */}
       <div className='posting-info-wrapper'>
         <div className='posting-card-title'>{posting.title}</div>
         <div className='posting-card-basic-info'>{`${posting.numBeds} Beds, ${posting.numGuests} Guests, ${posting.numBathrooms} Baths`}</div>
@@ -23,7 +26,7 @@ const PostingCard = ({posting}) => {
           <div className='posting-card-price'>{`$${posting.price} / night`}</div>
         </div>
       </div>
-    </div>
+    </NavLink>
   )
 }
 
