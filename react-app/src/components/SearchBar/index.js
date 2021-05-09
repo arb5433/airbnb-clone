@@ -1,24 +1,35 @@
-import React from 'react'
+import React, {useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 import usePlacesAutocomplete, {getGeocode, getLatLng} from 'use-places-autocomplete';
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption} from '@reach/combobox';
-import {GoogleMap, Marker, useLoadScript} from '@react-google-maps/api';
+import './SearchBar.css'
+
+
+
 
 const SearchBar = () => {
-  const {REACT_APP_GOOGLE_API_KEY} = process.env;
-  const {isLoaded, loadError} = useLoadScript({
-    googleMapsApiKey : REACT_APP_GOOGLE_API_KEY,
-    libraries : ['places']
-  })
+  const {ready, value, suggestions : {status, data}, setValue, clearSuggestions} = usePlacesAutocomplete()
+  const history = useHistory()
 
-  const {ready, value, suggestions : {state, data}, setValue, clearSuggestions} = usePlacesAutocomplete()
-  console.log(ready, value, state, data, '************** USEPLACES')
+  const onSelect = async (address) => {
+    // console.log(address)
+    const city = address.split(',')[0]
+    // console.log(city)
+    const results = await getGeocode({address});
+    const {lat, lng} = await getLatLng(results[0]);
+    // console.log(lat, lng)
+    setValue('')
+    clearSuggestions()
+    history.push(`/postings/search/${lat}/${lng}`)
+
+  }
   return(
     <div>
-      <Combobox onSelect={(info) => {console.log(info)}}>
+      <Combobox onSelect={onSelect}>
         <ComboboxInput value={value} onChange={e => setValue(e.target.value)} placeholder='Search for a city'/>
-        <ComboboxPopover>
+        <ComboboxPopover className='popover'>
           {data.map(({id, description}) => (
-            <ComboboxInput key={id} value={description} />
+            <ComboboxOption key={id} value={description} />
           ))}
         </ComboboxPopover>
       </Combobox>

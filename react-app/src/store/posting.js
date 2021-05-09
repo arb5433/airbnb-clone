@@ -3,6 +3,7 @@ const LOAD_POSTINGS = 'postings/LOAD'
 const ADD_POSTING = 'postings/ADD'
 const REMOVE_POSTING = 'posting/REMOVE'
 const LOAD_BUILDING_TYPES = 'postings/LOAD_BUILD'
+const RELATIVE_POSTINGS = 'postings/RELATIVE_POSTINGS'
 
 // action creators
 
@@ -11,7 +12,7 @@ const loadPostings = (postings) => ({
   postings
 })
 
-const addPosrting = posting => ({
+export const addPosting = posting => ({
   type: ADD_POSTING,
   posting
 });
@@ -24,6 +25,11 @@ const removePosting = id => ({
 const loadBuildingTypes = types => ({
   type: LOAD_BUILDING_TYPES,
   types
+})
+
+export const relativePostings = postings => ({
+  type : RELATIVE_POSTINGS,
+  postings
 })
 
 // thunks
@@ -48,15 +54,13 @@ export const getBuildingTypes = () => async dispatch => {
 
 // helper function
 
-const sortList = (list) => {
-  return list.sort((postingA, postingB) => {
-    return postingA.id - postingB.id;
-  }).map((posting) => posting.id);
+const mapList = (list) => {
+  return list.map((posting) => posting.id);
 };
 
 // reducer
 
-const initialState = {postingsList : [], buildingTypes : []}
+const initialState = {postingsList : [], buildingTypes : [], shownPostings : [], searchedList : []}
 
 const postingReducer = (state = initialState, action) => {
   switch(action.type){
@@ -68,13 +72,31 @@ const postingReducer = (state = initialState, action) => {
       return {
         ...state,
         ...postings,
-        postingsList: sortList(action.postings),
+        postingsList: mapList(action.postings),
       };
     }
     case LOAD_BUILDING_TYPES:{
       return {
         ...state,
         buildingTypes: action.types
+      }
+    }
+    case RELATIVE_POSTINGS:{
+      return {
+        ...state,
+        shownPostings : action.postings
+      }
+    }
+    case ADD_POSTING:{
+      if (!state[action.posting.id]) {
+        const newState = {
+          ...state,
+          [action.posting.id]: action.posting
+        };
+        const postingsList = newState.postingsList.map(id => newState[id]);
+        postingsList.push(action.posting);
+        newState.postingsList = mapList(postingsList)
+        return newState;
       }
     }
     default : {

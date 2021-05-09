@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useHistory} from 'react-router-dom';
-import {getBuildingTypes} from '../../store/posting';
+import {getBuildingTypes, addPosting} from '../../store/posting';
+
 
 import './PostingForm.css'
 
@@ -13,6 +14,7 @@ const PostingForm = () => {
   const history = useHistory()
 
   const [page, setPage] = useState(0);
+
   const [address, setAddress] = useState('')
   const [city, setCity] = useState('')
   const [state, setState] = useState(0)
@@ -105,6 +107,9 @@ const PostingForm = () => {
 
     if (res.ok) { 
       setImageLoading(false)
+      console.log(res)
+      const posting = await res.json()
+      dispatch(addPosting(posting))
       history.push('/')
     } else {
       setImageLoading(false)
