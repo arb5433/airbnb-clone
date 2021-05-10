@@ -6,8 +6,11 @@ import {getPostings} from '../../store/posting';
 import {loadingBookings, addingBooking} from '../../store/bookings';
 import {getUserInfo, getBuildingInfo} from '../../store/info';
 import {addingReview, deletingReview, loadingReviews} from '../../store/reviews';
+import ReviewEditFormModal from '../ReviewEditModal';
+
 
 import './PostingPage.css'
+import ReviewEditForm from '../ReviewEditModal/ReviewEditForm';
 
 const PostingPage = () => {
 
@@ -18,6 +21,7 @@ const PostingPage = () => {
   const [bookDate, setBookDate] = useState('')
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState('')
+  const [hiddenId, setHiddenId] = useState()
 
   useEffect(() => {
     dispatch(getPostings())
@@ -155,7 +159,7 @@ const PostingPage = () => {
                     <div className='rating'>{`Rating : ${review.rating}/5`}</div>
                     {user.id == review.userId && (
                       <div>
-                        <button className='edt-and-del-btns'>Edit</button>
+                        <ReviewEditFormModal review={review}/>
                         <button className='edt-and-del-btns' onClick={(e) => reviewDelete(review)} >Delete</button>
                       </div>
                     )}

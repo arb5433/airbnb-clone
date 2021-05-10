@@ -43,6 +43,15 @@ export const deletingReview = (id) => async (dispatch) => {
   dispatch(deleteReview(review))
 }
 
+export const updateReview = (formData, id) => async (dispatch) => {
+  const result = await fetch (`/api/reviews/postings/${id}`, {
+    method : 'PUT',
+    body: formData
+  })
+  const review = await result.json()
+  dispatch(addReview(review))
+}
+
 // initial state
 const initialState = {}
 

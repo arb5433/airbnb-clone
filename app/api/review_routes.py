@@ -27,3 +27,14 @@ def delete_review(rid):
   db.session.delete(review)
   db.session.commit()
   return review.to_dict()
+
+@review_routes.route('/postings/<int:rid>', methods=['PUT'])
+def edit_review(rid): 
+  oldReview = PostingReview.query.get(rid)
+  rating = request.form['rating']
+  review = request.form['review']
+  oldReview.rating = rating
+  oldReview.review = review
+  db.session.add(oldReview)
+  db.session.commit()
+  return oldReview.to_dict()
