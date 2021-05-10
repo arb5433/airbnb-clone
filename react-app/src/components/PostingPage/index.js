@@ -1,7 +1,9 @@
-import React, {useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Redirect, useParams} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
+import BookingCalendar from 'react-booking-calendar';
 import {getPostings} from '../../store/posting';
+import bookingReducer, {loadingBookings, addingBooking, removingBooking} from '../../store/bookings';
 import {getUserInfo, getBuildingInfo} from '../../store/info';
 
 import './PostingPage.css'
@@ -10,6 +12,15 @@ const PostingPage = () => {
 
   const {id} = useParams()
   const dispatch = useDispatch()
+  const [booked, setBooked] = useState([])
+
+  // const date = new Date();
+  // const year = date.getFullYear()
+  // const thisMonth = date.getMonth()
+  // const today = date.getDate()
+  // const min = new Date(year, thisMonth, today)
+  // const max = new Date(year, thisMonth + 6, today)
+
 
   useEffect(() => {
     dispatch(getPostings())
@@ -19,12 +30,13 @@ const PostingPage = () => {
     return state.postings;
   })
   const posting = postings[id]
-  // console.log(posting)
+  console.log(posting)
 
   useEffect(() => {
     if(posting){
       dispatch(getUserInfo(posting.userId))
       dispatch(getBuildingInfo(posting.buildingType))
+      dispatch(loadingBookings(posting.id))
     }
   },[dispatch, posting])
 
@@ -36,8 +48,22 @@ const PostingPage = () => {
     return state.info.building
   })
 
-  console.log('--------- HOST --------', host)
-  console.log('-----------building------------', building)
+  const bookings = useSelector(state => {
+    return state.bookings
+  })
+
+  useEffect(() => {
+    if (bookings){
+      const formattedBookings = []
+      const newBookings = Object.values(bookings)
+      newBookings.forEach(booking => {
+        formattedBookings.push(booking.date)
+      })
+      console.log(formattedBookings)
+      setBooked(formattedBookings)
+    }
+  },[dispatch, bookings])
+
 
   return (
     <>
@@ -60,7 +86,9 @@ const PostingPage = () => {
             <div className='poasting-page-description-and-details-wrapper'>
               <div className='posting-page-description'>{posting.description}</div>
             </div>
-            <div className='posting-page-price-and-booking-wrapper'></div>
+            <div className='posting-page-price-and-booking-wrapper'>
+              <BookingCalendar bookings={booked}/>
+            </div>
             <div className='posting-page-availability-calendar'></div>
           </div>
           <div className='posting-page-posting-reviews-wrapper'></div>

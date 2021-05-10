@@ -4,13 +4,15 @@ import session from './session';
 import postingReducer from './posting';
 import mapReducer from './map';
 import infoReducer from './info';
+import bookingReducer from './bookings';
 
 
 const rootReducer = combineReducers({
     session,
     postings: postingReducer,
     map : mapReducer,
-    info : infoReducer
+    info : infoReducer,
+    bookings : bookingReducer
 });
 
 let enhancer;
