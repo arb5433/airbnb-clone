@@ -3,12 +3,14 @@ import thunk from 'redux-thunk';
 import session from './session';
 import postingReducer from './posting';
 import mapReducer from './map';
+import infoReducer from './info';
 
 
 const rootReducer = combineReducers({
     session,
     postings: postingReducer,
-    map : mapReducer
+    map : mapReducer,
+    info : infoReducer
 });
 
 let enhancer;

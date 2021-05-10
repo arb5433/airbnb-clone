@@ -1,4 +1,97 @@
 .postings-page-wrapper{
   display: flex;
   flex-direction: column;
+  width: 100vw;
+}
+
+.posting-page-information-wrapper,
+.posting-page-posting-reviews-wrapper{
+  /* border: 1px solid black; */
+  /* width: 90%; */
+  /* height: 400px; */
+  box-sizing: border-box;
+}
+
+.postings-page-intro{
+  /* border: 1px solid black; */
+  margin: 1em;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.posting-page-images-wrapper{
+  display: grid;
+  grid-template-columns: 50% 25% 25%;
+  grid-template-rows: 200px 200px;
+  box-sizing: border-box;
+  grid-template-areas: "main imga imgb"
+                       "main imgc imgd";
+  grid-gap: .25em;
+  box-sizing: border-box;
+  padding: 1em;
+  /* margin: 1em; */
+}
+
+.posting-page-main-image-div{
+  height: 100%;
+  /* width: 45%; */
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* margin: 1em; */
+  box-sizing: border-box;
+  border: 1px solid blue;
+  grid-area: main;
+}
+
+.posting-page-other-image-1,
+.posting-page-other-image-2,
+.posting-page-other-image-3,
+.posting-page-other-image-4{
+  background-size: cover;
+  background-image: url('https://user-images.githubusercontent.com/74081636/117692334-ecb7be00-b18a-11eb-9e1b-98589ca6fa0f.jpeg');
+  background-repeat: no-repeat;
+  /* width: 23%; */
+  /* height: 175px; */
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid blue;
+  /* margin: 1em; */
+}
+
+.posting-page-other-image-1{
+  grid-area: imga;
+}
+
+.posting-page-other-image-2{
+  grid-area: imgb;
+}
+
+.posting-page-other-image-3{
+ grid-area: imgc;
+}
+
+.posting-page-other-image-4{
+ grid-area: imgd;
+}
+
+.posting-page-host{
+  font-size: 1.5em;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: .75em;
+  margin-bottom: 0;
+}
+
+.posting-page-details{
+  margin: 2em;
+  font-size: .75em;
+  color: gray;
+  margin-top: 0;
+  border-bottom: 1px solid lightgray;
+}
+
+.posting-page-title,
+.posting-page-description{
+  margin: 1.5em;
 }
