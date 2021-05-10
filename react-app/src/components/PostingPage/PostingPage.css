@@ -98,5 +98,29 @@
 
 .booking-calendar{
   width: 450px;
-  margin: 1em;
+  margin: 30px;
+}
+
+.booking-form{
+  margin: 30px;
+}
+.posting-page-price-and-booking-wrapper{
+  display: flex;
+}
+
+.booking-form{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.booking-title{
+  font-size: 2em;
+  border-bottom: 1px solid gray;
+}
+
+.real-booking-form{
+  display: flex;
 }

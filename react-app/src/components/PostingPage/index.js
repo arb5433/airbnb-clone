@@ -13,6 +13,7 @@ const PostingPage = () => {
   const {id} = useParams()
   const dispatch = useDispatch()
   const [booked, setBooked] = useState([])
+  const [bookDate, setBookDate] = useState('')
 
   // const date = new Date();
   // const year = date.getFullYear()
@@ -64,6 +65,8 @@ const PostingPage = () => {
     }
   },[dispatch, bookings])
 
+  console.log(bookDate, '-9-9-9-9-9-9', typeof(bookDate))
+  console.log(new Date(bookDate))
 
   return (
     <>
@@ -88,6 +91,14 @@ const PostingPage = () => {
             </div>
             <div className='posting-page-price-and-booking-wrapper'>
               <BookingCalendar bookings={booked}/>
+              <div className='booking-form'>
+                <div className='booking-title'>Book a stay at this property</div>
+                <div className='booking-price'>{`$${posting.price} / night`}</div>
+                <form className='real-booking-form'>
+                  <input type='date' value={bookDate} onChange={(e) => setBookDate(e.target.value)}/>
+                  <button disabled={booked.includes(new Date(bookDate))}>Book</button>
+                </form>
+              </div>
             </div>
             <div className='posting-page-availability-calendar'></div>
           </div>

@@ -20,7 +20,7 @@ def seed():
     seed_posting_reviews()
     seed_tag_types()
     seed_bookings()
-    seed_tags()
+    # seed_tags()
     # Add other seed functions here
 
 # Creates the `flask seed undo` command
@@ -32,5 +32,5 @@ def undo():
     undo_posting_reviews()
     undo_tag_types()
     undo_bookings()
-    undo_tags()
+    # undo_tags()
     # Add other undo functions here
