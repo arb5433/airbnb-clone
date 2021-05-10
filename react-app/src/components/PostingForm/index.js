@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {getBuildingTypes, addPosting} from '../../store/posting';
+import {refreshUser} from '../../store/session';
 
 
 import './PostingForm.css'
@@ -109,8 +110,9 @@ const PostingForm = () => {
       setImageLoading(false)
       console.log(res)
       const posting = await res.json()
+      dispatch(refreshUser(user.id))
       dispatch(addPosting(posting))
-      history.push('/')
+      history.push(`/postings/${posting.id}`)
     } else {
       setImageLoading(false)
       console.log('Oh no! Error loading.')

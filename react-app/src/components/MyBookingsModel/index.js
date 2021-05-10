@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { Modal } from "../../context/Modal";
-import ReviewEditForm from "./ReviewEditForm";
+import MyBooking from "./MyBooking";
 
-function ReviewEditFormModal({review}) {
+function MyBookingModal() {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
       <button className='edt-and-del-btns' onClick={() => setShowModal(true)}>
-        Edit
+        Bookings |
       </button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <ReviewEditForm review={review} setShowModal={setShowModal}/>
+          <MyBooking/>
         </Modal>
       )}
     </>
   );
 }
 
-export default ReviewEditFormModal;
+export default MyBookingModal;

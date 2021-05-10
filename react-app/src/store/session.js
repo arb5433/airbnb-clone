@@ -75,6 +75,12 @@ export const signUp = (username, email, password) => async (dispatch)=> {
     dispatch(setUser(data));
 }
 
+export const refreshUser = (userId) => async (dispatch) => {
+    const result = await fetch(`/api/users/${userId}`);
+    const newUser = await result.json();
+    dispatch(setUser(newUser));
+}
+
 // reducer
 
 const initialState = { user: null };

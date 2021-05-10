@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {updateReview} from '../../store/reviews';
 
-const ReviewEditForm = ({review}) => {
+const ReviewEditForm = ({review, setShowModal}) => {
 
   const dispatch = useDispatch()
 
@@ -10,11 +10,12 @@ const ReviewEditForm = ({review}) => {
   const [newRating, setNewRating] = useState(review.rating)
 
   const reviewSubmit = (e) => {
-    // e.preventDefault()
+    e.preventDefault()
     const formData = new FormData()
     formData.append('rating', newRating)
     formData.append('review', newReview)
     dispatch(updateReview(formData, review.id))
+    setShowModal(false)
   }
 
   return(
