@@ -18,11 +18,11 @@ const SearchPage = () => {
   return (
     <div className='search-page-wrapper'>
       <div className='search-page-postings-wrapper'>
-        <div>
-          <div>Potential postings in shown location</div>
+        <div className='search-page-posting-title-wrapper'>
+          <div className='spp-title'>Potential postings in shown location</div>
         </div>
         {postings && postings.map(postings => (
-          <PostingCard posting={postings}/>
+          <PostingCard posting={postings} key={postings.id}/>
         ))}
       </div>
       <div className ='search-page-map'>
