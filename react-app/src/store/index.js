@@ -5,6 +5,7 @@ import postingReducer from './posting';
 import mapReducer from './map';
 import infoReducer from './info';
 import bookingReducer from './bookings';
+import reviewsReducer from './reviews';
 
 
 const rootReducer = combineReducers({
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     postings: postingReducer,
     map : mapReducer,
     info : infoReducer,
-    bookings : bookingReducer
+    bookings : bookingReducer,
+    reviews : reviewsReducer
 });
 
 let enhancer;

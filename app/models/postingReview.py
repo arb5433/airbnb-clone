@@ -14,6 +14,7 @@ class PostingReview(db.Model):
 
   def to_dict(self):
     return {
+      'id' : self.id,
       'postingId': self.postingId,
       'userId' : self.userId,
       'rating' : self.rating,

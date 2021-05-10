@@ -29,17 +29,17 @@ export const loadingBookings = (id) => async (dispatch) => {
 }
 
 export const removingBooking = (id) => async (dispatch) => {
-  const result = await fetch(`api/bookings/${id}`, {
+  const result = await fetch(`/api/bookings/${id}`, {
     method : 'DELETE'
   })
   const booking = await result.json()
   dispatch(removeBooking(booking))
 }
 
-export const addingBooking = (booking) => async (dispatch) => {
-  const result = await fetch(`api/bookings`, {
+export const addingBooking = (formData) => async (dispatch) => {
+  const result = await fetch(`/api/bookings`, {
     method: 'POST',
-    body : booking
+    body : formData
   })
   const newBooking = await result.json()
   dispatch(addBooking(newBooking))
@@ -55,7 +55,6 @@ const bookingReducer = (state = initialState, action) => {
         allBookings[booking.id] = booking
       })
       return {
-        ...state,
         ...allBookings
       }
     }

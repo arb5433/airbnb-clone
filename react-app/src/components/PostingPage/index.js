@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Redirect, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import BookingCalendar from 'react-booking-calendar';
 import {getPostings} from '../../store/posting';
-import bookingReducer, {loadingBookings, addingBooking, removingBooking} from '../../store/bookings';
+import {loadingBookings, addingBooking} from '../../store/bookings';
 import {getUserInfo, getBuildingInfo} from '../../store/info';
+import {addingReview, deletingReview, loadingReviews} from '../../store/reviews';
 
 import './PostingPage.css'
 
@@ -13,15 +14,10 @@ const PostingPage = () => {
   const {id} = useParams()
   const dispatch = useDispatch()
   const [booked, setBooked] = useState([])
+  const [bookedDates, setBookedDates] = useState([])
   const [bookDate, setBookDate] = useState('')
-
-  // const date = new Date();
-  // const year = date.getFullYear()
-  // const thisMonth = date.getMonth()
-  // const today = date.getDate()
-  // const min = new Date(year, thisMonth, today)
-  // const max = new Date(year, thisMonth + 6, today)
-
+  const [rating, setRating] = useState(0)
+  const [review, setReview] = useState('')
 
   useEffect(() => {
     dispatch(getPostings())
@@ -38,8 +34,13 @@ const PostingPage = () => {
       dispatch(getUserInfo(posting.userId))
       dispatch(getBuildingInfo(posting.buildingType))
       dispatch(loadingBookings(posting.id))
+      dispatch(loadingReviews(posting.id))
     }
   },[dispatch, posting])
+
+  const user = useSelector(state => {
+    return state.session.user
+  })
 
   const host = useSelector(state => {
     return state.info.user
@@ -53,6 +54,15 @@ const PostingPage = () => {
     return state.bookings
   })
 
+  const reviews = useSelector(state => {
+    return state.reviews
+  })
+
+  let reviewsArray;
+  if(reviews){
+    reviewsArray = Object.values(reviews)
+  }
+
   useEffect(() => {
     if (bookings){
       const formattedBookings = []
@@ -60,13 +70,48 @@ const PostingPage = () => {
       newBookings.forEach(booking => {
         formattedBookings.push(booking.date)
       })
-      console.log(formattedBookings)
+      // console.log(formattedBookings)
       setBooked(formattedBookings)
+      const bookingDatesReal = []
+      formattedBookings.forEach(booking => {
+        bookingDatesReal.push(new Date(booking+'T00:00:00'))
+      })
+      // console.log(bookingDatesReal, '***********REAL***********')
+      setBookedDates(bookingDatesReal)
     }
   },[dispatch, bookings])
 
-  console.log(bookDate, '-9-9-9-9-9-9', typeof(bookDate))
-  console.log(new Date(bookDate))
+  // console.log(bookDate, '-9-9-9-9-9-9', typeof(bookDate))
+  // console.log(booked)
+  // console.log(booked.includes(bookDate))
+  // console.log(new Date(bookDate))
+  console.log(reviews, '-------------r-r-r-r-r---------')
+  
+  const bookSubmit = (e) => {
+    e.preventDefault()
+    const formData = new FormData
+    formData.append('date', bookDate)
+    formData.append('userId', user.id)
+    formData.append('postingId', id)
+    dispatch(addingBooking(formData))
+    // alert('Your night has been booked!')
+  }
+
+  const reviewSubmit = (e) => {
+    e.preventDefault()
+    const formData = new FormData
+    formData.append('userId', user.id)
+    formData.append('postingId', id)
+    formData.append('rating', rating)
+    formData.append('review', review)
+    dispatch(addingReview(formData))
+  }
+
+  const reviewDelete = (review) => {
+    console.log(review)
+    console.log(review.id)
+    dispatch(deletingReview(review.id))
+  }
 
   return (
     <>
@@ -90,19 +135,48 @@ const PostingPage = () => {
               <div className='posting-page-description'>{posting.description}</div>
             </div>
             <div className='posting-page-price-and-booking-wrapper'>
-              <BookingCalendar bookings={booked}/>
+              <BookingCalendar bookings={bookedDates}/>
               <div className='booking-form'>
                 <div className='booking-title'>Book a stay at this property</div>
                 <div className='booking-price'>{`$${posting.price} / night`}</div>
                 <form className='real-booking-form'>
                   <input type='date' value={bookDate} onChange={(e) => setBookDate(e.target.value)}/>
-                  <button disabled={booked.includes(new Date(bookDate))}>Book</button>
+                  <button className='book-btn' onClick ={bookSubmit} disabled={booked.includes(bookDate)}>Book</button>
                 </form>
               </div>
             </div>
-            <div className='posting-page-availability-calendar'></div>
           </div>
-          <div className='posting-page-posting-reviews-wrapper'></div>
+          <div className='posting-page-posting-reviews-wrapper'>
+            <div className='posting-reviews-title'>Reviews associated with this posting:</div>
+              {reviewsArray && reviewsArray.map(review => (
+                <div className='review-wrapper' key={review.id}>
+                  <div className='review-review'>{`"${review.review}"`}</div>
+                  <div className='rating-wrapper'>
+                    <div className='rating'>{`Rating : ${review.rating}/5`}</div>
+                    {user.id == review.userId && (
+                      <div>
+                        <button className='edt-and-del-btns'>Edit</button>
+                        <button className='edt-and-del-btns' onClick={(e) => reviewDelete(review)} >Delete</button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            <form className='review-form'>
+              <textarea className='review-ta' placeholder='Leave a review for this property.' value={review} onChange={(e) => setReview(e.target.value)}/>
+              <div className='form-rating-wrapper'>
+                <div className='rating-rating'>Rating :  
+                  <input type='number' className='review-rating' value={rating} onChange={(e) => setRating(e.target.value)}/>
+                </div>
+                <button className='review-btn' onClick={reviewSubmit}>Post Review</button>
+              </div>
+            </form>
+          </div>
+          <div className='footer'>
+            <a className='dev-name' href='https://github.com/arb5433/airbnb-clone/wiki'>ThereBnB Wiki</a>
+            <div className='dev-name'>Created By: Adam Bailey</div>
+            <a className='dev-name' href='https://github.com/arb5433'>Github Profile</a>
+          </div>
         </div>
       )}
     </>

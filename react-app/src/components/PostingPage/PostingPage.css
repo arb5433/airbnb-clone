@@ -75,7 +75,8 @@
  grid-area: imgd;
 }
 
-.posting-page-host{
+.posting-page-host,
+.posting-reviews-title{
   font-size: 1.5em;
   font-weight: bold;
   text-transform: uppercase;
@@ -121,6 +122,58 @@
   border-bottom: 1px solid gray;
 }
 
-.real-booking-form{
+.review-wrapper{
+  padding: 30px;
+}
+
+.rating-wrapper{
+  width: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.rating{
+  font-weight: bold;
+}
+
+
+.review-form{
+  box-sizing: border-box;
+  margin: 30px;
+}
+
+.review-ta{
+  width: 100%;
+  height: 100px;
+}
+
+.form-rating-wrapper{
+  display: flex;
+  flex-direction: column;
+  /* justify-content: flex-end; */
+  align-items: flex-end;
+}
+
+.review-rating{ 
+  width: 30px;
+  margin-left: 5px;
+}
+
+.rating-rating{
+  margin-bottom: 10px;
+}
+
+.edt-and-del-btns{
+  background-color: white;
+  border: transparent;
+  text-decoration: none;
+}
+
+.edt-and-del-btns:hover{
+  font-weight: bold;
+}
+
+.book-btn{
+  margin-left: 10px;
 }
