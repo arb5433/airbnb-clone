@@ -12,7 +12,7 @@ function MyBookingModal() {
       </button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <MyBooking/>
+          <MyBooking setShowModal={setShowModal}/>
         </Modal>
       )}
     </>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from 'react-router-dom';
 import { signUp } from '../../store/session';
 
-const SignUpForm = () => {
+const SignUpForm = ({setShowModal}) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
   const [username, setUsername] = useState("");
@@ -39,35 +39,42 @@ const SignUpForm = () => {
   }
 
   return (
-    <form onSubmit={onSignUp}>
-      <div>
+    <form className='login-form' onSubmit={onSignUp}>
+      <div className='login-title-wrapper'>
+        <button className='edt-and-del-btns exit-btn' onClick={() => setShowModal(false)}>X</button>
+        <div className='login-title'>ThereBnB Sign up</div>
+      </div>
+      <div className='login-email'>
         <label>User Name</label>
         <input
           type="text"
           name="username"
           onChange={updateUsername}
           value={username}
+          className='login-input'
         ></input>
       </div>
-      <div>
+      <div className='login-email'>
         <label>Email</label>
         <input
           type="text"
           name="email"
           onChange={updateEmail}
           value={email}
+          className='login-input'
         ></input>
       </div>
-      <div>
+      <div className='login-email'>
         <label>Password</label>
         <input
           type="password"
           name="password"
           onChange={updatePassword}
           value={password}
+          className='login-input'
         ></input>
       </div>
-      <div>
+      <div className='login-email'>
         <label>Repeat Password</label>
         <input
           type="password"
@@ -75,9 +82,10 @@ const SignUpForm = () => {
           onChange={updateRepeatPassword}
           value={repeatPassword}
           required={true}
+          className='login-input'
         ></input>
       </div>
-      <button type="submit">Sign Up</button>
+      <button className='signup-btn' type="submit">Sign Up</button>
     </form>
   );
 };

@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { Modal } from "../../context/Modal";
-import MyPostings from "./MyPostings";
+import EditPosting from "./EditPosting";
 
-function MyPostingsModal() {
+function MyPostingsModal({posting}) {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
       <button className='edt-and-del-btns' onClick={() => setShowModal(true)}>
-        Postings |
+        Edit Posting |
       </button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <MyPostings setShowModal={setShowModal} />
+          <EditPosting setShowModal={setShowModal} posting={posting} />
         </Modal>
       )}
     </>

@@ -8,7 +8,7 @@ import './HomePage.css';
 
 const HomePage = () => {
 
-  const {REACT_APP_GOOGLE_API_KEY} = process.env;
+  const REACT_APP_GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 
   const history = useHistory()
   const dispatch = useDispatch()

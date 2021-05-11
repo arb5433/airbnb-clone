@@ -3,7 +3,9 @@ import  { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { login } from "../../store/session";
 
-const LoginForm = () => {
+import './LoginForm.css'
+
+const LoginForm = ({setShowModal}) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
   const [errors, setErrors] = useState([]);
@@ -31,13 +33,17 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={onLogin}>
-      <div>
+    <form onSubmit={onLogin} className='login-form'>
+      <div className='login-title-wrapper'>
+        <button className='edt-and-del-btns exit-btn' onClick={() => setShowModal(false)}>X</button>
+        <div className='login-title'>ThereBnB Log in</div>
+      </div>
+      <div className='errors-div'>
         {errors.map((error) => (
           <div>{error}</div>
         ))}
       </div>
-      <div>
+      <div className='login-email'>
         <label htmlFor="email">Email</label>
         <input
           name="email"
@@ -45,9 +51,10 @@ const LoginForm = () => {
           placeholder="Email"
           value={email}
           onChange={updateEmail}
+          className='login-input'
         />
       </div>
-      <div>
+      <div className='login-password'>
         <label htmlFor="password">Password</label>
         <input
           name="password"
@@ -55,8 +62,9 @@ const LoginForm = () => {
           placeholder="Password"
           value={password}
           onChange={updatePassword}
+          className='login-input'
         />
-        <button type="submit">Login</button>
+        <button className='login-btn' type="submit">Login</button>
       </div>
     </form>
   );

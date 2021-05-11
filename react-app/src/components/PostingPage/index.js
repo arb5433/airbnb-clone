@@ -126,6 +126,7 @@ const PostingPage = () => {
     history.push('/')
   }
 
+
   return (
     <>
       {posting && (
@@ -140,14 +141,15 @@ const PostingPage = () => {
           </div>
           <div className='posting-page-information-wrapper'>
             <div className='posting-page-title-and-host-wrapper'>
-              {host && <div className='posting-page-host'>{`${building.type} hosted by ${host.username}`}</div>}
-              <div className='posting-page-details'>{`${posting.numBeds} Beds, ${posting.numGuests} Guests, ${posting.numBathrooms} Baths`}</div>
               {host.id === user.id && (
                 <div className='host-post-buttons'>
-                  <button className='edt-and-del-btns'>Edit</button>
-                  <button className='edt-and-del-btns' onClick={postingDelete}>Delete</button>
+                  <button className='edt-and-del-btns'>Add Photo |</button>
+                  <button className='edt-and-del-btns'>Edit Posting |</button>
+                  <button className='edt-and-del-btns' onClick={postingDelete}>Delete Posting</button>
                 </div>
               )}
+              {host && <div className='posting-page-host'>{`${building.type} hosted by ${host.username}`}</div>}
+              <div className='posting-page-details'>{`${posting.numBeds} Beds, ${posting.numGuests} Guests, ${posting.numBathrooms} Baths`}</div>
               <div className='posting-page-title'>{posting.title}</div>
             </div>
             <div className='poasting-page-description-and-details-wrapper'>
