@@ -15,11 +15,12 @@ const otherOptions = {
 const mapContainerStyle={height:'calc(100vh - 50px)', width:'50vw'}
 
 const Map = ({lat, lng}) => {
-
+  
   const dispatch = useDispatch()
   const history = useHistory()
   const [count, setCount] = useState(0)
-
+  // const center={lat:40.7127753, lng:-74.0059728}
+  
   const positions = useSelector(state => {
     const postings = state.postings.postingsList.map(postingId => state.postings[postingId]);
     return postings.map(posting => {
@@ -49,6 +50,7 @@ const Map = ({lat, lng}) => {
   const onBoundsChanged = () =>{
     const northEast = mapRef.current.getBounds().getNorthEast()
     const southWest = mapRef.current.getBounds().getSouthWest()
+    const center = mapRef.current.getCenter()
     console.log(mapRef.current.getCenter().lat(), '--------CENTER------------')
     const bounds = {lats : [southWest.lat(), northEast.lat()], lngs : [southWest.lng(), northEast.lng()]}
     if(!Object.deepEq(mapBounds, bounds)) dispatch(setBounds(bounds))

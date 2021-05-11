@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {getPostings} from '../../store/posting';
+import {setBounds} from '../../store/map';
 
 import './HomePage.css';
 
@@ -30,9 +31,9 @@ const HomePage = () => {
       body: formData
     })
     const locationData = await foundResponse.json()
-    console.log(locationData, '++++++++++++++++++++++++++++')
+    // console.log(locationData, '++++++++++++++++++++++++++++')
     const {lat, lng} = locationData.results[0].geometry.location
-    console.log({lat, lng})
+    // console.log({lat, lng})
     history.push(`/postings/search/${lat}/${lng}`)
   }
 
