@@ -24,6 +24,7 @@ const HomePage = () => {
   const onCityClick = async (address) => {
     const formattedAddress = address.split(' ').join('+')
     const locationResponse = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formattedAddress}&key=${REACT_APP_GOOGLE_API_KEY}`)
+    console.log(locationResponse, '________--------')
     const locationData = await locationResponse.json()
     const {lat, lng} = locationData.results[0].geometry.location
     history.push(`/postings/search/${lat}/${lng}`)

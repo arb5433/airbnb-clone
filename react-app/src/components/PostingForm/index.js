@@ -90,7 +90,7 @@ const PostingForm = () => {
     const formattedAddress = formateAddress(address, city, state) 
     
     const locationResponse = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formattedAddress}&key=${REACT_APP_GOOGLE_API_KEY}`)
-    
+    console.log(locationResponse)
     const locationData = await locationResponse.json()
     
     const {lat, lng} = locationData.results[0].geometry.location
