@@ -5,6 +5,8 @@ import LogoutButton from './auth/LogoutButton';
 import LoginFormModal from "./LoginFormModal";
 import SignupFormModal from "./SignupFormModal";
 import SearchBar from './SearchBar';
+import MyBookingModal from './MyBookingsModel';
+import MyPostingsModal from './MyPostingsModal';
 
 const NavBar = () => {
   const sessionUser = useSelector((state) => state.session.user);
@@ -13,6 +15,8 @@ const NavBar = () => {
   if (sessionUser) {
     sessionLinks = (
       <>
+        <MyPostingsModal/>
+        <MyBookingModal/>
         <LogoutButton />
       </>
     )

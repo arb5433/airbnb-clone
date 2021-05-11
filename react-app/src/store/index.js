@@ -3,12 +3,18 @@ import thunk from 'redux-thunk';
 import session from './session';
 import postingReducer from './posting';
 import mapReducer from './map';
+import infoReducer from './info';
+import bookingReducer from './bookings';
+import reviewsReducer from './reviews';
 
 
 const rootReducer = combineReducers({
     session,
     postings: postingReducer,
-    map : mapReducer
+    map : mapReducer,
+    info : infoReducer,
+    bookings : bookingReducer,
+    reviews : reviewsReducer
 });
 
 let enhancer;

@@ -166,5 +166,5 @@ def delete_posting(pid):
   if user_id == posting_user:
     db.session.delete(posting)
     db.session.commit()
-    return {'message': 'deleted'}
+    return posting.to_dict()
 

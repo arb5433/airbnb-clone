@@ -8,6 +8,8 @@ import './HomePage.css';
 
 const HomePage = () => {
 
+  const {REACT_APP_GOOGLE_API_KEY} = process.env;
+
   const history = useHistory()
   const dispatch = useDispatch()
 
@@ -19,6 +21,14 @@ const HomePage = () => {
     dispatch(getPostings())
   }, [dispatch])
 
+  const onCityClick = async (address) => {
+    const formattedAddress = address.split(' ').join('+')
+    const locationResponse = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${formattedAddress}&key=${REACT_APP_GOOGLE_API_KEY}`)
+    const locationData = await locationResponse.json()
+    const {lat, lng} = locationData.results[0].geometry.location
+    history.push(`/postings/search/${lat}/${lng}`)
+  }
+
   return (
     <div className='home-wrapper'>
       <div className='home-banner'/>
@@ -28,35 +38,35 @@ const HomePage = () => {
       <div className='popular-cities-wrapper'>
         <div className='city-wrapper'>
           <div className='city-image new-york'/>
-          <p className='city-name'>New York, NY</p>
+          <button className='city-name' onClick={() => onCityClick('New York, NY')}>New York, NY</button>
         </div>
         <div className='city-wrapper'>
           <div className='city-image maui'/>
-          <p className='city-name'>Maui, HI</p>
+          <button className='city-name' onClick={() => onCityClick('Maui, HI')}>Maui, HI</button>
         </div>
         <div className='city-wrapper'>
           <div className='city-image las-vegas'/>
-          <p className='city-name'>Las Vegas, NV</p>
+          <button className='city-name' onClick={() => onCityClick('Las Vegas, NV')}>Las Vegas, NV</button>
         </div>
         <div className='city-wrapper'>
           <div className='city-image new-orleans'/>
-          <p className='city-name'>New Orleans, LA</p>
+          <button className='city-name' onClick={() => onCityClick('New Orleans, LA')}>New Orleans, LA</button>
         </div>
         <div className='city-wrapper'>
           <div className='city-image key-west'/>
-          <p className='city-name'>Key West, FL</p>
+          <button className='city-name' onClick={() => onCityClick('Key West, FL')}>Key West, FL</button>
         </div>
         <div className='city-wrapper'>
           <div className='city-image san-diego'/>
-          <p className='city-name'>San Diego, CA</p>
+          <button className='city-name' onClick={() => onCityClick('San Diego, CA')}>San Diego, CA</button>
         </div>
         <div className='city-wrapper'>
           <div className='city-image savannah'/>
-          <p className='city-name'>Savannah, GA</p>
+          <button className='city-name' onClick={() => onCityClick('Savannah, GA')}>Savannah, GA</button>
         </div>
         <div className='city-wrapper'>
           <div className='city-image charleston'/>
-          <p className='city-name'>Charleston, NC</p>
+          <button className='city-name' onClick={() => onCityClick('Charleston, NC')}>Charleston, NC</button>
         </div>
       </div>
       <div className='title'>

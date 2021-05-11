@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { Modal } from "../../context/Modal";
-import LoginForm from "./LoginForm";
+import ReviewEditForm from "./ReviewEditForm";
 
-function LoginFormModal() {
+function ReviewEditFormModal({review}) {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
       <button className='edt-and-del-btns' onClick={() => setShowModal(true)}>
-        Log In |
+        Edit
       </button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <LoginForm />
+          <ReviewEditForm review={review} setShowModal={setShowModal}/>
         </Modal>
       )}
     </>
   );
 }
 
-export default LoginFormModal;
+export default ReviewEditFormModal;
