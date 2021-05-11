@@ -6,6 +6,9 @@ import boto3
 import botocore
 import os
 import uuid
+import urllib.request
+import json
+
 
 # setting up the s3 with the bucket
 s3 = boto3.client(
@@ -168,3 +171,10 @@ def delete_posting(pid):
     db.session.commit()
     return posting.to_dict()
 
+@posting_routes.route('/latlng', methods=['POST'])
+def render_json():
+  address = request.form['address']
+  api_key = os.environ.get('REACT_APP_GOOGLE_API_KEY')
+  information = urllib.request.urlopen(f'https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={api_key}')
+  data = json.loads(information.read().decode())
+  return data
