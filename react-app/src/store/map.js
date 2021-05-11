@@ -8,7 +8,7 @@ export const setBounds = bounds => ({
 })
 
 // reducer
-const initialState = {}
+const initialState = {bounds: null}
 const mapReducer = (state = initialState, action) => {
   switch(action.type){
     case MAP_BOUNDS:{

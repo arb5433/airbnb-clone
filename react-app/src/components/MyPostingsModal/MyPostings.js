@@ -4,7 +4,7 @@ import {NavLink} from 'react-router-dom';
 import {refreshUser} from '../../store/session';
 import {removePosting} from '../../store/posting';
 
-const MyPostings = () => {
+const MyPostings = ({setShowModal}) => {
 
   const dispatch = useDispatch()
   
@@ -21,15 +21,21 @@ const MyPostings = () => {
   }
 
   return (
-    <div>
-      <div>Your Postings: </div>
+    <div className='my-bookings-wrapper'>
+      <div className='login-title-wrapper'>
+        <button className='edt-and-del-btns exit-btn' onClick={() => setShowModal(false)}>X</button>
+        <div className='login-title'>My Postings</div>
+      </div>
       {user && user.postings.map(posting => (
-        <div key={posting.id}>
-          <NavLink to={`/postings/${posting.id}`}>
+        <div className='each-booking-wrapper' key={posting.id}>
+          <NavLink className='booking-link-to' to={`/postings/${posting.id}`}>
             <div>{posting.address}</div>
-            <div>{posting.price}</div>
+            <div>{`$${posting.price} / Night`}</div>
           </NavLink>
-          <button className='edt-and-del-btns' onClick={() => deleteClick(posting)}>Delete</button>
+          <div className='my-booking-delete-wrapper'>
+            <button className='edt-and-del-btns' onClick={() => deleteClick(posting)}>Delete</button>
+
+          </div>
         </div>
       ))}
     </div>

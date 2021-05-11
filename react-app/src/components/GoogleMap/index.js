@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
+import {useHistory} from 'react-router-dom';
 import {GoogleMap, Marker, useLoadScript} from '@react-google-maps/api';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPostings, relativePostings} from '../../store/posting';
@@ -11,17 +12,13 @@ const otherOptions = {
   zoomControl : true
 }
 
-// const center = {lat: 40.7127753, lng: -74.0059728}
 const mapContainerStyle={height:'calc(100vh - 50px)', width:'50vw'}
 
 const Map = ({lat, lng}) => {
 
   const dispatch = useDispatch()
+  const history = useHistory()
   const [count, setCount] = useState(0)
-  
-  // useEffect(() => {
-  //   dispatch(getPostings())
-  // }, [dispatch])
 
   const positions = useSelector(state => {
     const postings = state.postings.postingsList.map(postingId => state.postings[postingId]);
@@ -31,65 +28,57 @@ const Map = ({lat, lng}) => {
   });
 
   const postings = useSelector(state => {
-    // console.log(state.postings)
     return state.postings
   })
 
   const mapBounds = useSelector(state => {
-    // console.log(state.map.bounds)
     return state.map.bounds
   })
-  // console.log('*******POSTINGS ********', postings)
-  // console.log('********MAP**********', mapBounds)
+
+  const shownPostings = useSelector(state => {
+    return state.postings.shownPostings
+  })
 
   const postingArray = Object.values(postings)
   
+  const mapRef = useRef();
+  const onLoad = useCallback((map) => {
+    mapRef.current = map;
+  }, []);
+
+  const onBoundsChanged = () =>{
+    const northEast = mapRef.current.getBounds().getNorthEast()
+    const southWest = mapRef.current.getBounds().getSouthWest()
+    console.log(mapRef.current.getCenter().lat(), '--------CENTER------------')
+    const bounds = {lats : [southWest.lat(), northEast.lat()], lngs : [southWest.lng(), northEast.lng()]}
+    if(!Object.deepEq(mapBounds, bounds)) dispatch(setBounds(bounds))
+  }
+  
   useEffect(() => {
-    if (mapBounds && postingArray){
+    if (mapBounds){
       const relativePosting = postingArray.filter(posting => {
         return (mapBounds.lats[0] < posting.lat && posting.lat < mapBounds.lats[1] && mapBounds.lngs[0] < posting.lng && posting.lng < mapBounds.lngs[1])
       })
-      // console.log('**********RELATIVE*************', relativePostings)
       const showPostings = relativePosting.map(posting => posting.id)
-      // console.log(showPostings)
-      dispatch(relativePostings(showPostings))
+      if(!Object.deepEq(showPostings, shownPostings)) dispatch(relativePostings(showPostings))
     }
-  })
-
-  useEffect(() => {
-    setTimeout(() =>  {
-      
-    }, 2000)
-  },[])
-  
-
+    mapRef.current && onBoundsChanged()
+  },[mapBounds, postingArray, dispatch, onBoundsChanged, mapRef.current])
   
   const center = { lat: Number(lat), lng: Number(lng)}
-  const {REACT_APP_GOOGLE_API_KEY} = process.env;
+  const REACT_APP_GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 
   const {isLoaded, loadError} = useLoadScript({
     googleMapsApiKey : REACT_APP_GOOGLE_API_KEY,
     libraries : libraries
   })
 
-  const mapRef = useRef();
-	const onLoad = useCallback((map) => {
-		mapRef.current = map;
-	}, []);
 
-  const onBoundsChanged =(map) =>{
-    const northEast = mapRef.current.getBounds().getNorthEast()
-    const southWest = mapRef.current.getBounds().getSouthWest()
-    const bounds = {lats : [southWest.lat(), northEast.lat()], lngs : [southWest.lng(), northEast.lng()]}
-    dispatch(setBounds(bounds))
-    // console.log('dispatched bounds')
-    setCount(count+1)
+  const onClick = (marker) => {
+    history.push(`/postings/${marker.id}`)
   }
 
-
-
   if (loadError) return <h1>Error Loading Google Maps</h1>
-
 
   return (
     <div className='map-wrapper'>
@@ -104,7 +93,7 @@ const Map = ({lat, lng}) => {
             <Marker
               key={marker.id}
               position={{ lat: marker.lat, lng: marker.lng }}
-              // onClick go to the property page
+              onClick = {() => onClick(marker)}
             />
           ))}  
       </GoogleMap>}
