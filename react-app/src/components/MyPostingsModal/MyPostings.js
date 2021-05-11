@@ -2,6 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {NavLink} from 'react-router-dom';
 import {refreshUser} from '../../store/session';
+import {removePosting} from '../../store/posting';
 
 const MyPostings = () => {
 
@@ -16,6 +17,7 @@ const MyPostings = () => {
       method: 'DELETE'
     })
     dispatch(refreshUser(user.id))
+    dispatch(removePosting(posting.id))
   }
 
   return (

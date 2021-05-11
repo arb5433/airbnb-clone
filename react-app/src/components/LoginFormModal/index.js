@@ -7,8 +7,8 @@ function LoginFormModal() {
 
   return (
     <>
-      <button className='login_btn' onClick={() => setShowModal(true)}>
-        Log In
+      <button className='edt-and-del-btns' onClick={() => setShowModal(true)}>
+        Log In |
       </button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>

@@ -1,20 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import BookingCalendar from 'react-booking-calendar';
-import {getPostings} from '../../store/posting';
+import {getPostings, removePosting} from '../../store/posting';
 import {loadingBookings, addingBooking} from '../../store/bookings';
 import {getUserInfo, getBuildingInfo} from '../../store/info';
 import {addingReview, deletingReview, loadingReviews} from '../../store/reviews';
 import ReviewEditFormModal from '../ReviewEditModal';
 
 import './PostingPage.css'
+import { refreshUser } from '../../store/session';
 
 
 const PostingPage = () => {
 
   const {id} = useParams()
   const dispatch = useDispatch()
+  const history = useHistory()
   const [booked, setBooked] = useState([])
   const [bookedDates, setBookedDates] = useState([])
   const [bookDate, setBookDate] = useState('')
@@ -29,7 +31,7 @@ const PostingPage = () => {
     return state.postings;
   })
   const posting = postings[id]
-  console.log(posting)
+  // console.log(posting)
 
   useEffect(() => {
     if(posting){
@@ -115,6 +117,15 @@ const PostingPage = () => {
     dispatch(deletingReview(review.id))
   }
 
+  const postingDelete = async (e) => {
+    const res = await fetch(`/api/postings/${id}`, {
+      method: 'DELETE'
+    })
+    dispatch(removePosting(id))
+    dispatch(refreshUser(user.id))
+    history.push('/')
+  }
+
   return (
     <>
       {posting && (
@@ -131,6 +142,12 @@ const PostingPage = () => {
             <div className='posting-page-title-and-host-wrapper'>
               {host && <div className='posting-page-host'>{`${building.type} hosted by ${host.username}`}</div>}
               <div className='posting-page-details'>{`${posting.numBeds} Beds, ${posting.numGuests} Guests, ${posting.numBathrooms} Baths`}</div>
+              {host.id === user.id && (
+                <div className='host-post-buttons'>
+                  <button className='edt-and-del-btns'>Edit</button>
+                  <button className='edt-and-del-btns' onClick={postingDelete}>Delete</button>
+                </div>
+              )}
               <div className='posting-page-title'>{posting.title}</div>
             </div>
             <div className='poasting-page-description-and-details-wrapper'>

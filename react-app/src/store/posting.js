@@ -17,7 +17,7 @@ export const addPosting = posting => ({
   posting
 });
 
-const removePosting = id => ({
+export const removePosting = id => ({
   type: REMOVE_POSTING,
   id
 });
@@ -98,6 +98,14 @@ const postingReducer = (state = initialState, action) => {
         newState.postingsList = mapList(postingsList)
         return newState;
       }
+    }
+    case REMOVE_POSTING:{
+      const newState = {...state}
+      const postingsList = newState.postingsList.map(id => newState[id]);
+      const newPostingList = postingsList.filter(posting => posting.id !== action.id);
+      newState.postingsList = mapList(newPostingList)
+      delete newState[action.id];
+      return newState;
     }
     default : {
       return state

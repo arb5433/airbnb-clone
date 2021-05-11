@@ -38,8 +38,15 @@
 
 .city-name{
   margin-left:.5em;
-  font-weight: bold;
   padding-top: .5em;
+  background-color: white;
+  border: transparent;
+  text-decoration: none;
+  font-size: 1.5em;
+}
+
+.city-name:hover{
+  font-weight: bold;
 }
 
 .title{
