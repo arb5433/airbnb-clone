@@ -34,7 +34,6 @@ const MyPostings = ({setShowModal}) => {
           </NavLink>
           <div className='my-booking-delete-wrapper'>
             <button className='edt-and-del-btns' onClick={() => deleteClick(posting)}>Delete</button>
-
           </div>
         </div>
       ))}
