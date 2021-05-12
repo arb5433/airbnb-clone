@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {getPostings} from '../../store/posting';
-import {setBounds} from '../../store/map';
+
 
 import './HomePage.css';
 
@@ -14,8 +14,16 @@ const HomePage = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
+  const user = useSelector(state => {
+    return state.session.user
+  })
+
   const onClick = () => {
-    history.push('/postings/form')
+    if(!user){
+      alert('Please log in to host a property')
+    } else {
+      history.push('/postings/form')
+    }
   }
 
   useEffect(() => {
@@ -109,7 +117,7 @@ const HomePage = () => {
         </div>
       </div>
       <div className='footer'>
-        <a className='dev-name' href='https://github.com/arb5433/airbnb-clone/wiki'>My Wiki</a>
+        <a className='dev-name' href='https://github.com/arb5433/airbnb-clone/wiki'>ThereBnb Wiki</a>
         <div className='dev-name'>Created By: Adam Bailey</div>
         <a className='dev-name' href='https://github.com/arb5433'>Github Profile</a>
       </div>

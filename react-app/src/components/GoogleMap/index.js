@@ -15,7 +15,7 @@ const otherOptions = {
 const mapContainerStyle={height:'calc(100vh - 50px)', width:'50vw'}
 
 const Map = ({lat, lng}) => {
-  // const center={lat:40.7127753, lng:-74.0059728}
+  // let center={lat:40.7127753, lng:-74.0059728}
   
   const dispatch = useDispatch()
   const history = useHistory()
@@ -48,13 +48,13 @@ const Map = ({lat, lng}) => {
   }, []);
   
  
-  let center = { lat: Number(lat), lng: Number(lng)}
+  const center = { lat: Number(lat), lng: Number(lng)}
 
 
   const onBoundsChanged = () =>{
     const northEast = mapRef.current.getBounds().getNorthEast()
     const southWest = mapRef.current.getBounds().getSouthWest()
-    const center = mapRef.current.getCenter()
+    // const center = mapRef.current.getCenter()
     const bounds = {lats : [southWest.lat(), northEast.lat()], lngs : [southWest.lng(), northEast.lng()]}
     if(!Object.deepEq(mapBounds, bounds)) dispatch(setBounds(bounds))
   }
