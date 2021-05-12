@@ -13,8 +13,6 @@ const SearchPage = () => {
     return state.postings.shownPostings.map(postingId => state.postings[postingId]);
   })
 
-  // console.log('----------- POSTINGS ----------------', postings)
-// 
   return (
     <div className='search-page-wrapper'>
       <div className='search-page-postings-wrapper'>
