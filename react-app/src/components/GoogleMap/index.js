@@ -54,7 +54,7 @@ const Map = ({lat, lng}) => {
   const onBoundsChanged = () =>{
     const northEast = mapRef.current.getBounds().getNorthEast()
     const southWest = mapRef.current.getBounds().getSouthWest()
-    // const center = mapRef.current.getCenter()
+    const center = mapRef.current.getCenter()
     const bounds = {lats : [southWest.lat(), northEast.lat()], lngs : [southWest.lng(), northEast.lng()]}
     if(!Object.deepEq(mapBounds, bounds)) dispatch(setBounds(bounds))
   }
@@ -92,7 +92,8 @@ const Map = ({lat, lng}) => {
         center={center} 
         options={otherOptions} 
         onLoad={onLoad}
-        onBoundsChanged={onBoundsChanged}>
+        onBoundsChanged={onBoundsChanged}
+        >
         {positions.map((marker) => (
             <Marker
               key={marker.id}

@@ -2,7 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {NavLink} from 'react-router-dom';
 import {refreshUser} from '../../store/session';
-import {removePosting} from '../../store/posting';
+import {getPostings} from '../../store/posting';
 
 const MyPostings = ({setShowModal}) => {
 
@@ -17,7 +17,7 @@ const MyPostings = ({setShowModal}) => {
       method: 'DELETE'
     })
     dispatch(refreshUser(user.id))
-    dispatch(removePosting(posting.id))
+    dispatch(getPostings())
   }
 
   return (

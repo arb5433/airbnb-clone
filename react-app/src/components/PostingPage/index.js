@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import BookingCalendar from 'react-booking-calendar';
-import {getPostings, removePosting} from '../../store/posting';
+import {getPostings} from '../../store/posting';
 import {loadingBookings, addingBooking} from '../../store/bookings';
 import {getUserInfo, getBuildingInfo} from '../../store/info';
 import {addingReview, deletingReview, loadingReviews} from '../../store/reviews';
@@ -118,7 +118,7 @@ const PostingPage = () => {
     const res = await fetch(`/api/postings/${id}`, {
       method: 'DELETE'
     })
-    dispatch(removePosting(id))
+    dispatch(getPostings())
     dispatch(refreshUser(user.id))
     history.push('/')
   }
