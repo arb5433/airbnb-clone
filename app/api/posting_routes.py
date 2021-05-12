@@ -134,26 +134,15 @@ def post_posting():
 # PUT update a posting
 @posting_routes.route('/<int:pid>', methods=['PUT'])
 def update_posting(pid):
-  city = request.form['city']
-  address = request.form['address']
-  building_type_id = request.form['buildingTypeId']
-  num_guests = request.form['numGuests']
-  num_beds = request.form['numBeds']
-  num_bathrooms = request.form['numBathrooms']
+
   description = request.form['description']
   title = request.form['title']
-  price = request.form['price']
 
   posting = Posting.query.get(pid)
-  posting.address = address
-  posting.city = city
-  posting.buildingTypeId = building_type_id,
-  posting.numGuests = num_guests
-  posting.numBeds = num_beds
-  posting.numBathrooms = num_bathrooms
+
   posting.description = description
   posting.title = title
-  posting.price = price
+
 
   db.session.add(posting)
   db.session.commit()

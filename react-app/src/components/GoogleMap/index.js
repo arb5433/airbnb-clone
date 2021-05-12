@@ -15,11 +15,11 @@ const otherOptions = {
 const mapContainerStyle={height:'calc(100vh - 50px)', width:'50vw'}
 
 const Map = ({lat, lng}) => {
+  // const center={lat:40.7127753, lng:-74.0059728}
   
   const dispatch = useDispatch()
   const history = useHistory()
   const [count, setCount] = useState(0)
-  // const center={lat:40.7127753, lng:-74.0059728}
   
   const positions = useSelector(state => {
     const postings = state.postings.postingsList.map(postingId => state.postings[postingId]);
@@ -46,12 +46,15 @@ const Map = ({lat, lng}) => {
   const onLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
+  
+ 
+  let center = { lat: Number(lat), lng: Number(lng)}
+
 
   const onBoundsChanged = () =>{
     const northEast = mapRef.current.getBounds().getNorthEast()
     const southWest = mapRef.current.getBounds().getSouthWest()
     const center = mapRef.current.getCenter()
-    console.log(mapRef.current.getCenter().lat(), '--------CENTER------------')
     const bounds = {lats : [southWest.lat(), northEast.lat()], lngs : [southWest.lng(), northEast.lng()]}
     if(!Object.deepEq(mapBounds, bounds)) dispatch(setBounds(bounds))
   }
@@ -67,7 +70,6 @@ const Map = ({lat, lng}) => {
     mapRef.current && onBoundsChanged()
   },[mapBounds, postingArray, dispatch, onBoundsChanged, mapRef.current])
   
-  const center = { lat: Number(lat), lng: Number(lng)}
   const REACT_APP_GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 
   const {isLoaded, loadError} = useLoadScript({

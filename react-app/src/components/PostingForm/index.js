@@ -96,8 +96,6 @@ const PostingForm = () => {
     })
     const locationData = await foundResponse.json()
     const {lat, lng} = locationData.results[0].geometry.location
-    // console.log(lat)
-    // console.log(lng)
     formData.append('lng', lng)
     formData.append('lat', lat)
 
@@ -110,14 +108,12 @@ const PostingForm = () => {
 
     if (res.ok) { 
       setImageLoading(false)
-      console.log(res)
       const posting = await res.json()
       dispatch(refreshUser(user.id))
       dispatch(addPosting(posting))
       history.push(`/postings/${posting.id}`)
     } else {
       setImageLoading(false)
-      console.log('Oh no! Error loading.')
     }
   }
 

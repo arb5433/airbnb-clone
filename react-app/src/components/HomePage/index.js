@@ -31,9 +31,7 @@ const HomePage = () => {
       body: formData
     })
     const locationData = await foundResponse.json()
-    // console.log(locationData, '++++++++++++++++++++++++++++')
     const {lat, lng} = locationData.results[0].geometry.location
-    // console.log({lat, lng})
     history.push(`/postings/search/${lat}/${lng}`)
   }
 

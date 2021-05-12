@@ -1,9 +1,12 @@
+import { addingReview } from "./reviews"
+
 // CONSTANTS
 const LOAD_POSTINGS = 'postings/LOAD'
 const ADD_POSTING = 'postings/ADD'
 const REMOVE_POSTING = 'posting/REMOVE'
 const LOAD_BUILDING_TYPES = 'postings/LOAD_BUILD'
 const RELATIVE_POSTINGS = 'postings/RELATIVE_POSTINGS'
+const UPDATE_POSTING ='postings/UPDATE'
 
 // action creators
 
@@ -32,6 +35,11 @@ export const relativePostings = postings => ({
   postings
 })
 
+const updatePostings = posting => ({
+  type: UPDATE_POSTING,
+  posting
+})
+
 // thunks
 
 export const getPostings = () => async dispatch => {
@@ -52,6 +60,16 @@ export const getBuildingTypes = () => async dispatch => {
   }
 }
 
+export const updatePosting = (formData, id) => async dispatch => {
+  const response = await fetch(`/api/postings/${id}`, {
+    method: 'PUT',
+    body: formData
+  })
+  if(response.ok){
+    const posting = await response.json()
+    dispatch(updatePostings(posting))
+  }
+}
 // helper function
 
 const mapList = (list) => {
@@ -90,13 +108,19 @@ const postingReducer = (state = initialState, action) => {
     case ADD_POSTING:{
       if (!state[action.posting.id]) {
         const newState = {
-          ...state,
-          [action.posting.id]: action.posting
+        ...state,
+        [action.posting.id]: action.posting
         };
         const postingsList = newState.postingsList.map(id => newState[id]);
         postingsList.push(action.posting);
         newState.postingsList = mapList(postingsList)
         return newState;
+      }
+    }
+    case UPDATE_POSTING:{
+      return {
+        ...state,
+        [action.posting.id] : action.posting
       }
     }
     case REMOVE_POSTING:{

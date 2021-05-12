@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal } from "../../context/Modal";
 import EditPosting from "./EditPosting";
 
-function MyPostingsModal({posting}) {
+function EditPostingModal({posting}) {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -19,4 +19,4 @@ function MyPostingsModal({posting}) {
   );
 }
 
-export default MyPostingsModal;
+export default EditPostingModal;

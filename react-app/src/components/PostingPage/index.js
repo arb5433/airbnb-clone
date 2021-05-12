@@ -7,6 +7,7 @@ import {loadingBookings, addingBooking} from '../../store/bookings';
 import {getUserInfo, getBuildingInfo} from '../../store/info';
 import {addingReview, deletingReview, loadingReviews} from '../../store/reviews';
 import ReviewEditFormModal from '../ReviewEditModal';
+import EditPostingModal from '../EditPostingModal';
 
 import './PostingPage.css'
 import { refreshUser } from '../../store/session';
@@ -31,7 +32,6 @@ const PostingPage = () => {
     return state.postings;
   })
   const posting = postings[id]
-  // console.log(posting)
 
   useEffect(() => {
     if(posting){
@@ -74,22 +74,14 @@ const PostingPage = () => {
       newBookings.forEach(booking => {
         formattedBookings.push(booking.date)
       })
-      // console.log(formattedBookings)
       setBooked(formattedBookings)
       const bookingDatesReal = []
       formattedBookings.forEach(booking => {
         bookingDatesReal.push(new Date(booking+'T00:00:00'))
       })
-      // console.log(bookingDatesReal, '***********REAL***********')
       setBookedDates(bookingDatesReal)
     }
   },[dispatch, bookings])
-
-  // console.log(bookDate, '-9-9-9-9-9-9', typeof(bookDate))
-  // console.log(booked)
-  // console.log(booked.includes(bookDate))
-  // console.log(new Date(bookDate))
-  console.log(reviews, '-------------r-r-r-r-r---------')
   
   const bookSubmit = (e) => {
     e.preventDefault()
@@ -98,7 +90,6 @@ const PostingPage = () => {
     formData.append('userId', user.id)
     formData.append('postingId', id)
     dispatch(addingBooking(formData))
-    // alert('Your night has been booked!')
   }
 
   const reviewSubmit = (e) => {
@@ -112,8 +103,6 @@ const PostingPage = () => {
   }
 
   const reviewDelete = (review) => {
-    console.log(review)
-    console.log(review.id)
     dispatch(deletingReview(review.id))
   }
 
@@ -144,7 +133,7 @@ const PostingPage = () => {
               {host.id === user.id && (
                 <div className='host-post-buttons'>
                   <button className='edt-and-del-btns'>Add Photo |</button>
-                  <button className='edt-and-del-btns'>Edit Posting |</button>
+                  <EditPostingModal posting={posting}/>
                   <button className='edt-and-del-btns' onClick={postingDelete}>Delete Posting</button>
                 </div>
               )}

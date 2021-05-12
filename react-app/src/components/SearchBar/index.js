@@ -12,12 +12,9 @@ const SearchBar = () => {
   const history = useHistory()
 
   const onSelect = async (address) => {
-    // console.log(address)
     const city = address.split(',')[0]
-    // console.log(city)
     const results = await getGeocode({address});
     const {lat, lng} = await getLatLng(results[0]);
-    // console.log(lat, lng)
     setValue('')
     clearSuggestions()
     history.push(`/postings/search/${lat}/${lng}`)
