@@ -151,14 +151,15 @@ def update_posting(pid):
 
 # DELETE a specific posting
 @posting_routes.route('/<int:pid>', methods = ['DELETE'])
+@login_required
 def delete_posting(pid):
   posting = Posting.query.get(pid)
-  user_id = int(current_user.get_id())
+  # user_id = int(current_user.get_id())
   posting_user = posting.userId
-  if user_id == posting_user:
+  if current_user.id == posting_user:
     db.session.delete(posting)
-    db.session.commit()
-    return posting.to_dict()
+  db.session.commit()
+  return posting.to_dict()
 
 @posting_routes.route('/latlng', methods=['POST'])
 def render_json():

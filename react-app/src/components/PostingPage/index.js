@@ -85,21 +85,29 @@ const PostingPage = () => {
   
   const bookSubmit = (e) => {
     e.preventDefault()
-    const formData = new FormData
-    formData.append('date', bookDate)
-    formData.append('userId', user.id)
-    formData.append('postingId', id)
-    dispatch(addingBooking(formData))
+    if(!user){
+      alert('Please log in to book a property')
+    } else {
+      const formData = new FormData
+      formData.append('date', bookDate)
+      formData.append('userId', user.id)
+      formData.append('postingId', id)
+      dispatch(addingBooking(formData))
+    }
   }
 
   const reviewSubmit = (e) => {
     e.preventDefault()
-    const formData = new FormData
-    formData.append('userId', user.id)
-    formData.append('postingId', id)
-    formData.append('rating', rating)
-    formData.append('review', review)
-    dispatch(addingReview(formData))
+    if(!user){
+      alert('Please log in to review a property')
+    } else {
+      const formData = new FormData
+      formData.append('userId', user.id)
+      formData.append('postingId', id)
+      formData.append('rating', rating)
+      formData.append('review', review)
+      dispatch(addingReview(formData))
+    }
   }
 
   const reviewDelete = (review) => {
