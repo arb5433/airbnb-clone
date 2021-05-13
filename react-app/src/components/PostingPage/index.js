@@ -138,7 +138,7 @@ const PostingPage = () => {
           </div>
           <div className='posting-page-information-wrapper'>
             <div className='posting-page-title-and-host-wrapper'>
-              {host.id === user.id && (
+              {user && host.id === user.id && (
                 <div className='host-post-buttons'>
                   <button className='edt-and-del-btns'>Add Photo |</button>
                   <EditPostingModal posting={posting}/>
