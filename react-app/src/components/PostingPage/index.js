@@ -8,9 +8,11 @@ import {getUserInfo, getBuildingInfo} from '../../store/info';
 import {addingReview, deletingReview, loadingReviews} from '../../store/reviews';
 import ReviewEditFormModal from '../ReviewEditModal';
 import EditPostingModal from '../EditPostingModal';
+import AddPhotoModal from '../AddPhotoModal';
 
 import './PostingPage.css'
 import { refreshUser } from '../../store/session';
+import AddPhoto from '../AddPhotoModal/AddPhoto';
 
 
 const PostingPage = () => {
@@ -68,21 +70,21 @@ const PostingPage = () => {
   }
 
   useEffect(() => {
-    console.log('IN THE USEEFFECT **************')
+    // console.log('IN THE USEEFFECT **************')
     if (bookings){
-      console.log('INSIDE THE IF **************')
-      const formattedBookings = []
+      // console.log('INSIDE THE IF **************')
+      const formattedBookings = [];
       const newBookings = Object.values(bookings)
       newBookings.forEach(booking => {
         formattedBookings.push(booking.date)
       })
-      console.log(formattedBookings, '********formatted bookings*******************')
+      // console.log(formattedBookings, '********formatted bookings*******************')
       setBooked(formattedBookings)
       const bookingDatesReal = []
       formattedBookings.forEach(booking => {
         bookingDatesReal.push(new Date(booking+'T00:00:00'))
       })
-      console.log(bookingDatesReal, '***************BookingDatesReal********************')
+      // console.log(bookingDatesReal, '***************BookingDatesReal********************')
       setBookedDates(bookingDatesReal)
     }
   },[dispatch, bookings])
@@ -135,16 +137,20 @@ const PostingPage = () => {
           <div className='postings-page-intro'>{`Posting located in ${posting.city}`}</div>
           <div className='posting-page-images-wrapper'>
             <div className='posting-page-main-image-div' style={{backgroundImage:`url(${posting.mainImageUrl})`}}/>
-            <div className='posting-page-other-image-1'/>
-            <div className='posting-page-other-image-2'/>
-            <div className='posting-page-other-image-3'/>
-            <div className='posting-page-other-image-4'/>
+            {posting.images[0] && <div className='posting-page-other-image-1' style={{backgroundImage:`url(${posting.images[0].imageUrl})`}}/>}
+            {posting.images[0] === undefined && <div className='posting-page-other-image-1'/>}
+            {posting.images[1] && <div className='posting-page-other-image-2' style={{backgroundImage:`url(${posting.images[1].imageUrl})`}}/>}
+            {posting.images[1] === undefined && <div className='posting-page-other-image-2'/>}
+            {posting.images[2] && <div className='posting-page-other-image-3' style={{backgroundImage:`url(${posting.images[2].imageUrl})`}}/>}
+            {posting.images[2] === undefined && <div className='posting-page-other-image-3'/>}
+            {posting.images[3] && <div className='posting-page-other-image-4' style={{backgroundImage:`url(${posting.images[3].imageUrl})`}}/>}
+            {posting.images[3] === undefined && <div className='posting-page-other-image-4'/>}
           </div>
           <div className='posting-page-information-wrapper'>
             <div className='posting-page-title-and-host-wrapper'>
               {user && host.id === user.id && (
                 <div className='host-post-buttons'>
-                  <button className='edt-and-del-btns'>Add Photo |</button>
+                  <AddPhotoModal posting={posting}/>
                   <EditPostingModal posting={posting}/>
                   <button className='edt-and-del-btns' onClick={postingDelete}>Delete Posting</button>
                 </div>

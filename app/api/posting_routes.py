@@ -1,7 +1,7 @@
 from app.models.postingReview import PostingReview
 from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import db, User, Posting, Booking, BuildingType
+from app.models import db, User, Posting, Booking, BuildingType, Image
 import boto3
 import botocore
 import os
@@ -170,3 +170,32 @@ def render_json():
   information = urllib.request.urlopen(f'https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={api_key}')
   data = json.loads(information.read().decode())
   return data
+
+@posting_routes.route('/photo', methods=['POST'])
+@login_required
+def add_photo():
+  if "image" not in request.files:
+    return {"errors": "image required"}, 400
+
+  image = request.files['image']
+
+  if not allowed_file(image.filename):
+    return {"errors": "file type not permitted"}, 400
+
+  image.filename = get_unique_filename(image.filename)
+
+  upload = upload_file_to_s3(image)
+
+  if "url" not in upload:
+    # if the dictionary doesn't have a url key
+    # it means that there was an error when we tried to upload
+    # so we send back that error message
+    return upload, 400
+
+  url = upload["url"]
+  posting_id = request.form['postingId']
+
+  new_image = Image(postingId=posting_id, imageUrl=url)
+  db.session.add(new_image)
+  db.session.commit()
+  return {'message' : 'Success'}
