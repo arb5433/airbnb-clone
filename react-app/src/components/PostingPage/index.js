@@ -68,7 +68,9 @@ const PostingPage = () => {
   }
 
   useEffect(() => {
+    console.log('IN THE USEEFFECT **************')
     if (bookings){
+      console.log('INSIDE THE IF **************')
       const formattedBookings = []
       const newBookings = Object.values(bookings)
       newBookings.forEach(booking => {
