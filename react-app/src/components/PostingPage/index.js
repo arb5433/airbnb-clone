@@ -76,11 +76,13 @@ const PostingPage = () => {
       newBookings.forEach(booking => {
         formattedBookings.push(booking.date)
       })
+      console.log(formattedBookings, '********formatted bookings*******************')
       setBooked(formattedBookings)
       const bookingDatesReal = []
       formattedBookings.forEach(booking => {
         bookingDatesReal.push(new Date(booking+'T00:00:00'))
       })
+      console.log(bookingDatesReal, '***************BookingDatesReal********************')
       setBookedDates(bookingDatesReal)
     }
   },[dispatch, bookings])
