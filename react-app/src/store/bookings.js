@@ -46,7 +46,7 @@ export const addingBooking = (formData) => async (dispatch) => {
 }
 
 // initial state
-const initialState = {}
+const initialState = null
 const bookingReducer = (state = initialState, action) => {
   switch(action.type){
     case LOAD_BOOKINGS:{
