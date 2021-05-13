@@ -1,4 +1,3 @@
-from app.models.posting import Posting
 from app.models import db, PostingReview
 from faker import Faker
 from random import randint
