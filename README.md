@@ -1,43 +1,28 @@
-# Flask React Project
+# ThereBnB
 
-This is the backend for the Flask React project.
+## Project Overview
+***
+[ThereBnB](https://therebnb.herokuapp.com/) is a clone of the popular AirBnB app. I attemped to recreate as much of the same functionality with a similar feel as the original application. This full stack project was created to gain practical experience using Google Map API calls as well AWS and help improve my skills with React / Redux. 
 
-## Getting started
+The MVP features and design that I have managed to incorperate so far are the following: 
 
-1. Clone this repository (only this branch)
+### MVP Features
+* CRUD Posting functionality
+* View Postings
+* Search for Postings
+* Bookings
+* CRUD Review Functionality
 
-   ```bash
-   git clone https://github.com/appacademy-starters/python-project-starter.git
-   ```
+### Home Page
 
-2. Install dependencies
+For the design on the main page, I wanted to closely capture the feel of the airbnb application with links to various pages and filters and a nice welcoming display prompting users to begin the hostings process. The navigation bar at the top displays a clickable title/logo that will redirect you from any page to the home page, as well as a searchbar set up with Google Places API autofill and session links that either render login and signup buttons, or a logout button and buttons that pull up the current postings and bookings associated with your account. 
 
-      ```bash
-      pipenv install --dev -r dev-requirements.txt && pipenv install -r requirements.txt
-      ```
+![readme-therebnb1](https://user-images.githubusercontent.com/74081636/118336121-0f293e80-b4df-11eb-81c8-331e3d26795f.PNG)
+![readme-therebnb2](https://user-images.githubusercontent.com/74081636/118336346-78a94d00-b4df-11eb-93b6-3aa6bea4f1d9.PNG)
 
-3. Create a **.env** file based on the example with proper settings for your
-   development environment
-4. Setup your PostgreSQL user, password and database and make sure it matches your **.env** file
+### Searching for Postings
 
-5. Get into your pipenv, migrate your database, seed your database, and run your flask app
+The search functionality is implimented using a Google Map API and the react-google-map component. Utilizing react hooks and the redux store, I was able to mimic the functionallity of the airbnb map, dynamically rendering information on the postings that are shown on the map as you move around the map. 
 
-   ```bash
-   pipenv shell
-   ```
-
-   ```bash
-   flask db upgrade
-   ```
-
-   ```bash
-   flask seed all
-   ```
-
-   ```bash
-   flask run
-   ```
-
-6. To run the React App in development, checkout the [README](./react-app/README.md) inside the `react-app` directory.
-
-# airbnb-clone
+![readme-therebnb3](https://user-images.githubusercontent.com/74081636/118336721-3af8f400-b4e0-11eb-93cc-33cc6ca61ded.PNG)
+![readme-therebnbgif](https://github.com/arb5433/readmes/blob/main/therebnb.gif)
