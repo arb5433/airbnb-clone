@@ -27,6 +27,7 @@ const PostingPage = () => {
   const [review, setReview] = useState('')
   const [days, setDays] = useState(0)
   const [bookingDates, setBookingDates] = useState([])
+  const [totalRating, setTotalRating] = useState('Not yet');
 
   
   const postings = useSelector(state => {
@@ -128,6 +129,23 @@ const PostingPage = () => {
       
     }
   }, [days, bookDate])
+
+  useEffect(() => {
+    if (reviews){
+      let total = 0;
+      let count = 0;
+      // console.log(reviews)
+      Object.values(reviews).forEach(review => {
+        total += review.rating;
+        count++;
+      });
+      const newRating = total > 1 ? total/count : 0;
+      const rounded = Math.round(newRating * 10) / 10
+      if(rounded > 0){
+        setTotalRating(rounded);
+      }
+    }
+  }, [reviews])
   
   const bookSubmit = (e) => {
     e.preventDefault()
@@ -199,7 +217,7 @@ const PostingPage = () => {
                   <button className='edt-and-del-btns' onClick={postingDelete}>Delete Posting</button>
                 </div>
               )}
-              {host && <div className='posting-page-host'>{`${building.type} hosted by ${host.username}`}</div>}
+              {host && <div className='posting-page-host'>{`${totalRating} rated ${building.type} hosted by ${host.username}`}</div>}
               <div className='posting-page-details'>{`${posting.numBeds} Beds, ${posting.numGuests} Guests, ${posting.numBathrooms} Baths`}</div>
               <div className='posting-page-title'>{posting.title}</div>
             </div>
