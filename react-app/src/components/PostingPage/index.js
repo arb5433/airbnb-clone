@@ -9,10 +9,10 @@ import {addingReview, deletingReview, loadingReviews} from '../../store/reviews'
 import ReviewEditFormModal from '../ReviewEditModal';
 import EditPostingModal from '../EditPostingModal';
 import AddPhotoModal from '../AddPhotoModal';
+import { refreshUser } from '../../store/session';
 
 import './PostingPage.css'
-import { refreshUser } from '../../store/session';
-import AddPhoto from '../AddPhotoModal/AddPhoto';
+
 
 
 const PostingPage = () => {
@@ -169,7 +169,7 @@ const PostingPage = () => {
                 <div className='booking-price'>{`$${posting.price} / night`}</div>
                 <form className='real-booking-form'>
                   <input type='date' value={bookDate} onChange={(e) => setBookDate(e.target.value)}/>
-                  <button className='book-btn' onClick ={bookSubmit} disabled={booked.includes(bookDate)}>Book</button>
+                  <button className='book-btn' onClick ={bookSubmit} disabled={!user || booked.includes(bookDate)}>Book</button>
                 </form>
               </div>
             </div>
@@ -181,7 +181,7 @@ const PostingPage = () => {
                   <div className='review-review'>{`"${review.review}"`}</div>
                   <div className='rating-wrapper'>
                     <div className='rating'>{`Rating : ${review.rating}/5`}</div>
-                    {user.id == review.userId && (
+                    {user && user.id == review.userId && (
                       <div>
                         <ReviewEditFormModal review={review}/>
                         <button className='edt-and-del-btns' onClick={(e) => reviewDelete(review)} >Delete</button>
@@ -190,7 +190,7 @@ const PostingPage = () => {
                   </div>
                 </div>
               ))}
-            <form className='review-form'>
+            {user && <form className='review-form'>
               <textarea className='review-ta' placeholder='Leave a review for this property.' value={review} onChange={(e) => setReview(e.target.value)}/>
               <div className='form-rating-wrapper'>
                 <div className='rating-rating'>Rating :  
@@ -198,7 +198,7 @@ const PostingPage = () => {
                 </div>
                 <button className='review-btn' onClick={reviewSubmit}>Post Review</button>
               </div>
-            </form>
+            </form>}
           </div>
           <div className='footer'>
             <a className='dev-name' href='https://github.com/arb5433/airbnb-clone/wiki'>ThereBnB Wiki</a>
