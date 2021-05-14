@@ -175,9 +175,25 @@
 }
 
 .book-btn{
-  margin-left: 10px;
+  margin-top:20px;
 }
 
 .host-post-buttons{
   margin-left: 20px;
+}
+
+.booking-btn-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.booking-div{
+  margin: 10px;
+  margin-bottom: 5px;
+}
+
+.booking-input{
+  margin: 10px;
+  width: 100%;
 }
