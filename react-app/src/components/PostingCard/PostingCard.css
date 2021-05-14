@@ -1,10 +1,12 @@
 .posting-card-wrapper{
-  border: 1px solid black;
+  /* border: 1px solid black; */
   margin: 1em;
   display: grid;
   grid-template-columns: 200px 1fr;
   text-decoration: none;
   color: black;
+  padding-bottom: 15px;
+  border-bottom: 1px solid lightgray;
 }
 
 .posting-card-image-wrapper{
@@ -13,6 +15,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   display: inline-block;
+  border-radius: .5em;
   grid: 1;
 }
 
