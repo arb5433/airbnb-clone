@@ -63,15 +63,11 @@ const PostingPage = () => {
   
   const tomorrow = (date) => {
     const day = new Date(date.valueOf());
-    // console.log('*****TOMORROW _ DAY *****************', day)
     day.setDate(day.getDate() + 1);
-    // console.log('****** TOMORROW _ TOMORROW *********', day)
     const year = day.getFullYear()
     let month = day.getMonth() + 1;
-    // console.log("*********** MONTH ***************", month)
     let newDate = day.getDate()
     if (String(month).length === 1) month = '0' + month
-    // console.log("*********** MONTH ***************", month)
     if (String(newDate).length === 1) newDate = '0' + newDate
     return `${year}-${month}-${newDate}`
   }
@@ -115,18 +111,11 @@ const PostingPage = () => {
       let dayCount = days
       while (dayCount > 1){
         const dayBefore = new Date(bookings[bookings.length - 1]+'T00:00:01')
-        console.log('******DATE************', dayBefore)
         const nextDay = tomorrow(dayBefore)
-        console.log('*******TOMORROW***********', nextDay)
         bookings.push(nextDay)
         dayCount -= 1
       }
-      console.log(bookings, '+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_**')
-      console.log('********* booked **********', booked)
       setBookingDates(bookings)
-      const intersection = bookings.filter(date => booked.includes(date))
-      console.log('***** INTER *********', intersection)
-      
     }
   }, [days, bookDate])
 
@@ -134,7 +123,6 @@ const PostingPage = () => {
     if (reviews){
       let total = 0;
       let count = 0;
-      // console.log(reviews)
       Object.values(reviews).forEach(review => {
         total += review.rating;
         count++;
