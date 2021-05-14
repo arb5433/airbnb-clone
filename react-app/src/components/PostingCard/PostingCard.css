@@ -21,7 +21,7 @@
 }
 
 .posting-info-wrapper{
-  overflow-y: scroll;
+  overflow-y: auto;
   grid: 2;
   box-sizing: border-box;
   margin: 1em;
