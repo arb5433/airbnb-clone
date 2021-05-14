@@ -14,8 +14,8 @@ const otherOptions = {
 
 const mapContainerStyle={height:'calc(100vh - 50px)', width:'50vw'}
 
+const center={lat:40.7127753, lng:-74.0059728}
 const Map = ({lat, lng}) => {
-  // let center={lat:40.7127753, lng:-74.0059728}
   
   const dispatch = useDispatch()
   const history = useHistory()
@@ -48,7 +48,7 @@ const Map = ({lat, lng}) => {
   }, []);
   
  
-  const center = { lat: Number(lat), lng: Number(lng)}
+  // const center = { lat: Number(lat), lng: Number(lng)}
 
 
   const onBoundsChanged = () =>{
@@ -77,6 +77,12 @@ const Map = ({lat, lng}) => {
     libraries : libraries
   })
 
+  useEffect(() => {
+    if (mapRef.current && isLoaded && count < 1){
+      mapRef.current.panTo({lat: Number(lat), lng: Number(lng)})
+      setCount(count + 1)
+    }
+  },[isLoaded, count, mapRef.current])
 
   const onClick = (marker) => {
     history.push(`/postings/${marker.id}`)
