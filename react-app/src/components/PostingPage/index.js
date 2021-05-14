@@ -25,16 +25,64 @@ const PostingPage = () => {
   const [bookDate, setBookDate] = useState('')
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState('')
+  const [days, setDays] = useState(0)
+  const [bookingDates, setBookingDates] = useState([])
 
-  useEffect(() => {
-    dispatch(getPostings())
-  }, [])
-
+  
   const postings = useSelector(state => {
     return state.postings;
   })
   const posting = postings[id]
+  
+  
+  const user = useSelector(state => {
+    return state.session.user
+  })
+  
+  const host = useSelector(state => {
+    return state.info.user
+  })
+  
+  const building = useSelector(state => {
+    return state.info.building
+  })
+  
+  const bookings = useSelector(state => {
+    return state.bookings
+  })
+  
+  const reviews = useSelector(state => {
+    return state.reviews
+  })
+  
+  let reviewsArray;
+  if(reviews){
+    reviewsArray = Object.values(reviews)
+  }
+  
+  const tomorrow = (date) => {
+    const day = new Date(date.valueOf());
+    // console.log('*****TOMORROW _ DAY *****************', day)
+    day.setDate(day.getDate() + 1);
+    // console.log('****** TOMORROW _ TOMORROW *********', day)
+    const year = day.getFullYear()
+    let month = day.getMonth() + 1;
+    // console.log("*********** MONTH ***************", month)
+    let newDate = day.getDate()
+    if (String(month).length === 1) month = '0' + month
+    // console.log("*********** MONTH ***************", month)
+    if (String(newDate).length === 1) newDate = '0' + newDate
+    return `${year}-${month}-${newDate}`
+  }
 
+  const intersection = (bookings, booked) => {
+    return bookings.filter(date => booked.includes(date))
+  }
+
+  useEffect(() => {
+    dispatch(getPostings())
+  }, [])
+  
   useEffect(() => {
     if(posting){
       dispatch(getUserInfo(posting.userId))
@@ -43,63 +91,59 @@ const PostingPage = () => {
       dispatch(loadingReviews(posting.id))
     }
   },[dispatch, posting])
-
-  const user = useSelector(state => {
-    return state.session.user
-  })
-
-  const host = useSelector(state => {
-    return state.info.user
-  })
-
-  const building = useSelector(state => {
-    return state.info.building
-  })
-
-  const bookings = useSelector(state => {
-    return state.bookings
-  })
-
-  const reviews = useSelector(state => {
-    return state.reviews
-  })
-
-  let reviewsArray;
-  if(reviews){
-    reviewsArray = Object.values(reviews)
-  }
-
+  
   useEffect(() => {
-    // console.log('IN THE USEEFFECT **************')
     if (bookings){
-      // console.log('INSIDE THE IF **************')
       const formattedBookings = [];
       const newBookings = Object.values(bookings)
       newBookings.forEach(booking => {
         formattedBookings.push(booking.date)
       })
-      // console.log(formattedBookings, '********formatted bookings*******************')
       setBooked(formattedBookings)
       const bookingDatesReal = []
       formattedBookings.forEach(booking => {
-        bookingDatesReal.push(new Date(booking+'T00:00:00'))
+        bookingDatesReal.push(new Date(booking+'T00:00:01'))
       })
-      // console.log(bookingDatesReal, '***************BookingDatesReal********************')
       setBookedDates(bookingDatesReal)
     }
   },[dispatch, bookings])
+
+  useEffect(() => {
+    if (days && bookDate){
+      const bookings = [bookDate]
+      let dayCount = days
+      while (dayCount > 1){
+        const dayBefore = new Date(bookings[bookings.length - 1]+'T00:00:01')
+        console.log('******DATE************', dayBefore)
+        const nextDay = tomorrow(dayBefore)
+        console.log('*******TOMORROW***********', nextDay)
+        bookings.push(nextDay)
+        dayCount -= 1
+      }
+      console.log(bookings, '+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_**')
+      console.log('********* booked **********', booked)
+      setBookingDates(bookings)
+      const intersection = bookings.filter(date => booked.includes(date))
+      console.log('***** INTER *********', intersection)
+      
+    }
+  }, [days, bookDate])
   
   const bookSubmit = (e) => {
     e.preventDefault()
     if(!user){
       alert('Please log in to book a property')
     } else {
-      const formData = new FormData
-      formData.append('date', bookDate)
-      formData.append('userId', user.id)
-      formData.append('postingId', id)
-      dispatch(addingBooking(formData))
+      bookingDates.forEach(date => {
+        const formData = new FormData
+        formData.append('date', date)
+        formData.append('userId', user.id)
+        formData.append('postingId', id)
+        dispatch(addingBooking(formData))
+      })
     }
+    setDays(0)
+    setBookDate('')
   }
 
   const reviewSubmit = (e) => {
@@ -168,8 +212,15 @@ const PostingPage = () => {
                 <div className='booking-title'>Book a stay at this property</div>
                 <div className='booking-price'>{`$${posting.price} / night`}</div>
                 <form className='real-booking-form'>
-                  <input type='date' value={bookDate} onChange={(e) => setBookDate(e.target.value)}/>
-                  <button className='book-btn' onClick ={bookSubmit} disabled={!user || booked.includes(bookDate)}>Book</button>
+                  <div className='booking-div'>Starting Date :
+                    <input className='booking-input' type='date' value={bookDate} onChange={(e) => setBookDate(e.target.value)}/>
+                  </div>
+                  <div className='booking-div'>Number of Days :
+                    <input className='booking-input' type='number' value={days} onChange={(e) => setDays(e.target.value)}/>
+                  </div>
+                  <div className='booking-btn-wrapper'>
+                    <button className='book-btn' onClick ={bookSubmit} disabled={!user || intersection(bookingDates, booked).length > 0}>Book</button>
+                  </div>
                 </form>
               </div>
             </div>
@@ -184,7 +235,7 @@ const PostingPage = () => {
                     {user && user.id == review.userId && (
                       <div>
                         <ReviewEditFormModal review={review}/>
-                        <button className='edt-and-del-btns' onClick={(e) => reviewDelete(review)} >Delete</button>
+                        <button className='edt-and-del-btns' onClick={() => reviewDelete(review)} >Delete</button>
                       </div>
                     )}
                   </div>
