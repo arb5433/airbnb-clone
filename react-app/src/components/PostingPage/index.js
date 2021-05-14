@@ -213,7 +213,7 @@ const PostingPage = () => {
               <div className='posting-page-description'>{posting.description}</div>
             </div>
             <div className='posting-page-price-and-booking-wrapper'>
-              <BookingCalendar bookings={bookedDates}/>
+              <BookingCalendar bookings={bookedDates} className='booking-calendar'/>
               <div className='booking-form'>
                 <div className='booking-title'>Book a stay at this property</div>
                 <div className='booking-price'>{`$${posting.price} / night`}</div>
