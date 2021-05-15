@@ -24,5 +24,9 @@ For the design on the main page, I wanted to closely capture the feel of the air
 
 The search functionality is implimented using a Google Map API and the react-google-map component. Utilizing react hooks and the redux store, I was able to mimic the functionallity of the airbnb map, dynamically rendering information on the postings that are shown on the map as you move around the map. 
 
-![readme-therebnb3](https://user-images.githubusercontent.com/74081636/118336721-3af8f400-b4e0-11eb-93cc-33cc6ca61ded.PNG)
-![readme-therebnbgif](https://github.com/arb5433/readmes/blob/main/therebnb.gif)
+![readme-therebnb4](https://user-images.githubusercontent.com/74081636/118344710-c0d76800-b4fd-11eb-8007-298e43e784a4.PNG)
+![readme-therebnbgif](https://github.com/arb5433/readmes/blob/main/newgif.gif)
+
+### Posting Display Page
+
+On the posting display page, you are able to add photos, edit certain information about the posting, and delete the posting, if the posting was initially posted by you. This page also has a calendar to show which dates are booked, as well as the functionallity to book new dates given they have not already been booked. The final bit of functionality on this page is a comprehensive list of reviews, which includes all CRUD functionality at the bottom incase a user would like to leave a review for a sepcific posting.
