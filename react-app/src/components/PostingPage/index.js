@@ -209,6 +209,12 @@ const PostingPage = () => {
               )}
               {host && <div className='posting-page-host'>{`${totalRating} rated ${building.type} hosted by ${host.username}`}</div>}
               <div className='posting-page-details'>{`${posting.numBeds} Beds, ${posting.numGuests} Guests, ${posting.numBathrooms} Baths`}</div>
+              <div className='posting-page-tags'>
+                <div className='posting-tag-title' >Tags : </div>
+                {posting.tags && Object.values(posting.tags).map(tag => (
+                  <div className='posting-tag' key={tag.id}>{`${tag.type} `}</div>
+                ))}
+              </div>
               <div className='posting-page-title'>{posting.title}</div>
             </div>
             <div className='poasting-page-description-and-details-wrapper'>

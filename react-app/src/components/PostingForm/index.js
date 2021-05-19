@@ -92,6 +92,7 @@ const PostingForm = () => {
     formData.append('description', description)
     formData.append('title', title)
     formData.append('price', ppu)
+    formData.append('tags', tags)
     
     const formattedAddress = formateAddress(address, city, state) 
     const formData1 = new FormData()

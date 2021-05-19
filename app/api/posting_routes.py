@@ -107,6 +107,7 @@ def post_posting():
   price = request.form['price']
   lat = request.form['lat']
   lng = request.form['lng']
+  post_tags = request.form['tags']
 
   # set up this function with ASW
 
@@ -128,6 +129,17 @@ def post_posting():
 
   db.session.add(posting)
   db.session.commit()
+
+  new_tags = post_tags.split(',')
+  print(new_tags[0])
+  print(len(new_tags))
+  if new_tags[0] != '':
+    for tag in new_tags: 
+      new_tag = TagType.query.filter(TagType.type == tag).all()[0]
+      posting.tagTypes.append(new_tag)
+      db.session.commit()
+
+
 
   return posting.to_dict()
 
