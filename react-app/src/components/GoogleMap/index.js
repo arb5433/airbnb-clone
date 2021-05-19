@@ -54,7 +54,6 @@ const Map = ({lat, lng}) => {
   const onBoundsChanged = () =>{
     const northEast = mapRef.current.getBounds().getNorthEast()
     const southWest = mapRef.current.getBounds().getSouthWest()
-    const center = mapRef.current.getCenter()
     const bounds = {lats : [southWest.lat(), northEast.lat()], lngs : [southWest.lng(), northEast.lng()]}
     if(!Object.deepEq(mapBounds, bounds)) dispatch(setBounds(bounds))
   }
