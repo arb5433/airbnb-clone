@@ -7,9 +7,10 @@ class TagType(db.Model):
 
   id = db.Column(db.Integer, primary_key=True)
   type = db.Column(db.String(100), nullable=False)
-  tags = db.relationship('Posting', secondary=tags, back_populates='tagTypes')
+  postings = db.relationship('Posting', secondary=tags, back_populates='tagTypes')
 
   def to_dict(self):
     return {
+      'id' : self.id,
       'type' : self.type
     }

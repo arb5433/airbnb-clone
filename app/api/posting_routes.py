@@ -1,7 +1,7 @@
 from app.models.postingReview import PostingReview
 from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import db, User, Posting, Booking, BuildingType, Image
+from app.models import db, User, Posting, Booking, BuildingType, Image, TagType
 import boto3
 import botocore
 import os
@@ -199,3 +199,8 @@ def add_photo():
   db.session.add(new_image)
   db.session.commit()
   return {'message' : 'Success'}
+
+@posting_routes.route('/tags/types')
+def get_tag_types():
+  tag_types = TagType.query.all()
+  return {tagType.id : tagType.to_dict() for tagType in tag_types}

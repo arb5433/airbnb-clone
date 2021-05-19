@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {useHistory} from 'react-router-dom';
 import {GoogleMap, Marker, useLoadScript} from '@react-google-maps/api';
 import {useDispatch, useSelector} from 'react-redux';
-import {getPostings, relativePostings} from '../../store/posting';
+import {relativePostings} from '../../store/posting';
 import {setBounds} from '../../store/map'
 
 const libraries = ['places']
@@ -77,7 +77,7 @@ const Map = ({lat, lng}) => {
   })
 
   useEffect(() => {
-    if (mapRef.current && isLoaded && count < 1){
+    if (mapRef.current && isLoaded && count < 1 && lat && lng){
       mapRef.current.panTo({lat: Number(lat), lng: Number(lng)})
       setCount(count + 1)
     }

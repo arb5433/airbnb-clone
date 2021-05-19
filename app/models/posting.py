@@ -39,7 +39,7 @@ class Posting(db.Model):
   bookings = db.relationship('Booking', backref='postings',cascade="all, delete", passive_deletes=True)
   images = db.relationship('Image', backref='postings',cascade="all, delete", passive_deletes=True)
   reviews = db.relationship('PostingReview', backref='postings',cascade="all, delete", passive_deletes=True)
-  tags = db.relationship('TagType', secondary=tags, back_populates='postings')
+  tagTypes = db.relationship('TagType', secondary=tags, back_populates='postings')
 
 
   def to_dict(self):
@@ -61,5 +61,5 @@ class Posting(db.Model):
       'bookings' : [booking.to_dict() for booking in self.bookings],
       'images' : [image.to_dict() for image in self.images],
       'reviews' : [review.to_dict() for review in self.reviews],
-      'tags' : self.tags
+      'tags' : [tagType.to_dict() for tagType in self.tagTypes]
     }
