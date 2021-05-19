@@ -71,19 +71,13 @@ const Map = ({lat, lng}) => {
       let relativePosting = postingArray.filter(posting => {
         return (mapBounds.lats[0] < posting.lat && posting.lat < mapBounds.lats[1] && mapBounds.lngs[0] < posting.lng && posting.lng < mapBounds.lngs[1])
       })
-      // console.log('*********** RP *****************', relativePosting)
-      // console.log(filters)
       let filterKeys = []
-      // console.log(filters, '******* FILTERS *************')
       if (filters) filterKeys = Object.keys(filters)
-      // console.log(filterKeys, '************FILTER KEYS *************')
       if (filterKeys.length > 0){
-        console.log('inside the if')
           const newPostings = relativePosting.filter(posting => {
             const postingKeys = Object.keys(posting.tags)
-            // console.log(postingKeys, '********* POSTING KEYS **********')
             const check = intersection(filterKeys, postingKeys)
-            return check.length > 0
+            return check.length === filterKeys.length
         })
         const showPostings = newPostings.map(posting => posting.id)
         if(!Object.deepEq(showPostings, shownPostings)) dispatch(relativePostings(showPostings))

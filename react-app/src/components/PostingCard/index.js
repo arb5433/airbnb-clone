@@ -17,8 +17,6 @@ const PostingCard = ({posting}) => {
   return (
     <NavLink className='posting-card-wrapper' to={`/postings/${posting.id}`}>
       <div className='posting-card-image-wrapper' style={{backgroundImage:`url(${posting.mainImageUrl})`}}/>
-        {/* <img className='posting-card-image' src={posting.mainImageUrl}/> */}
-      {/* </div> */}
       <div className='posting-info-wrapper'>
         <div className='posting-card-title'>{posting.title}</div>
         <div className='posting-card-basic-info'>{`${posting.numBeds} Beds, ${posting.numGuests} Guests, ${posting.numBathrooms} Baths`}</div>

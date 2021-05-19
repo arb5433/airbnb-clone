@@ -26,3 +26,35 @@
   border-bottom: 1px solid lightgray;
   margin: .5em;
 }
+
+.filter-div{
+  border: 1px solid lightgray;
+  border-radius: 1em;
+  display: flex;
+  height: 15px;
+  width: auto;
+  font-size: 10px;
+}
+.filter-and-options-wrapper{
+  /* width: 90%;
+  margin-left: 5%; */
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.filter-rmv-btn{
+  text-decoration: none;
+  border: transparent;
+  background-color: white;
+  font-size: 7px;
+  font-weight: bold;
+  border-radius: 1em;
+}
+
+
+.top-filter-wrapper{
+  width: 95%;
+  margin-left: 2.5%;
+  border-bottom: 1px solid lightgray;
+}

@@ -53,7 +53,7 @@ const filterReducer = (state=initialState, action) => {
     }
     case REMOVE_FILTER:{
       const newFilters = {...state.filters}
-      delete newFilters[state.id]
+      delete newFilters[action.id]
       return{
         ...state,
         filters : newFilters
