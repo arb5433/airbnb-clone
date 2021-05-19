@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {getBuildingTypes, addPosting} from '../../store/posting';
 import {refreshUser} from '../../store/session';
+import {loadingTags} from '../../store/filters';
 
 
 import './PostingForm.css'
@@ -30,9 +31,11 @@ const PostingForm = () => {
   const [ppu, setPpu] = useState('')
   const [edit, setEdit] = useState(false)
   const [imageLoading, setImageLoading] = useState(false)
+  const [tags, setTags] = useState([])
 
   useEffect(() => {
     dispatch(getBuildingTypes())
+    dispatch(loadingTags())
   }, [dispatch])
 
   useEffect(() => {
@@ -42,12 +45,17 @@ const PostingForm = () => {
     }
   },[buildingType])
 
+
   const user = useSelector(state => {
     return state.session.user;
   });
 
   const buildingTypes = useSelector(state => {
     return state.postings.buildingTypes;
+  })
+
+  const allTags = useSelector(state => {
+    return state.filters.tagTypes
   })
 
   const formContinue = (e) => {
@@ -68,8 +76,6 @@ const PostingForm = () => {
     const newCity = city.split(' ').join('+')
     return `${newAddress},+${newCity},+${state}`
   }
-  
-  const REACT_APP_GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -117,6 +123,12 @@ const PostingForm = () => {
     }
   }
 
+  const changeTags = (type) => {
+    if (!tags.includes(type)) setTags([...tags,type])
+    else setTags(tags.filter(tag => tag != type))
+    console.log(tags)
+  }
+
   return (
     <div className='posting-form-wrapper'>
       {page===0 && (
@@ -137,7 +149,7 @@ const PostingForm = () => {
             
             </form>
               {!edit && <button className='continue-btn first-continue' disabled={!city} onClick={formContinue}>Continue</button>}
-              {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
+              {edit && <button className='continue-btn first-continue' onClick={() => setPage(7)}>Update</button>}
           </div>
           <div className='right-form'>
             <div className='location-form-image form-image'/>
@@ -164,7 +176,7 @@ const PostingForm = () => {
             <div className='form-btn-wrapper'>
               {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
               {!edit && <button className='continue-btn' disabled={!buildingType} onClick={formContinue}>Continue</button>}
-              {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
+              {edit && <button className='continue-btn first-continue' onClick={() => setPage(7)}>Update</button>}
             </div>
           </div>
         </div>
@@ -192,7 +204,7 @@ const PostingForm = () => {
             <div className='form-btn-wrapper'>
               {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
               {!edit && <button className='continue-btn' disabled={!guests} onClick={formContinue}>Continue</button>}
-              {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
+              {edit && <button className='continue-btn first-continue' onClick={() => setPage(7)}>Update</button>}
             </div>
           </div>
           <div className='right-form'>
@@ -216,7 +228,7 @@ const PostingForm = () => {
             <div className='form-btn-wrapper'>
               {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
               {!edit && <button className='continue-btn' disabled={!title} onClick={formContinue}>Continue</button>}
-              {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
+              {edit && <button className='continue-btn first-continue' onClick={() => setPage(7)}>Update</button>}
             </div>
           </div>
         </div>
@@ -233,7 +245,7 @@ const PostingForm = () => {
             <div className='form-btn-wrapper'>
               {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
               {!edit && <button className='continue-btn' disabled={!image} onClick={formContinue}>Continue</button>}
-              {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
+              {edit && <button className='continue-btn first-continue' onClick={() => setPage(7)}>Update</button>}
             </div>
           </div>
           <div className='right-form'>
@@ -249,23 +261,48 @@ const PostingForm = () => {
           <div className='right-form'>
             <div className='form-title'>Price Per Night</div>
             <div className='form-step'>Step 6</div>
-            <div className='form-question'>Last, but certainly not least, name the price per night for renting your property.</div>
+            <div className='form-question'>Name the price per night for renting your property.</div>
             <form>
               <input type='number' className='form-input title-input' placeholder='Price Per Night' value={ppu} onChange={(e) => setPpu(e.target.value)}/>
             </form>
             <div className='form-btn-wrapper'>
               {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
               {!edit && <button className='continue-btn' disabled={!ppu} onClick={formContinue}>Continue</button>}
-              {edit && <button className='continue-btn first-continue' onClick={() => setPage(6)}>Update</button>}
+              {edit && <button className='continue-btn first-continue' onClick={() => setPage(7)}>Update</button>}
             </div>
           </div>
         </div>
       )}
-      {page===6 &&(
+      {page===6 && (
+        <div className='form-wrapper'>
+          <div className='left-form'>
+            <div className='form-title'>Select Tags That Apply</div>
+            <div className='form-step'>Step 7</div>
+            <div className='form-question'>Finally, select any tags that will help draw people to your property.</div>
+            <form className='location-form'>
+              {allTags && Object.values(allTags).map(tag => (
+                <div key={tag.id}>
+                  <div>{tag.type}</div>
+                  <input type='checkbox' value={tag.type} onChange={(e) => changeTags(e.target.value)} checked={tags.includes(tag.type)}/>
+                </div>
+              ))}
+            </form>
+            <div className='form-btn-wrapper'>
+              {!edit && <button className='continue-btn' onClick={formBack}>Back</button>}
+              {!edit && <button className='continue-btn' disabled={!ppu} onClick={formContinue}>Continue</button>}
+              {edit && <button className='continue-btn first-continue' onClick={() => setPage(7)}>Update</button>}
+            </div>
+          </div>
+          <div className='right-form'>
+            <div className='form-image tags-form-image'/>
+          </div>
+        </div>
+      )}
+      {page===7 &&(
         <div className='form-wrapper edit-form-start'>
           <div className='left-form'>
             <div className='form-title'>Confirm your information</div>
-            <div className='form-step'>Step 7</div>
+            <div className='form-step'>Step 8</div>
             <div className='form-question'>Please take a minute to double check all of the information that you have entered.</div>
             <div>
               <button className='confirm-btn' onClick={submitForm}>Confirm</button>
@@ -353,9 +390,18 @@ const PostingForm = () => {
                 }}>Edit</button>
               </div>
             </div>
-
-
+            <div className='form-data-wrapper'>
+              <div className='form-data-label'>Associated Tags : </div>
+              <div className='form-edit-wrapper'>
+                <div className='form-data-info'>{`${tags.join(', ')}`}</div>
+                <button className='form-edit-btn' onClick={() => {
+                  setEdit(true)
+                  setPage(6)
+                }}>Edit</button>
+              </div>
+            </div>
           </div>
+
         </div>
       )}
     </div>
