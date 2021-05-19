@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {useHistory} from 'react-router-dom';
 import {GoogleMap, Marker, useLoadScript} from '@react-google-maps/api';
 import {useDispatch, useSelector} from 'react-redux';
-import {getPostings, relativePostings} from '../../store/posting';
+import {relativePostings} from '../../store/posting';
 import {setBounds} from '../../store/map'
 
 const libraries = ['places']
@@ -22,7 +22,7 @@ const Map = ({lat, lng}) => {
   const [count, setCount] = useState(0)
   
   const positions = useSelector(state => {
-    const postings = state.postings.postingsList.map(postingId => state.postings[postingId]);
+    const postings = state.postings.shownPostings.map(postingId => state.postings[postingId]);
     return postings.map(posting => {
       return {id:posting.id, lat:posting.lat, lng: posting.lng}
     })
@@ -40,6 +40,10 @@ const Map = ({lat, lng}) => {
     return state.postings.shownPostings
   })
 
+  const filters = useSelector(state => {
+    return state.filters.filters
+  })
+
   const postingArray = Object.values(postings)
   
   const mapRef = useRef();
@@ -54,21 +58,37 @@ const Map = ({lat, lng}) => {
   const onBoundsChanged = () =>{
     const northEast = mapRef.current.getBounds().getNorthEast()
     const southWest = mapRef.current.getBounds().getSouthWest()
-    const center = mapRef.current.getCenter()
     const bounds = {lats : [southWest.lat(), northEast.lat()], lngs : [southWest.lng(), northEast.lng()]}
     if(!Object.deepEq(mapBounds, bounds)) dispatch(setBounds(bounds))
+  }
+
+  const intersection = (filterKeys, postingKeys) => {
+    return filterKeys.filter(filter => postingKeys.includes(filter))
   }
   
   useEffect(() => {
     if (mapBounds){
-      const relativePosting = postingArray.filter(posting => {
+      let relativePosting = postingArray.filter(posting => {
         return (mapBounds.lats[0] < posting.lat && posting.lat < mapBounds.lats[1] && mapBounds.lngs[0] < posting.lng && posting.lng < mapBounds.lngs[1])
       })
-      const showPostings = relativePosting.map(posting => posting.id)
-      if(!Object.deepEq(showPostings, shownPostings)) dispatch(relativePostings(showPostings))
+      let filterKeys = []
+      if (filters) filterKeys = Object.keys(filters)
+      if (filterKeys.length > 0){
+          const newPostings = relativePosting.filter(posting => {
+            const postingKeys = Object.keys(posting.tags)
+            const check = intersection(filterKeys, postingKeys)
+            return check.length === filterKeys.length
+        })
+        const showPostings = newPostings.map(posting => posting.id)
+        if(!Object.deepEq(showPostings, shownPostings)) dispatch(relativePostings(showPostings))
+      }
+      if (filterKeys.length === 0){
+        const showPostings = relativePosting.map(posting => posting.id)
+        if(!Object.deepEq(showPostings, shownPostings)) dispatch(relativePostings(showPostings))
+      }
     }
     mapRef.current && onBoundsChanged()
-  },[mapBounds, postingArray, dispatch, onBoundsChanged, mapRef.current])
+  },[mapBounds, postingArray, dispatch, onBoundsChanged, mapRef.current, filters])
   
   const REACT_APP_GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 
@@ -78,7 +98,7 @@ const Map = ({lat, lng}) => {
   })
 
   useEffect(() => {
-    if (mapRef.current && isLoaded && count < 1){
+    if (mapRef.current && isLoaded && count < 1 && lat && lng){
       mapRef.current.panTo({lat: Number(lat), lng: Number(lng)})
       setCount(count + 1)
     }

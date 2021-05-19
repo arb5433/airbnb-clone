@@ -1,7 +1,7 @@
 from app.models.postingReview import PostingReview
 from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import db, User, Posting, Booking, BuildingType, Image
+from app.models import db, User, Posting, Booking, BuildingType, Image, TagType
 import boto3
 import botocore
 import os
@@ -107,6 +107,7 @@ def post_posting():
   price = request.form['price']
   lat = request.form['lat']
   lng = request.form['lng']
+  post_tags = request.form['tags']
 
   # set up this function with ASW
 
@@ -128,6 +129,17 @@ def post_posting():
 
   db.session.add(posting)
   db.session.commit()
+
+  new_tags = post_tags.split(',')
+  print(new_tags[0])
+  print(len(new_tags))
+  if new_tags[0] != '':
+    for tag in new_tags: 
+      new_tag = TagType.query.filter(TagType.type == tag).all()[0]
+      posting.tagTypes.append(new_tag)
+      db.session.commit()
+
+
 
   return posting.to_dict()
 
@@ -199,3 +211,8 @@ def add_photo():
   db.session.add(new_image)
   db.session.commit()
   return {'message' : 'Success'}
+
+@posting_routes.route('/tags/types')
+def get_tag_types():
+  tag_types = TagType.query.all()
+  return {tagType.id : tagType.to_dict() for tagType in tag_types}

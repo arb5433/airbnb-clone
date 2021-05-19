@@ -6,6 +6,7 @@ import mapReducer from './map';
 import infoReducer from './info';
 import bookingReducer from './bookings';
 import reviewsReducer from './reviews';
+import filterReducer from './filters';
 
 
 const rootReducer = combineReducers({
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     map : mapReducer,
     info : infoReducer,
     bookings : bookingReducer,
-    reviews : reviewsReducer
+    reviews : reviewsReducer,
+    filters : filterReducer
 });
 
 let enhancer;

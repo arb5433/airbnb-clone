@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPostings} from '../../store/posting';
+import {loadingTags, addFilter, clearFilter} from '../../store/filters';
 
 
 import './HomePage.css';
@@ -9,13 +10,15 @@ import './HomePage.css';
 
 const HomePage = () => {
 
-  const REACT_APP_GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
-
   const history = useHistory()
   const dispatch = useDispatch()
 
   const user = useSelector(state => {
     return state.session.user
+  })
+
+  const tagTypes = useSelector(state => {
+    return state.filters.tagTypes
   })
 
   const onClick = () => {
@@ -28,6 +31,8 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(getPostings())
+    dispatch(loadingTags())
+    dispatch(clearFilter())
   }, [dispatch])
 
   const onCityClick = async (address) => {
@@ -41,6 +46,14 @@ const HomePage = () => {
     const locationData = await foundResponse.json()
     const {lat, lng} = locationData.results[0].geometry.location
     history.push(`/postings/search/${lat}/${lng}`)
+  }
+
+  const onFilterClick = (type) => {
+    const tagTypesArray = Object.values(tagTypes)
+    const filter = tagTypesArray.filter(tag => tag.type === type)[0]
+    console.log('****************TT******************',filter)
+    dispatch(addFilter(filter))
+    history.push(`/postings/search/40.7127753/-74.0059728`)
   }
 
   return (
@@ -87,19 +100,19 @@ const HomePage = () => {
         <h1>Special Requests</h1>
       </div>
       <div className='home-tags-wrapper'>
-        <div className='home-tags-item'>
+        <div className='home-tags-item' onClick={() => onFilterClick('Secluded')}>
           <div className='home-tags-picture secluded'/>
           <p className='home-tag-name'>Secluded</p>
         </div>
-        <div className='home-tags-item'>
+        <div className='home-tags-item' onClick={() => onFilterClick('Pet Friendly')}>
           <div className='home-tags-picture pets'/>
           <p className='home-tag-name'>Pets Allowed</p>
         </div>
-        <div className='home-tags-item'>
+        <div className='home-tags-item' onClick={() => onFilterClick('Entire House')}>
           <div className='home-tags-picture full-house'/>
           <p className='home-tag-name'>Entire Home</p>
         </div>
-        <div className='home-tags-item'>
+        <div className='home-tags-item' onClick={() => onFilterClick('Unique')}>
           <div className='home-tags-picture unique'/>
           <p className='home-tag-name'>Unique Housing</p>
         </div>

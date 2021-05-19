@@ -9,6 +9,10 @@
   border-bottom: 1px solid lightgray;
 }
 
+.posting-card-wrapper:hover{
+  background-color: rgb(247, 244, 244);
+}
+
 .posting-card-image-wrapper{
   width: 200px;
   height: 200px;

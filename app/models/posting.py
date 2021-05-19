@@ -1,6 +1,22 @@
 from sqlalchemy.orm import backref
 from .db import db
 
+tags = db.Table(
+  "tags",
+  db.Column(
+    'postingId',
+    db.Integer,
+    db.ForeignKey('postings.id'),
+    primary_key=True
+  ),
+  db.Column(
+    'tagTypeId',
+    db.Integer,
+    db.ForeignKey('tagTypes.id'),
+    primary_key=True
+  )
+)
+
 
 class Posting(db.Model):
   __tablename__ = 'postings'
@@ -23,7 +39,7 @@ class Posting(db.Model):
   bookings = db.relationship('Booking', backref='postings',cascade="all, delete", passive_deletes=True)
   images = db.relationship('Image', backref='postings',cascade="all, delete", passive_deletes=True)
   reviews = db.relationship('PostingReview', backref='postings',cascade="all, delete", passive_deletes=True)
-  tags = db.relationship('Tag', backref='postings',cascade="all, delete", passive_deletes=True)
+  tagTypes = db.relationship('TagType', secondary=tags, back_populates='postings')
 
 
   def to_dict(self):
@@ -45,5 +61,5 @@ class Posting(db.Model):
       'bookings' : [booking.to_dict() for booking in self.bookings],
       'images' : [image.to_dict() for image in self.images],
       'reviews' : [review.to_dict() for review in self.reviews],
-      'tags' : self.tags
+      'tags' : {tagType.id : tagType.to_dict() for tagType in self.tagTypes}
     }
