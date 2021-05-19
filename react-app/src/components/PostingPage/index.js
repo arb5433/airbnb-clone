@@ -10,6 +10,7 @@ import ReviewEditFormModal from '../ReviewEditModal';
 import EditPostingModal from '../EditPostingModal';
 import AddPhotoModal from '../AddPhotoModal';
 import { refreshUser } from '../../store/session';
+import {clearFilter} from '../../store/filters';
 
 import './PostingPage.css'
 
@@ -78,6 +79,7 @@ const PostingPage = () => {
 
   useEffect(() => {
     dispatch(getPostings())
+    dispatch(clearFilter())
   }, [])
   
   useEffect(() => {

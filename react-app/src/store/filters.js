@@ -45,7 +45,7 @@ const filterReducer = (state=initialState, action) => {
     }
     case ADD_FILTER:{
       const newFilters = {...state.filters}
-      newFilters[action.tag.id] = action.tag
+      newFilters[action.filter.id] = action.filter
       return {
         ...state,
         filters : newFilters

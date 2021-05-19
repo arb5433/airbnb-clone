@@ -61,5 +61,5 @@ class Posting(db.Model):
       'bookings' : [booking.to_dict() for booking in self.bookings],
       'images' : [image.to_dict() for image in self.images],
       'reviews' : [review.to_dict() for review in self.reviews],
-      'tags' : [tagType.to_dict() for tagType in self.tagTypes]
+      'tags' : {tagType.id : tagType.to_dict() for tagType in self.tagTypes}
     }

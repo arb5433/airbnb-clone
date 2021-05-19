@@ -22,7 +22,7 @@ const Map = ({lat, lng}) => {
   const [count, setCount] = useState(0)
   
   const positions = useSelector(state => {
-    const postings = state.postings.postingsList.map(postingId => state.postings[postingId]);
+    const postings = state.postings.shownPostings.map(postingId => state.postings[postingId]);
     return postings.map(posting => {
       return {id:posting.id, lat:posting.lat, lng: posting.lng}
     })
@@ -38,6 +38,10 @@ const Map = ({lat, lng}) => {
 
   const shownPostings = useSelector(state => {
     return state.postings.shownPostings
+  })
+
+  const filters = useSelector(state => {
+    return state.filters.filters
   })
 
   const postingArray = Object.values(postings)
@@ -57,17 +61,40 @@ const Map = ({lat, lng}) => {
     const bounds = {lats : [southWest.lat(), northEast.lat()], lngs : [southWest.lng(), northEast.lng()]}
     if(!Object.deepEq(mapBounds, bounds)) dispatch(setBounds(bounds))
   }
+
+  const intersection = (filterKeys, postingKeys) => {
+    return filterKeys.filter(filter => postingKeys.includes(filter))
+  }
   
   useEffect(() => {
     if (mapBounds){
-      const relativePosting = postingArray.filter(posting => {
+      let relativePosting = postingArray.filter(posting => {
         return (mapBounds.lats[0] < posting.lat && posting.lat < mapBounds.lats[1] && mapBounds.lngs[0] < posting.lng && posting.lng < mapBounds.lngs[1])
       })
-      const showPostings = relativePosting.map(posting => posting.id)
-      if(!Object.deepEq(showPostings, shownPostings)) dispatch(relativePostings(showPostings))
+      // console.log('*********** RP *****************', relativePosting)
+      // console.log(filters)
+      let filterKeys = []
+      // console.log(filters, '******* FILTERS *************')
+      if (filters) filterKeys = Object.keys(filters)
+      // console.log(filterKeys, '************FILTER KEYS *************')
+      if (filterKeys.length > 0){
+        console.log('inside the if')
+          const newPostings = relativePosting.filter(posting => {
+            const postingKeys = Object.keys(posting.tags)
+            // console.log(postingKeys, '********* POSTING KEYS **********')
+            const check = intersection(filterKeys, postingKeys)
+            return check.length > 0
+        })
+        const showPostings = newPostings.map(posting => posting.id)
+        if(!Object.deepEq(showPostings, shownPostings)) dispatch(relativePostings(showPostings))
+      }
+      if (filterKeys.length === 0){
+        const showPostings = relativePosting.map(posting => posting.id)
+        if(!Object.deepEq(showPostings, shownPostings)) dispatch(relativePostings(showPostings))
+      }
     }
     mapRef.current && onBoundsChanged()
-  },[mapBounds, postingArray, dispatch, onBoundsChanged, mapRef.current])
+  },[mapBounds, postingArray, dispatch, onBoundsChanged, mapRef.current, filters])
   
   const REACT_APP_GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 
