@@ -81,5 +81,15 @@
       justify-content: space-evenly;
       padding: 2em;
     }
+
+    li{
+      list-style-type: none;
+      border-bottom: 1px solid lightgray;
+      padding: 10px;
+    }
+    li:hover{
+      background-color: rgb(247, 244, 244);
+      font-weight: bold;
+    }
   }
 }

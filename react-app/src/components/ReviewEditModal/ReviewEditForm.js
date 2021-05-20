@@ -19,8 +19,12 @@ const ReviewEditForm = ({review, setShowModal}) => {
   }
 
   return(
-    <form className='review-form'>
-      <textarea className='review-ta' placeholder='Leave a review for this property.' value={newReview} onChange={(e) => setNewReview(e.target.value)}/>
+    <form className='review-form2'>
+      <div className='login-title-wrapper'>
+        <button className='edt-and-del-btns exit-btn' onClick={() => setShowModal(false)}>X</button>
+        <div className='login-title'>Update Review</div>
+      </div>
+      <textarea className='review-ta2' placeholder='Leave a review for this property.' value={newReview} onChange={(e) => setNewReview(e.target.value)}/>
       <div className='form-rating-wrapper'>
         <div className='rating-rating'>Rating :  
           <input type='number' className='review-rating' value={newRating} onChange={(e) => setNewRating(e.target.value)}/>

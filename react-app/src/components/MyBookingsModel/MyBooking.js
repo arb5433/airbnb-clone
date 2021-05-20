@@ -1,4 +1,4 @@
- import React from 'react';
+ import React, { useEffect } from 'react';
  import {useDispatch, useSelector} from 'react-redux';
  import {NavLink} from 'react-router-dom';
  import {refreshUser} from '../../store/session';
@@ -13,6 +13,10 @@
   const user = useSelector(state => {
     return state.session.user
   })
+
+  useEffect(() => {
+    dispatch(refreshUser(user.id))
+  }, [dispatch, user.id])
 
   const deleteClick = async (booking) => {
     const res = await fetch(`/api/bookings/${booking.id}`, {
