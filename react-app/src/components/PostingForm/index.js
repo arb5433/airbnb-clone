@@ -127,7 +127,6 @@ const PostingForm = () => {
   const changeTags = (type) => {
     if (!tags.includes(type)) setTags([...tags,type])
     else setTags(tags.filter(tag => tag != type))
-    console.log(tags)
   }
 
   return (
