@@ -23,10 +23,10 @@ const SearchBar = () => {
   return(
     <div>
       <Combobox onSelect={onSelect}>
-        <ComboboxInput value={value} onChange={e => setValue(e.target.value)} placeholder='Search for a city'/>
+        <ComboboxInput value={value} onChange={e => setValue(e.target.value)} placeholder='Search for a city' className='real-sb'/>
         <ComboboxPopover className='popover'>
           {data.map(({id, description}) => (
-            <ComboboxOption key={id} value={description} />
+            <ComboboxOption key={id} value={description} className='cbo'/>
           ))}
         </ComboboxPopover>
       </Combobox>

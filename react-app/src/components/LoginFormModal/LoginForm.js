@@ -20,6 +20,13 @@ const LoginForm = ({setShowModal}) => {
     }
   };
 
+  const demoLogin = async (e) => {
+    e.preventDefault();
+    const email = 'demo@aa.io'
+    const password = 'password'
+    const data = await dispatch(login(email, password));
+  }
+
   const updateEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -65,6 +72,7 @@ const LoginForm = ({setShowModal}) => {
           className='login-input'
         />
         <button className='login-btn' type="submit">Login</button>
+        <button className='login-btn' onClick={demoLogin}>Demo User Login</button>
       </div>
     </form>
   );

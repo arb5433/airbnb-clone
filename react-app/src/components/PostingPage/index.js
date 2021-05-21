@@ -152,6 +152,7 @@ const PostingPage = () => {
     }
     setDays(0)
     setBookDate('')
+    dispatch(refreshUser(user.id))
   }
 
   const reviewSubmit = (e) => {
@@ -165,6 +166,7 @@ const PostingPage = () => {
       formData.append('rating', rating)
       formData.append('review', review)
       dispatch(addingReview(formData))
+      setReview('')
     }
   }
 
