@@ -51,7 +51,6 @@ const HomePage = () => {
   const onFilterClick = (type) => {
     const tagTypesArray = Object.values(tagTypes)
     const filter = tagTypesArray.filter(tag => tag.type === type)[0]
-    console.log('****************TT******************',filter)
     dispatch(addFilter(filter))
     history.push(`/postings/search/40.7127753/-74.0059728`)
   }

@@ -27,6 +27,11 @@ const LoginForm = ({setShowModal}) => {
     const data = await dispatch(login(email, password));
   }
 
+  const closeModal = (e) => {
+    e.preventDefault();
+    setShowModal(false)
+  }
+
   const updateEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -40,41 +45,43 @@ const LoginForm = ({setShowModal}) => {
   }
 
   return (
-    <form onSubmit={onLogin} className='login-form'>
+    <>
       <div className='login-title-wrapper'>
-        <button className='edt-and-del-btns exit-btn' onClick={() => setShowModal(false)}>X</button>
+          <button className='edt-and-del-btns exit-btn' onClick={closeModal}>X</button>
         <div className='login-title'>ThereBnB Log in</div>
       </div>
-      <div className='errors-div'>
-        {errors.map((error) => (
-          <div>{error}</div>
-        ))}
-      </div>
-      <div className='login-email'>
-        <label htmlFor="email">Email</label>
-        <input
-          name="email"
-          type="text"
-          placeholder="Email"
-          value={email}
-          onChange={updateEmail}
-          className='login-input'
-        />
-      </div>
-      <div className='login-password'>
-        <label htmlFor="password">Password</label>
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={updatePassword}
-          className='login-input'
-        />
-        <button className='login-btn' type="submit">Login</button>
-        <button className='login-btn' onClick={demoLogin}>Demo User Login</button>
-      </div>
-    </form>
+      <form onSubmit={onLogin} className='login-form'>
+        <div className='errors-div'>
+          {errors.map((error) => (
+            <div>{error}</div>
+          ))}
+        </div>
+        <div className='login-email'>
+          <label htmlFor="email">Email</label>
+          <input
+            name="email"
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={updateEmail}
+            className='login-input'
+          />
+        </div>
+        <div className='login-password'>
+          <label htmlFor="password">Password</label>
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={updatePassword}
+            className='login-input'
+          />
+          <button className='login-btn' type="submit">Login</button>
+          <button className='login-btn' onClick={demoLogin}>Demo User Login</button>
+        </div>
+      </form>
+    </>
   );
 };
 
