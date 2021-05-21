@@ -20,6 +20,7 @@ const Map = ({lat, lng}) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const [count, setCount] = useState(0)
+  const [api, setApi] = useState('')
   
   const positions = useSelector(state => {
     const postings = state.postings.shownPostings.map(postingId => state.postings[postingId]);
@@ -104,6 +105,14 @@ const Map = ({lat, lng}) => {
     }
   },[isLoaded, count, mapRef.current])
 
+  useEffect(() => {
+    (async () => {
+      const res = await fetch('/api/key/googlemap');
+      const apiObj = await res.json()
+      setApi(apiObj['apiKey'])
+    })()
+  },[])
+
   const onClick = (marker) => {
     history.push(`/postings/${marker.id}`)
   }
@@ -112,7 +121,7 @@ const Map = ({lat, lng}) => {
 
   return (
     <div className='map-wrapper'>
-      {isLoaded && <GoogleMap 
+      {(isLoaded && api) && <GoogleMap 
         mapContainerStyle={mapContainerStyle} 
         zoom={7} 
         center={center} 
