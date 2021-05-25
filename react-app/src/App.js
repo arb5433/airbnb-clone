@@ -26,6 +26,7 @@ function App() {
   console.log('***** LOADED ***********', isLoaded)
   console.log('******** API ************', REACT_APP_GOOGLE_API)
   console.log('*********LOAD ERROR *************', loadError)
+  console.log('******** PROCESS **************', process.env)
 
   const mapRef = useRef();
 
