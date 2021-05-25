@@ -23,6 +23,8 @@ function App() {
     googleMapsApiKey : REACT_APP_GOOGLE_API,
     libraries : places
   })
+  console.log('***** LOADED ***********', isLoaded)
+  console.log('******** API ************', REACT_APP_GOOGLE_API)
 
   const mapRef = useRef();
 
