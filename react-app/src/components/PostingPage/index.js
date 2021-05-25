@@ -122,7 +122,7 @@ const PostingPage = () => {
   }, [days, bookDate])
 
   useEffect(() => {
-    if (reviews){
+    if (reviewsArray.length){
       let total = 0;
       let count = 0;
       Object.values(reviews).forEach(review => {
@@ -138,7 +138,7 @@ const PostingPage = () => {
     else{
       setTotalRating('Not yet')
     }
-  }, [reviews])
+  }, [reviewsArray.length])
   
   const bookSubmit = (e) => {
     e.preventDefault()
