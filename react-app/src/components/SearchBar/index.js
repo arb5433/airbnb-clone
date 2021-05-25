@@ -7,7 +7,7 @@ import './SearchBar.css'
 
 
 
-const SearchBar = () => {
+const SearchBar = ({isLoaded}) => {
   const {ready, value, suggestions : {status, data}, setValue, clearSuggestions} = usePlacesAutocomplete()
   const history = useHistory()
 

@@ -131,8 +131,6 @@ def post_posting():
   db.session.commit()
 
   new_tags = post_tags.split(',')
-  print(new_tags[0])
-  print(len(new_tags))
   if new_tags[0] != '':
     for tag in new_tags: 
       new_tag = TagType.query.filter(TagType.type == tag).all()[0]
@@ -165,9 +163,7 @@ def update_posting(pid):
 @posting_routes.route('/<int:pid>', methods = ['DELETE'])
 @login_required
 def delete_posting(pid):
-  print('********** INSIDE THE DELETE ROUTE ****************')
   posting = Posting.query.get(pid)
-  # user_id = int(current_user.get_id())
   posting_user = posting.userId
   if current_user.id != posting_user:
     return {'message' : 'fail'}
@@ -178,7 +174,7 @@ def delete_posting(pid):
 @posting_routes.route('/latlng', methods=['POST'])
 def render_json():
   address = request.form['address']
-  api_key = os.environ.get('REACT_APP_GOOGLE_API_KEY')
+  api_key = os.environ.get('REACT_APP_GOOGLE_API')
   information = urllib.request.urlopen(f'https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={api_key}')
   data = json.loads(information.read().decode())
   return data

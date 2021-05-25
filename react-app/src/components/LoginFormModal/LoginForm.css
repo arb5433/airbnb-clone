@@ -11,6 +11,9 @@
 .login-form{
   /* height: 300px; */
   width: 400px;
+}
+
+.login-form-wrapper{
   border: 2px ridge blue;
 }
 

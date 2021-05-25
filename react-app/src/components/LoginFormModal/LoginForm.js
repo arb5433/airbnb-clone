@@ -45,7 +45,7 @@ const LoginForm = ({setShowModal}) => {
   }
 
   return (
-    <>
+    <div className='login-form-wrapper'>
       <div className='login-title-wrapper'>
           <button className='edt-and-del-btns exit-btn' onClick={closeModal}>X</button>
         <div className='login-title'>ThereBnB Log in</div>
@@ -81,7 +81,7 @@ const LoginForm = ({setShowModal}) => {
           <button className='login-btn' onClick={demoLogin}>Demo User Login</button>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

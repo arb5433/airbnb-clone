@@ -7,7 +7,6 @@ booking_routes = Blueprint('bookings', __name__)
 @booking_routes.route('/<int:pid>')
 def load_bookings(pid):
   bookings = Booking.query.filter(Booking.postingId == pid).all()
-  print('------------------------ BOOKINGS --------------------', bookings)
   return {'bookings' : [booking.to_dict() for booking in bookings]}
 
 @booking_routes.route('/<int:bid>', methods=['DELETE'])
