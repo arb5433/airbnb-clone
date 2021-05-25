@@ -1,11 +1,9 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {useHistory} from 'react-router-dom';
-import {GoogleMap, Marker, useLoadScript} from '@react-google-maps/api';
+import {GoogleMap, Marker} from '@react-google-maps/api';
 import {useDispatch, useSelector} from 'react-redux';
 import {relativePostings} from '../../store/posting';
 import {setBounds} from '../../store/map'
-
-const libraries = ['places']
 
 const otherOptions = {
   disableDefaultUI : true,
@@ -20,8 +18,6 @@ const Map = ({lat, lng, isLoaded, loadError}) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const [count, setCount] = useState(0)
-  console.log('******LAT?LNG**********', lat, lng)
-
   
   const positions = useSelector(state => {
     const postings = state.postings.shownPostings.map(postingId => state.postings[postingId]);
@@ -52,10 +48,6 @@ const Map = ({lat, lng, isLoaded, loadError}) => {
   const onLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
-  
- 
-  // const center = { lat: Number(lat), lng: Number(lng)}
-
 
   const onBoundsChanged = () =>{
     const northEast = mapRef.current.getBounds()?.getNorthEast()
@@ -91,12 +83,6 @@ const Map = ({lat, lng, isLoaded, loadError}) => {
     }
     mapRef.current && onBoundsChanged()
   },[mapBounds, postingArray, dispatch, onBoundsChanged, mapRef.current, filters])
-
-  // const {isLoaded, loadError} = useLoadScript({
-  //   googleMapsApiKey : REACT_APP_GOOGLE_API_KEY,
-  //   libraries : libraries
-  // })
-
 
   useEffect(() => {
     if (mapRef.current && count < 1 && lat && lng){ 
