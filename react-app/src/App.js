@@ -72,7 +72,7 @@ function App() {
               <PostingPage/>
             </Route>
             <Route path='/postings/search/:lat/:lng'>
-              <SearchPage isLoaded={isLoaded} loadError={loadError} mapRef={mapRef}/>
+              <SearchPage isLoaded={isLoaded} loadError={loadError} />
             </Route>
           </Switch>
         </div>

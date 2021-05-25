@@ -15,11 +15,12 @@ const otherOptions = {
 const mapContainerStyle={height:'calc(100vh - 50px)', width:'50vw'}
 
 const center={lat:40.7127753, lng:-74.0059728}
-const Map = ({lat, lng, isLoaded, loadError, mapRef}) => {
+const Map = ({lat, lng, isLoaded, loadError}) => {
   
   const dispatch = useDispatch()
   const history = useHistory()
   const [count, setCount] = useState(0)
+  console.log('******LAT?LNG**********', lat, lng)
 
   
   const positions = useSelector(state => {
@@ -47,7 +48,7 @@ const Map = ({lat, lng, isLoaded, loadError, mapRef}) => {
 
   const postingArray = Object.values(postings)
   
-  // const mapRef = useRef();
+  const mapRef = useRef();
   const onLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
@@ -98,7 +99,7 @@ const Map = ({lat, lng, isLoaded, loadError, mapRef}) => {
 
 
   useEffect(() => {
-    if (mapRef.current && count < 1 && lat && lng){
+    if (mapRef.current && count < 1 && lat && lng){ 
       mapRef.current.panTo({lat: Number(lat), lng: Number(lng)})
       setCount(count + 1)
     }

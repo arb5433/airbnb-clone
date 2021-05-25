@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {useHistory} from 'react-router-dom';
 import usePlacesAutocomplete, {getGeocode, getLatLng} from 'use-places-autocomplete';
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption} from '@reach/combobox';
@@ -17,6 +17,7 @@ const SearchBar = ({isLoaded}) => {
     const {lat, lng} = await getLatLng(results[0]);
     setValue('')
     clearSuggestions()
+    history.push('/')
     history.push(`/postings/search/${lat}/${lng}`)
 
   }
