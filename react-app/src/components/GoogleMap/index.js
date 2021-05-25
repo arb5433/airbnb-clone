@@ -15,12 +15,13 @@ const otherOptions = {
 const mapContainerStyle={height:'calc(100vh - 50px)', width:'50vw'}
 
 const center={lat:40.7127753, lng:-74.0059728}
-const Map = ({lat, lng}) => {
+const Map = ({lat, lng, isLoaded, loadError}) => {
   
   const dispatch = useDispatch()
   const history = useHistory()
   const [count, setCount] = useState(0)
-  const [api, setApi] = useState('')
+  console.log('******LAT?LNG**********', lat, lng)
+
   
   const positions = useSelector(state => {
     const postings = state.postings.shownPostings.map(postingId => state.postings[postingId]);
@@ -57,9 +58,9 @@ const Map = ({lat, lng}) => {
 
 
   const onBoundsChanged = () =>{
-    const northEast = mapRef.current.getBounds().getNorthEast()
-    const southWest = mapRef.current.getBounds().getSouthWest()
-    const bounds = {lats : [southWest.lat(), northEast.lat()], lngs : [southWest.lng(), northEast.lng()]}
+    const northEast = mapRef.current.getBounds()?.getNorthEast()
+    const southWest = mapRef.current.getBounds()?.getSouthWest()
+    const bounds = {lats : [southWest?.lat(), northEast?.lat()], lngs : [southWest?.lng(), northEast?.lng()]}
     if(!Object.deepEq(mapBounds, bounds)) dispatch(setBounds(bounds))
   }
 
@@ -90,38 +91,29 @@ const Map = ({lat, lng}) => {
     }
     mapRef.current && onBoundsChanged()
   },[mapBounds, postingArray, dispatch, onBoundsChanged, mapRef.current, filters])
-  
-  const REACT_APP_GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 
-  const {isLoaded, loadError} = useLoadScript({
-    googleMapsApiKey : REACT_APP_GOOGLE_API_KEY,
-    libraries : libraries
-  })
+  // const {isLoaded, loadError} = useLoadScript({
+  //   googleMapsApiKey : REACT_APP_GOOGLE_API_KEY,
+  //   libraries : libraries
+  // })
+
 
   useEffect(() => {
-    if (mapRef.current && isLoaded && count < 1 && lat && lng){
+    if (mapRef.current && count < 1 && lat && lng){ 
       mapRef.current.panTo({lat: Number(lat), lng: Number(lng)})
       setCount(count + 1)
     }
-  },[isLoaded, count, mapRef.current])
+  },[ count, mapRef.current])
 
-  useEffect(() => {
-    (async () => {
-      const res = await fetch('/api/key/googlemap');
-      const apiObj = await res.json()
-      setApi(apiObj['apiKey'])
-    })()
-  },[])
 
   const onClick = (marker) => {
     history.push(`/postings/${marker.id}`)
   }
 
   if (loadError) return <h1>Error Loading Google Maps</h1>
-
   return (
     <div className='map-wrapper'>
-      {(isLoaded && api) && <GoogleMap 
+      {isLoaded && <GoogleMap 
         mapContainerStyle={mapContainerStyle} 
         zoom={7} 
         center={center} 

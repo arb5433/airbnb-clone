@@ -4,42 +4,6 @@ from random import randint
 
 fake = Faker()
 
-# def fake_addresses():
-#   counter = 50
-#   result = []
-#   while counter > 0:
-#     result.append(fake.address())
-#     counter -= 1
-#   return result
-
-# def address_formatter(address):
-#   first = address.split('\n')
-#   street = first[0].split(' ')
-#   formatted_street = '+'.join(street) + ',+'
-#   city_and_state = first[1].split(' ')
-#   city_and_state.pop()
-#   formatted_city_and_state = '+'.join(city_and_state)
-#   formatted_address = formatted_street + formatted_city_and_state
-#   return formatted_address
-
-# def get_cities(address):
-#   split = address.split('\n')
-#   second = split[1].split(', ')
-#   return second[0]
-
-
-# addresses = fake_addresses()
-# print(addresses)
-# formatted = [address_formatter(address) for address in addresses]
-# print(formatted)
-# cities = [get_cities(address) for address in addresses]
-# print(cities)
-
-# def fix_address(address):
-#   first = address.split('\n')
-#   final = ', '.join(first)
-#   return final
-
 geo =[
   { 'lat': 32.1656221, 'lng': -82.9000751 },
   { 'lat': 32.1656221, 'lng': -82.9000751 },

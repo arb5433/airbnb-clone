@@ -1,19 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch} from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import {useLoadScript} from '@react-google-maps/api';
 import NavBar from "./components/NavBar";
 import UsersList from "./components/UsersList";
 import User from "./components/User";
 import SearchPage from './components/SearhPage';
 import HomePage from './components/HomePage';
-import Map from './components/GoogleMap';
 import PostingForm from './components/PostingForm';
 import PostingPage from './components/PostingPage';
 import { authenticate } from "./store/session";
 
+
+const places = ['places']
+
 function App() {
   const dispatch = useDispatch()
   const [loaded, setLoaded] = useState(false);
+  const REACT_APP_GOOGLE_API = process.env.REACT_APP_GOOGLE_API;
+
+  const {isLoaded, loadError} = useLoadScript({
+    googleMapsApiKey : REACT_APP_GOOGLE_API,
+    libraries : places
+  })
+
+  const mapRef = useRef();
+
 
   useEffect(() => {
     (async() => {
@@ -27,18 +39,23 @@ function App() {
   }
 
 
+  
+
+  // const newScript = document.createElement('script');
+  // newScript.src =`https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_API}&libraries=places`;
+  // newScript.async = true;
+  // newScript.defer = true;
+  // document.head.appendChild(newScript);
+
 
   return (
     <BrowserRouter>
       <div className='app-container'>
         <div className='nav'>
-        <NavBar />
+        <NavBar isLoaded={isLoaded}/>
         </div>
         <div className='main-content'>
           <Switch>
-            <Route path='/test'>
-              <Map/>
-            </Route>
             <Route path="/users" exact={true} >
               <UsersList/>
             </Route>
@@ -55,7 +72,7 @@ function App() {
               <PostingPage/>
             </Route>
             <Route path='/postings/search/:lat/:lng'>
-              <SearchPage/>
+              <SearchPage isLoaded={isLoaded} loadError={loadError} />
             </Route>
           </Switch>
         </div>

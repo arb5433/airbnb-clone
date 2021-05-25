@@ -8,7 +8,7 @@ import {removeFilter} from '../../store/filters';
 
 import './SearchPage.css'
 
-const SearchPage = () => {
+const SearchPage = ({isLoaded, loadError}) => {
   const {lat, lng} = useParams();
   const dispatch = useDispatch();
 
@@ -48,7 +48,7 @@ const SearchPage = () => {
         ))}
       </div>
       <div className ='search-page-map'>
-        <Map lat={lat} lng={lng}/>
+        <Map lat={lat} lng={lng} isLoaded={isLoaded} loadError={loadError}/>
       </div>
     </div>
   )

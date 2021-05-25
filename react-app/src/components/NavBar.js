@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import LogoutButton from './auth/LogoutButton';
@@ -8,7 +8,7 @@ import SearchBar from './SearchBar';
 import MyBookingModal from './MyBookingsModel';
 import MyPostingsModal from './MyPostingsModal';
 
-const NavBar = () => {
+const NavBar = ({isLoaded, loadError}) => {
   const sessionUser = useSelector((state) => state.session.user);
 
   let sessionLinks;
@@ -38,7 +38,7 @@ const NavBar = () => {
         </NavLink>
       </div>
       <div>
-        <SearchBar/>
+        <SearchBar isLoaded={isLoaded}/>
       </div>
       <div>
         {sessionLinks}
