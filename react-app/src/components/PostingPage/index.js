@@ -135,6 +135,9 @@ const PostingPage = () => {
         setTotalRating(rounded);
       }
     }
+    else{
+      setTotalRating('Not yet')
+    }
   }, [reviews])
   
   const bookSubmit = (e) => {

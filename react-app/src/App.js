@@ -31,14 +31,8 @@ function App() {
     googleMapsApiKey : api,
     libraries : places
   })
-  console.log('***** LOADED ***********', isLoaded)
-  console.log('******** API ************', api)
-  
-  console.log('*********LOAD ERROR *************', loadError)
-  console.log('******** PROCESS **************', process.env.toS)
 
   const mapRef = useRef();
-
 
   useEffect(() => {
     (async() => {
