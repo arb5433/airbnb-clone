@@ -1,5 +1,3 @@
-import { addingReview } from "./reviews"
-
 // CONSTANTS
 const LOAD_POSTINGS = 'postings/LOAD'
 const ADD_POSTING = 'postings/ADD'
@@ -116,6 +114,7 @@ const postingReducer = (state = initialState, action) => {
         newState.postingsList = mapList(postingsList)
         return newState;
       }
+      return state
     }
     case UPDATE_POSTING:{
       return {

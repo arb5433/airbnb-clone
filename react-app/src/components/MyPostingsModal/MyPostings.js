@@ -13,7 +13,7 @@ const MyPostings = ({setShowModal}) => {
   })
 
   const deleteClick = async (posting) => {
-    const res = await fetch(`/api/postings/${posting.id}`, {
+    await fetch(`/api/postings/${posting.id}`, {
       method: 'DELETE'
     })
     dispatch(refreshUser(user.id))

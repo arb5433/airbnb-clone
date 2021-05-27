@@ -82,14 +82,14 @@ const Map = ({lat, lng, isLoaded, loadError}) => {
       }
     }
     mapRef.current && onBoundsChanged()
-  },[mapBounds, postingArray, dispatch, onBoundsChanged, mapRef.current, filters])
+  },[mapBounds, postingArray, dispatch, onBoundsChanged, mapRef.current, filters, shownPostings])
 
   useEffect(() => {
     if (mapRef.current && count < 1 && lat && lng){ 
       mapRef.current.panTo({lat: Number(lat), lng: Number(lng)})
       setCount(count + 1)
     }
-  },[ count, mapRef.current])
+  },[ count, mapRef.current, lat, lng])
 
 
   const onClick = (marker) => {

@@ -33,6 +33,20 @@ const PostingForm = () => {
   const [imageLoading, setImageLoading] = useState(false)
   const [tags, setTags] = useState([])
 
+  
+  
+  const user = useSelector(state => {
+    return state.session.user;
+  });
+  
+  const buildingTypes = useSelector(state => {
+    return state.postings.buildingTypes;
+  })
+  
+  const allTags = useSelector(state => {
+    return state.filters.tagTypes
+  })
+
   useEffect(() => {
     dispatch(getBuildingTypes())
     dispatch(loadingTags())
@@ -43,45 +57,32 @@ const PostingForm = () => {
     if (thisBuilding[0]){
       setType(thisBuilding[0].type)
     }
-  },[buildingType])
-
-
-  const user = useSelector(state => {
-    return state.session.user;
-  });
-
-  const buildingTypes = useSelector(state => {
-    return state.postings.buildingTypes;
-  })
-
-  const allTags = useSelector(state => {
-    return state.filters.tagTypes
-  })
-
+  },[buildingType, buildingTypes])
+  
   const formContinue = (e) => {
     setPage(page+1)
   }
-
+  
   const formBack = (e) => {
     setPage(page-1)
   }
-
+  
   const updateImage = (e) => {
     const file = e.target.files[0];
     setImage(file);
   }
-
+  
   const formateAddress = (address, city, state) => {
     const newAddress = address.split(' ').join('+')
     const newCity = city.split(' ').join('+')
     return `${newAddress},+${newCity},+${state}`
   }
-
+  
   const submitForm = async (e) => {
     e.preventDefault();
-
+    
     const formData = new FormData();
-
+    
     formData.append('image', image)
     formData.append('city', city)
     formData.append('address', `${address}, ${city}, ${state}`)
@@ -126,7 +127,7 @@ const PostingForm = () => {
 
   const changeTags = (type) => {
     if (!tags.includes(type)) setTags([...tags,type])
-    else setTags(tags.filter(tag => tag != type))
+    else setTags(tags.filter(tag => tag !== type))
   }
 
   return (
@@ -281,7 +282,7 @@ const PostingForm = () => {
             <div className='form-question'>Finally, select any tags that will help draw people to your property.</div>
             <form className='location-form'>
               {allTags && Object.values(allTags).map(tag => (
-                <div key={tag.id}>
+                <div className='tag-form-select' key={tag.id}>
                   <div>{tag.type}</div>
                   <input type='checkbox' value={tag.type} onChange={(e) => changeTags(e.target.value)} checked={tags.includes(tag.type)}/>
                 </div>

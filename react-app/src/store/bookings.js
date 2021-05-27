@@ -66,6 +66,7 @@ const bookingReducer = (state = initialState, action) => {
         };
         return newState
       }
+      return state
     }
     case REMOVE_BOOKING: {
       delete state[action.booking.id]
