@@ -20,7 +20,7 @@ const AddPhoto = ({setShowModal, posting}) => {
     const formData = new FormData()
     formData.append('image', image)
     formData.append('postingId', posting.id)
-    const res = await fetch('/api/postings/photo', {
+    await fetch('/api/postings/photo', {
       method : 'POST',
       body : formData
     })

@@ -19,7 +19,7 @@
   }, [dispatch, user.id])
 
   const deleteClick = async (booking) => {
-    const res = await fetch(`/api/bookings/${booking.id}`, {
+    await fetch(`/api/bookings/${booking.id}`, {
       method: 'DELETE'
     })
     dispatch(refreshUser(user.id))

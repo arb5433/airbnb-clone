@@ -182,3 +182,11 @@
 .tags-form-image{
   background-image: url('https://user-images.githubusercontent.com/74081636/118887085-d7980900-b8c7-11eb-8201-08acd0f57dee.jpeg');
 }
+
+.tag-form-select{
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: .5em;
+}

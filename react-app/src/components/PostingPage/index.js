@@ -80,7 +80,7 @@ const PostingPage = () => {
   useEffect(() => {
     dispatch(getPostings())
     dispatch(clearFilter())
-  }, [])
+  }, [dispatch])
   
   useEffect(() => {
     if(posting){
@@ -138,7 +138,7 @@ const PostingPage = () => {
     else{
       setTotalRating('Not yet')
     }
-  }, [reviewsArray.length])
+  }, [reviewsArray.length, reviews])
   
   const bookSubmit = (e) => {
     e.preventDefault()
@@ -146,7 +146,7 @@ const PostingPage = () => {
       alert('Please log in to book a property')
     } else {
       bookingDates.forEach(date => {
-        const formData = new FormData
+        const formData = new FormData()
         formData.append('date', date)
         formData.append('userId', user.id)
         formData.append('postingId', id)
@@ -163,7 +163,7 @@ const PostingPage = () => {
     if(!user){
       alert('Please log in to review a property')
     } else {
-      const formData = new FormData
+      const formData = new FormData()
       formData.append('userId', user.id)
       formData.append('postingId', id)
       formData.append('rating', rating)
@@ -178,7 +178,7 @@ const PostingPage = () => {
   }
 
   const postingDelete = async (e) => {
-    const res = await fetch(`/api/postings/${id}`, {
+    await fetch(`/api/postings/${id}`, {
       method: 'DELETE'
     })
     dispatch(getPostings())
@@ -251,7 +251,7 @@ const PostingPage = () => {
                   <div className='review-review'>{`"${review.review}"`}</div>
                   <div className='rating-wrapper'>
                     <div className='rating'>{`Rating : ${review.rating}/5`}</div>
-                    {user && user.id == review.userId && (
+                    {user && user.id === review.userId && (
                       <div>
                         <ReviewEditFormModal review={review}/>
                         <button className='edt-and-del-btns' onClick={() => reviewDelete(review)} >Delete</button>

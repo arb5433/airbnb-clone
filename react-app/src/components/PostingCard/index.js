@@ -1,18 +1,9 @@
-import React, {useEffect, useState} from 'react'
-import {useSelector} from 'react-redux';
+import React from 'react'
 import {NavLink} from 'react-router-dom';
 
 import './PostingCard.css'
 
 const PostingCard = ({posting}) => {
-
-  const [type, setType] = useState('');
-  const [buildingType, setBuildingType] = useState(0)
-
-  const buildingTypes = useSelector(state => {
-    return state.postings.buildingTypes;
-  })
-
 
   return (
     <NavLink className='posting-card-wrapper' to={`/postings/${posting.id}`}>

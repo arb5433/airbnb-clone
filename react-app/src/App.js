@@ -18,13 +18,14 @@ function App() {
   const dispatch = useDispatch()
   const [loaded, setLoaded] = useState(false);
   const [api, setApi] = useState('')
-  // const REACT_APP_GOOGLE_API = process.env.REACT_APP_GOOGLE_API;
-
   
-  useEffect(async () => {
-    const res = await fetch('/api/keys/googlemap')
-    const {apiKey} = await res.json() 
-    setApi(apiKey)
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch('/api/keys/googlemap')
+      const {apiKey} = await res.json() 
+      setApi(apiKey)
+    }
+    fetchData()
   },[])
   
   const {isLoaded, loadError} = useLoadScript({
@@ -44,16 +45,6 @@ function App() {
   if (!loaded) {
     return null;
   }
-
-
-  
-
-  // const newScript = document.createElement('script');
-  // newScript.src =`https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_API}&libraries=places`;
-  // newScript.async = true;
-  // newScript.defer = true;
-  // document.head.appendChild(newScript);
-
 
   return (
     <BrowserRouter>

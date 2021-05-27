@@ -24,7 +24,7 @@ const LoginForm = ({setShowModal}) => {
     e.preventDefault();
     const email = 'demo@aa.io'
     const password = 'password'
-    const data = await dispatch(login(email, password));
+    await dispatch(login(email, password));
   }
 
   const closeModal = (e) => {
