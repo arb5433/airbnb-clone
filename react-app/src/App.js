@@ -19,13 +19,10 @@ function App() {
   const [loaded, setLoaded] = useState(false);
   const [api, setApi] = useState('')
   
-  useEffect(() => {
-    const fetchData = async () => {
+  useEffect(async () => {
       const res = await fetch('/api/keys/googlemap')
       const {apiKey} = await res.json() 
       setApi(apiKey)
-    }
-    fetchData()
   },[])
   
   const {isLoaded, loadError} = useLoadScript({
