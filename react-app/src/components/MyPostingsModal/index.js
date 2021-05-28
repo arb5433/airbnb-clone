@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import {useHistory} from 'react-router-dom';
+// import {useHistory} from 'react-router-dom';
 import { Modal } from "../../context/Modal";
 import MyPostings from "./MyPostings";
 
 function MyPostingsModal() {
   const [showModal, setShowModal] = useState(false);
-  const history = useHistory()
+  // const history = useHistory()
   const onClick = () => {
-    history.push('/')
+    // history.push('/')
     setShowModal(true)
   }
 
