@@ -24,6 +24,8 @@ function App() {
       const {apiKey} = await res.json() 
       setApi(apiKey)
   },[])
+  // need to fix this, should be an async callback being invoked inside the use effect but the search bar doesnt work when it is set like that, needs more tinkering
+  
   
   const {isLoaded, loadError} = useLoadScript({
     googleMapsApiKey : api,
