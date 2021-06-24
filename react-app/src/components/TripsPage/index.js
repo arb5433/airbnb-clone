@@ -46,7 +46,7 @@ console.log(postings)
 console.log(relativePostings)
 
   return (
-    <div>
+    <div className='trips-wrapper'>
       <div>Trips</div>
       <div>
         <div>Upcoming</div>
