@@ -3,6 +3,8 @@ import {useSelector, useDispatch} from 'react-redux';
 import {getPostings} from '../../store/posting';
 import PostingCard from '../PostingCard';
 
+import './TripsPage.css'
+
 
 const TripsPage = () => {
 
