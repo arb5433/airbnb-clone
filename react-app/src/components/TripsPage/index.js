@@ -51,7 +51,7 @@ console.log(relativePostings)
     <div className='trips-wrapper'>
       <h1 className='trips-title'>Trips</h1>
       <div className='trips-status-wrapper'>
-        <div className='trips-status first-status'>Upcoming</div>
+        <div className='trips-status first-status' active={true}>Upcoming</div>
         <div className='trips-status'>Past</div>
       </div>
       <div>
@@ -68,5 +68,7 @@ console.log(relativePostings)
     </div>
   )
 }
+
+// look into making two pages and using the target pysdo class, changing the url at the end to show which page it is on.
 
 export default TripsPage;
