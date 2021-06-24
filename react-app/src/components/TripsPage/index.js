@@ -49,7 +49,7 @@ console.log(relativePostings)
 
   return (
     <div className='trips-wrapper'>
-      <div className='trips-title'>Trips</div>
+      <h1 className='trips-title'>Trips</h1>
       <div className='trips-status-wrapper'>
         <div className='trips-status'>Upcoming</div>
         <div className='trips-status'>Past</div>
