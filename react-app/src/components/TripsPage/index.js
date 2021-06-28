@@ -37,6 +37,7 @@ const TripsPage = () => {
       setPostingsArray(array)
     }
   },[bookings])
+  // this find the bookings that are upcoming
 
 
   useEffect(() => {
