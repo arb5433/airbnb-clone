@@ -10,7 +10,6 @@ const TripsPage = () => {
 
   const dispatch = useDispatch()
   const [postingsArray, setPostingsArray] = useState('')
-  const [page, setPage] = useState(0)
   const [relativePostings, setRelativePostings] = useState('')
   const [load, setLoad] = useState(false)
   
@@ -29,7 +28,6 @@ const TripsPage = () => {
 
   useEffect(() => {
     if (bookings) {
-      console.log('inside the if')
       const array = bookings.map(booking => booking['postingId'])
       setPostingsArray(array)
     }
@@ -38,14 +36,10 @@ const TripsPage = () => {
 
   useEffect(() => {
     if (postings[1] && postingsArray && load){
-      console.log(postings)
       const array = postingsArray.map(index => postings[index])
       setRelativePostings(array)
     }
   },[postings, postingsArray])
-
-console.log(postings)
-console.log(relativePostings)
 
   return (
     <div className='trips-wrapper'>
