@@ -49,7 +49,7 @@ const TripsPage = () => {
         <div className='trips-status'>Past</div>
       </div>
       <div>
-        <div>Above the card</div>
+        <div>When you are ready to start planning your next trip, we're here to help.</div>
         {relativePostings && relativePostings.map(posting => ( 
           <div>
             <PostingCard key={posting.id} posting={posting}/>
