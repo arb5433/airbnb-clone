@@ -70,5 +70,5 @@ const TripsPage = () => {
 }
 
 // look into making two pages and using the target pysdo class, changing the url at the end to show which page it is on.
-
+// need to make another element almost identical to this once
 export default TripsPage;
