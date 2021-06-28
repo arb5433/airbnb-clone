@@ -28,7 +28,12 @@ const TripsPage = () => {
 
   useEffect(() => {
     if (bookings) {
-      const array = bookings.map(booking => booking['postingId'])
+      const today = new Date();
+      const relativeBooks = bookings.filter(booking => {
+        const bookDate = new Date(booking.date)
+        return bookDate > today;
+      })
+      const array = relativeBooks.map(booking => booking['postingId'])
       setPostingsArray(array)
     }
   },[bookings])
