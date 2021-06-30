@@ -13,6 +13,7 @@ import { authenticate } from "./store/session";
 import TripsPage from './components/TripsPage';
 
 
+
 const places = ['places']
 
 function App() {
@@ -72,8 +73,11 @@ function App() {
             <Route path='/postings/search/:lat/:lng'>
               <SearchPage isLoaded={isLoaded} loadError={loadError} />
             </Route>
-            <Route path='/test'>
-              <TripsPage/>
+            <Route path='/trips/upcoming'>
+              <TripsPage target={'upcoming'}/>
+            </Route>
+            <Route path='/trips/past'>
+              <TripsPage target={'past'}/>
             </Route>
           </Switch>
         </div>
