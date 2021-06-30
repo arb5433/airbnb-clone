@@ -59,8 +59,8 @@ const TripsPage = ({target}) => {
     <div className='trips-wrapper'>
       <h1 className='trips-title'>Trips</h1>
       <div className='trips-status-wrapper'>
-        <div className='trips-status first-status' active={true}>Upcoming</div>
-        <div className='trips-status'>Past</div>
+        <div className='trips-status first-status' id='upcoming'>Upcoming</div>
+        <div className='trips-status' id='past'>Past</div>
       </div>
       <div>
         <div>When you are ready to start planning your next trip, we're here to help.</div>

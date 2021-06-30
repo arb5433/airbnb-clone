@@ -22,7 +22,9 @@
   padding-left: 0;
 }
 
-.trips-status:active{
+.trips-status:active, 
+.trips-status:target{
   font-weight: bold;
   border-bottom: 2px solid black;
 }
+
