@@ -6,7 +6,7 @@ import PostingCard from '../PostingCard';
 import './TripsPage.css'
 
 
-const TripsPage = () => {
+const TripsPage = ({target}) => {
 
   const dispatch = useDispatch()
   const [postingsArray, setPostingsArray] = useState('')
@@ -27,11 +27,19 @@ const TripsPage = () => {
   })
 
   useEffect(() => {
-    if (bookings) {
+    if (bookings && target === 'upcoming') {
       const today = new Date();
       const relativeBooks = bookings.filter(booking => {
         const bookDate = new Date(booking.date)
-        return bookDate > today;
+        return bookDate >= today;
+      })
+      const array = relativeBooks.map(booking => booking['postingId'])
+      setPostingsArray(array)
+    } else if (bookings && target === 'past'){
+      const today = new Date();
+      const relativeBooks = bookings.filter(booking => {
+        const bookDate = new Date(booking.date)
+        return bookDate < today;
       })
       const array = relativeBooks.map(booking => booking['postingId'])
       setPostingsArray(array)
