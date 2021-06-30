@@ -1,0 +1,30 @@
+.trips-wrapper{
+  width: 100%;
+  height: 100%;
+  margin-left: 10em;
+  margin-right: 10em;
+}
+
+.trips-status-wrapper{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: large;
+  border-bottom: 2px solid lightgray;
+}
+
+.trips-status{
+  padding: 1em;
+  cursor: pointer;
+}
+
+.first-status{
+  padding-left: 0;
+}
+
+.trips-status:active{
+  font-weight: bold;
+  border-bottom: 2px solid black;
+}
+
+

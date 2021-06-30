@@ -10,6 +10,8 @@ import HomePage from './components/HomePage';
 import PostingForm from './components/PostingForm';
 import PostingPage from './components/PostingPage';
 import { authenticate } from "./store/session";
+import TripsPage from './components/TripsPage';
+
 
 
 const places = ['places']
@@ -25,7 +27,7 @@ function App() {
       setApi(apiKey)
   },[])
   // need to fix this, should be an async callback being invoked inside the use effect but the search bar doesnt work when it is set like that, needs more tinkering
-  
+
   
   const {isLoaded, loadError} = useLoadScript({
     googleMapsApiKey : api,
@@ -70,6 +72,12 @@ function App() {
             </Route>
             <Route path='/postings/search/:lat/:lng'>
               <SearchPage isLoaded={isLoaded} loadError={loadError} />
+            </Route>
+            <Route path='/trips/upcoming'>
+              <TripsPage target={'upcoming'}/>
+            </Route>
+            <Route path='/trips/past'>
+              <TripsPage target={'past'}/>
             </Route>
           </Switch>
         </div>

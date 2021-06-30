@@ -12,7 +12,7 @@ const otherOptions = {
 
 const mapContainerStyle={height:'calc(100vh - 50px)', width:'50vw'}
 
-const center={lat:40.7127753, lng:-74.0059728}
+const center={lat:0, lng:0}
 const Map = ({lat, lng, isLoaded, loadError}) => {
   
   const dispatch = useDispatch()
